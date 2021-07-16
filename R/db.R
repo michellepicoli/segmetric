@@ -6,14 +6,76 @@
 # - Add metrics from Costa's paper (Supervised methods of image segmentation accuracy assessment in land cover mapping).
 # - Update vignette & examples.
 
+
+db_universe <- list(
+    "Y_tilde" = list(
+        expression = quote({
+            Y_tilde <- sf::st_intersection(x = ref_sf, y = seg_sf)
+            list(ref_id = Y_tilde[["ref_id"]],
+                 seg_id = Y_tilde[["seg_id"]])
+        })
+    ),
+    "Y_prime" = list(
+        expression = quote({
+            Y_tilde <- sf::st_intersection(x = ref_sf, y = seg_sf) 
+            
+            Y_prime <- Y_tilde %>% 
+                dplyr::mutate(inter_area = sf::st_area()) %>%
+                dplyr::group_by(ref_id) %>% 
+                dplyr::filter(inter_area == max(inter_area)) %>%
+                dplyr::slice(1) %>% 
+                dplyr::ungroup()
+            
+            list(ref_id = Y_prime[["ref_id"]],
+                 seg_id = Y_prime[["seg_id"]])
+        })
+    ),
+    "Y_star" = list(
+        expression = quote({
+            Y_tilde <- sf::st_intersection(x = ref_sf, y = seg_sf) 
+            
+            Y_star <- Y_tilde %>% 
+                dplyr::mutate(inter_area = sf::st_area()) %>%
+                dplyr::group_by(ref_id) %>% 
+                dplyr::filter(inter_area == max(inter_area)) %>%
+                dplyr::slice(1) %>% 
+                dplyr::ungroup()
+            
+            list(ref_id = Y_star[["ref_id"]],
+                 seg_id = Y_star[["seg_id"]])
+        })
+    )
+)
+
 db_metrics <- list(
-    "oseg" = list(
+    "LRE" = list(
         depends    = c("inter_area", "ref_area", "ref_id"),
-        expression = quote(inter_area/ref_area[ref_id])
+        expression = quote(1 - Y_prime(inter_area/ref_area[ref_id])),
+        subset_ref = NULL,
+        subset_seg = "Y_prime",
+        citation   = "Persello and Bruzzone (2010)"
+    ),
+    "oseg_per" = list(
+        depends    = c("inter_area", "ref_area", "ref_id"),
+        expression = quote(1 - Y_prime(inter_area/ref_area[ref_id])),
+        subset_ref = NULL,
+        subset_seg = "Y_prime",
+        citation   = "Persello and Bruzzone (2010)"
+    ),
+    "oseg_cli" = list(
+        depends    = c("inter_area", "ref_area", "ref_id"),
+        expression = quote(1 - Y_star(inter_area/ref_area[ref_id])),
+        citation   = "Clinton et al. (2010)"
     ), 
-    "useg" = list(
+    "useg_per" = list(
         depends    = c("inter_area", "seg_area", "seg_id"),
-        expression = quote(inter_area/seg_area[seg_id])
+        expression = quote(1 - Y_prime(inter_area/seg_area[seg_id])),
+        citation   = "Persello and Bruzzone (2010)"
+    ),
+    "useg_cli" = list(
+        depends    = c("inter_area", "seg_area", "seg_id"),
+        expression = quote(1 - Y_star(inter_area/seg_area[seg_id])),
+        citation   = "Clinton et al. (2010)"
     )
 )
 

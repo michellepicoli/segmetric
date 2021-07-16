@@ -41,10 +41,14 @@ data_lst <- list(ref_sf = ref_sf,
 # res = .compute_metric(data = data_lst, metric = "oseg")
 # res = .compute_metric(data = data_lst, metric = "useg")
 
-res =  get_metric(data = data_lst, metric = "oseg", summary = "mean")
-res =  get_metric(data = data_lst, metric = "oseg", summary = "w_mean", 
-                  weight_field = "inter_area")
+get_metric(data = data_lst, metric = "oseg", summary = "mean")
+get_metric(data = data_lst, metric = "oseg", summary = "w_mean", 
+           weight_field = "inter_area")
 
+get_metric(data = data_lst, metric = "useg", summary = "identity")
+
+get_metric(data = data_lst, metric = "useg", summary = "w_mean", 
+           weight_field = "inter_area")
 ```
 
 
