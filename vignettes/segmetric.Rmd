@@ -37,12 +37,14 @@ data_lst <- metric(ref_shp, seg_shp)
 # res = .compute_metric(data = data_lst, metric = "oseg")
 # res = .compute_metric(data = data_lst, metric = "useg")
 
-get_metric(data_lst, metric = "oseg")
-get_metric(data_lst, metric = "oseg")
+get_metric(data_lst, metric = "oseg_cli") %>% summary()
+get_metric(data_lst, metric = "useg_cli") %>% summary()
+get_metric(data_lst, metric = "oseg_per") %>% summary()
+get_metric(data_lst, metric = "useg_per") %>% summary()
+get_metric(data_lst, metric = "AFI") %>% summary()
+get_metric(data_lst, metric = "QR") %>% summary()
+get_metric(data_lst, metric = "D_index") %>% summary()
 
-get_metric(data_lst, metric = "useg_cli")
-
-get_metric(data_lst, metric = "useg")
 ```
 
 

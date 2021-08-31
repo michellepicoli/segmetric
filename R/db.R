@@ -60,6 +60,19 @@ intersection <- function(x, y) {
     }))
 }
 
+union2 <- function(x, seg_sf, ref_sf) {
+    
+    stopifnot(inherits(x, "sf"))
+    stopifnot(c("ref_id", "seg_id") %in% names(x))
+    
+    dplyr::bind_rows(lapply(seq_len(nrow(x)), function(i) {
+        suppressWarnings(suppressMessages({
+            sf::st_union(x = seg_sf[ref_id(x[i,]),], 
+                         y = ref_sf[seg_id(x[i,]),])
+        }))
+    }))
+}
+
 ref_id <- function(x) {
     stopifnot(inherits(x, "sf"))
     stopifnot(c("ref_id") %in% names(x))
@@ -114,6 +127,128 @@ seg_id <- function(x) {
                 1 - area(Y_star) / area(seg_sf, order = seg_id(Y_star))
             }),
             citation   = "Clinton et al. (2010)"
+        ),
+        "AFI" = list(
+            depends    = c("Y_prime"),
+            expression = quote({
+                (area(ref_sf, order = ref_id(Y_prime)) - 
+                     area(seg_sf, order = seg_id(Y_prime))) /
+                    area(ref_sf, order = ref_id(Y_prime))
+                
+            }),
+            citation   = "Lucieer and Stein (2002) and Clinton et al. (2010)"
+        ),
+        "QR" = list(
+            depends    = c("Y_star"),
+            expression = quote({
+                1 - area(Y_star) / area(union2(Y_star, seg_sf, ref_sf))
+            }),
+            citation   = "Weidner (2008) and Clinton et al. (2010)"
+        ),
+        "D_index" = list(
+            depends    = c("Y_star"),
+            expression = quote({
+                sqrt((
+                    (1 - area(Y_star) / 
+                         area(ref_sf, order = ref_id(Y_star))) ^ 2 +
+                        (1 - area(Y_star) / 
+                             area(seg_sf, order = seg_id(Y_star))) ^ 2) / 2)
+            }),
+            citation   = "Levine and Nazif (1982) and Clinton et al. (2010)"
+        ),
+        "precision" = list(
+            depends    = c("X_prime"),
+            expression = quote({
+                area(X_prime) / area(seg_sf, order = seg_id(X_prime))
+            }),
+            citation   = "Van Rijsbergen (1979) and Zhang et al. (2015a)"
+        ),
+        "recall" = list(
+            depends    = c("Y_prime"),
+            expression = quote({
+                area(Y_prime) / area(ref_sf, order = ref_id(Y_prime))
+            }),
+            citation   = "Van Rijsbergen (1979) and Zhang et al. (2015a)"
+        ),
+        "underMerging" = list(
+            depends    = c("Y_star"),
+            expression = quote({
+                (area(ref_sf, order = ref_id(Y_star)) - area(Y_star)) / 
+                    area(ref_sf, order = ref_id(Y_star))
+            }),
+            citation   = "Levine and Nazif (1982) and Clinton et al. (2010)"
+        ),
+        "overMerging" = list(
+            depends    = c("Y_star"),
+            expression = quote({
+                (area(seg_sf, order = seg_id(Y_star)) - area(Y_star)) / 
+                    area(ref_sf, order = ref_id(Y_star))
+            }),
+            citation   = "Levine and Nazif (1982) and Clinton et al. (2010)"
+        ),
+        "M" = list(
+            depends    = c("Y_prime"),
+            expression = quote({
+                sqrt(area(Y_prime) ^ 2 / 
+                         area(ref_sf, order = ref_id(Y_prime)) / 
+                         area(seg_sf, order = seg_id(Y_prime)))
+            }),
+            citation   = "Janssen and Molenaar (1995) and Feitosa et al. (2010)"
+        ),
+        "E" = list(
+            depends    = c("X_prime"),
+            expression = quote({
+                (area(seg_sf, order = seg_id(X_prime)) - area(X_prime)) / 
+                    area(seg_sf, order = seg_id(X_prime)) * 100
+            }),
+            citation   = "Carleer et al. (2005)"
+        ),
+        "RAsub" = list(
+            depends    = c("Y_tilde"),
+            expression = quote({
+                area(Y_tilde) / area(ref_sf, order = ref_id(Y_tilde))
+            }),
+            citation   = "Möller et al. (2007) and Clinton et al. (2010)"
+        ),
+        "RAsuper" = list(
+            depends    = c("Y_tilde"),
+            expression = quote({
+                area(Y_tilde) / area(seg_sf, order = seg_id(Y_tilde))
+            }),
+            citation   = "Möller et al. (2007) and Clinton et al. (2010)"
+        ),
+        "PI" = list(
+            depends    = c("Y_tilde"),
+            expression = quote({
+                area(Y_tilde) ^ 2 / 
+                    area(ref_sf, order = ref_id(Y_tilde)) /
+                    area(ref_sf, order = ref_id(Y_tilde))
+            }),
+            citation   = "van Coillie et al. (2008)"
+        ),
+        "F" = list(
+            depends    = c("X_prime"),
+            expression = quote({
+                (area(seg_sf, order = seg_id(X_prime)) + 
+                     area(ref_sf, order = ref_id(X_prime)) - 
+                     2 * area(X_prime)) / 
+                    area(seg_sf, order = seg_id(X_prime))
+            }),
+            citation   = "Costa et al. (2008)"
+        ),
+        "OS2" = list(
+            depends    = c("Y_cd"),
+            expression = quote({
+                1 - area(Y_cd) / area(ref_sf, order = ref_id(Y_cd))
+            }),
+            citation   = "Yang et al. (2014)"
+        ), 
+        "US2" = list(
+            depends    = c("Y_cd"),
+            expression = quote({
+                1 - area(Y_cd) / area(seg_sf, order = seg_id(Y_cd))
+            }),
+            citation   = "Yang et al. (2014)"
         )
     )
 )
@@ -131,18 +266,35 @@ seg_id <- function(x) {
         "Y_tilde" = list(
             depends    = character(),
             expression = quote({
-                
                 intersection(x = ref_sf, y = seg_sf)
+            })
+        ),
+        "X_tilde" = list(
+            depends    = character(),
+            expression = quote({
+                intersection(x = seg_sf, y = ref_sf)
             })
         ),
         "Y_prime" = list(
             depends    = c("Y_tilde"),
             expression = quote({
-                
                 Y_tilde %>% 
-                    dplyr::mutate(inter_area = sf::st_area(.)) %>%
+                    dplyr::mutate(inter_area = area(.)) %>%
                     dplyr::group_by(ref_id) %>% 
                     dplyr::filter(inter_area == max(inter_area)) %>%
+                    dplyr::select(-inter_area) %>% 
+                    dplyr::slice(1) %>% 
+                    dplyr::ungroup()
+            })
+        ),
+        "X_prime" = list(
+            depends    = c("X_tilde"),
+            expression = quote({
+                X_tilde %>% 
+                    dplyr::mutate(inter_area = area(.)) %>%
+                    dplyr::group_by(seg_id) %>% 
+                    dplyr::filter(inter_area == max(inter_area)) %>%
+                    dplyr::select(-inter_area) %>% 
                     dplyr::slice(1) %>% 
                     dplyr::ungroup()
             })
@@ -150,32 +302,26 @@ seg_id <- function(x) {
         "ref_centroids" = list(
             depends    = character(),
             expression = quote({
-                
                 centroid(ref_sf)
             })
         ),
         "Y_a" = list(
             depends    = c("Y_tilde", "ref_centroids"),
             expression = quote({
-                
                 Y_a <- intersection(x = ref_centroids, y = seg_sf)
-                
                 Y_tilde[rows_inset(Y_tilde, Y_a),]
             })
         ),
         "seg_centroids" = list(
             depends    = character(),
             expression = quote({
-                
                 centroid(seg_sf)
             })
         ),
         "Y_b" = list(
             depends    = c("Y_tilde", "seg_centroids"),
             expression = quote({
-                
                 Y_b <- intersection(x = seg_centroids, y = ref_sf)
-                
                 Y_tilde[rows_inset(Y_tilde, Y_b),]
             })
         ),
@@ -204,6 +350,13 @@ seg_id <- function(x) {
             expression = quote({
                 
                 bind_all(Y_a, Y_b, Y_c, Y_d)
+            })
+        ),
+        "Y_cd" = list(
+            depends    = c("Y_c", "Y_d"),
+            expression = quote({
+                
+                bind_all(Y_c, Y_d)
             })
         ),
         "Y_e" = list(
