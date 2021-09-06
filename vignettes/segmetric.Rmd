@@ -44,6 +44,7 @@ get_metric(data_lst, metric = "useg_per") %>% summary()
 get_metric(data_lst, metric = "AFI") %>% summary()
 get_metric(data_lst, metric = "QR") %>% summary()
 get_metric(data_lst, metric = "D_index") %>% summary()
+get_metric(data_lst, metric = "recall")
 
 ```
 

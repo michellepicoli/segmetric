@@ -100,28 +100,28 @@ seg_id <- function(x) {
 .db_m <- structure(
     list(
         ### metrics
-        "oseg_per" = list(
+        "OS2" = list(
             depends    = c("Y_prime"),
             expression = quote({
                 1 - area(Y_prime) / area(ref_sf, order = ref_id(Y_prime))
             }),
             citation   = "Persello and Bruzzone (2010)"
         ),
-        "oseg_cli" = list(
+        "OS1" = list(
             depends    = c("Y_star"),
             expression = quote({
                 1 - area(Y_star) / area(ref_sf, order = ref_id(Y_star))
             }),
             citation   = "Clinton et al. (2010)"
         ), 
-        "useg_per" = list(
+        "US2" = list(
             depends    = c("Y_prime"),
             expression = quote({
                 1 - area(Y_prime) / area(seg_sf, order = seg_id(Y_prime))
             }),
             citation   = "Persello and Bruzzone (2010)"
         ),
-        "useg_cli" = list(
+        "US1" = list(
             depends    = c("Y_star"),
             expression = quote({
                 1 - area(Y_star) / area(seg_sf, order = seg_id(Y_star))
@@ -159,16 +159,16 @@ seg_id <- function(x) {
         "precision" = list(
             depends    = c("X_prime"),
             expression = quote({
-                area(X_prime) / area(seg_sf, order = seg_id(X_prime))
+                sum(area(X_prime)) / sum(area(seg_sf, order = seg_id(X_prime)))
             }),
-            citation   = "Van Rijsbergen (1979) and Zhang et al. (2015a)"
+            citation   = "Van Rijsbergen (1979) and Zhang et al. (2015)"
         ),
         "recall" = list(
             depends    = c("Y_prime"),
             expression = quote({
-                area(Y_prime) / area(ref_sf, order = ref_id(Y_prime))
+                sum(area(Y_prime)) / sum(area(ref_sf, order = ref_id(Y_prime)))
             }),
-            citation   = "Van Rijsbergen (1979) and Zhang et al. (2015a)"
+            citation   = "Van Rijsbergen (1979) and Zhang et al. (2015)"
         ),
         "underMerging" = list(
             depends    = c("Y_star"),
@@ -236,19 +236,39 @@ seg_id <- function(x) {
             }),
             citation   = "Costa et al. (2008)"
         ),
-        "OS2" = list(
+        "OS3" = list(
             depends    = c("Y_cd"),
             expression = quote({
                 1 - area(Y_cd) / area(ref_sf, order = ref_id(Y_cd))
             }),
             citation   = "Yang et al. (2014)"
         ), 
-        "US2" = list(
+        "US3" = list(
             depends    = c("Y_cd"),
             expression = quote({
                 1 - area(Y_cd) / area(seg_sf, order = seg_id(Y_cd))
             }),
             citation   = "Yang et al. (2014)"
+        ), 
+        "ED3" = list(
+            depends    = c("Y_cd"),
+            expression = quote({
+                sqrt(((1 - area(Y_cd) / 
+                           area(ref_sf, order = ref_id(Y_cd)))^2 +
+                          (1 - area(Y_cd) / 
+                               area(seg_sf, order = seg_id(Y_cd)))^2) / 2)
+            }),
+            citation   = "Yang et al. (2014)"
+        ), 
+        "F_measure" = list(
+            depends    = c("X_prime", "Y_prime"),
+            expression = quote({
+                1 / ((alpha / (sum(area(X_prime)) /
+                          sum(area(seg_sf, order = seg_id(X_prime))))) 
+                     + ((1 - alpha) / (sum(area(Y_prime)) / 
+                            sum(area(ref_sf, order = ref_id(Y_prime))))))
+            }),
+            citation   = "Van Rijsbergen (1979) and Zhang et al. (2015)"
         )
     )
 )
@@ -278,6 +298,7 @@ seg_id <- function(x) {
         "Y_prime" = list(
             depends    = c("Y_tilde"),
             expression = quote({
+                
                 Y_tilde %>% 
                     dplyr::mutate(inter_area = area(.)) %>%
                     dplyr::group_by(ref_id) %>% 
@@ -439,8 +460,8 @@ db_summary <- list(
     attr(m, which = ".env", exact = TRUE) 
 }
 
-.metric_eval <- function(m, expr) {
-    eval(expr, envir = list(), enclos = .metric_env(m))
+.metric_eval <- function(m, expr, parameters = list()) {
+    eval(expr, envir = parameters, enclos = .metric_env(m))
 }
 
 .metric_fields <- function(m) {
@@ -476,7 +497,7 @@ db_summary <- list(
     .metric_set(m, field = field, value = value)
 }
 
-.metric_compute <- function(m, metric) {
+.metric_compute <- function(m, metric, parameters = list()) {
     
     f <- .db_get(d = .db_m, key = metric)
     stopifnot(all(f[["depends"]] %in% .db_fields(d = .db_f)))
@@ -486,11 +507,13 @@ db_summary <- list(
         .metric_compute_field(m = m, field = dep)
     }
     
-    m[[1]] <- .metric_eval(m = m, expr = f[["expression"]])
+    m[[1]] <- .metric_eval(m = m, expr = f[["expression"]], 
+                           parameters = parameters)
     names(m) <- metric
     m
 }
 
+# TODO: check for same CRS
 #' @export
 metric <- function(ref_sf, seg_sf) {
     
@@ -531,12 +554,12 @@ desc_metric <- function(metric) {
 
 
 #' @export
-get_metric <- function(m, metric) {
+get_metric <- function(m, metric, ...) {
     
     .metric_check(m = m)
     stopifnot(metric %in% list_metrics())
     
-    .metric_compute(m = m, metric = metric)
+    .metric_compute(m = m, metric = metric, parameters = list(...))
 }
 
 #' @export
@@ -582,10 +605,17 @@ get_inter_area <- function(m) {
     area(.metric_get(m = m, field = field))
 }
 
+
+# TODO: get either a global metric or metric and returns a global metric
+# using an aggregation method
 #' @exportS3Method 
-summary.metric <- function(m, fn = mean, ...) {
+summary.metric <- function(m, w = NULL, ...) {
     
     stopifnot(inherits(m, "metric"))
     
-    lapply(m, fn, ...)
+    if (!is.null(w))
+        return(lapply(m, weighted.mean, w = w))
+    
+    lapply(m, mean)
 }
+
