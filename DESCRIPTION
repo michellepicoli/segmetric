@@ -19,6 +19,8 @@ Imports:
 Suggests: 
     dplyr,
     knitr,
+    testthat (>= 3.0.0),
     lwgeom,
     rmarkdown
 VignetteBuilder: knitr
+Config/testthat/edition: 3
