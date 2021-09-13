@@ -28,11 +28,7 @@ seg_shp <- system.file("extdata", "segmentation",
                        "ae_seg_s032020_meanshift_sr5_rr5_s10.shp",
                        package = "segmetric")
 
-ref_sf <- sf::read_sf(ref_shp)
-seg_sf <- sf::read_sf(seg_shp)
-
-data_lst <- list(ref_sf = ref_sf, 
-                 seg_sf = seg_sf)
+data_lst <- metric(ref_shp, seg_shp)
 
 # .compute_field(field = "ref_area", data = data_lst)
 # .compute_field(field = "seg_area", data = data_lst)
@@ -41,9 +37,14 @@ data_lst <- list(ref_sf = ref_sf,
 # res = .compute_metric(data = data_lst, metric = "oseg")
 # res = .compute_metric(data = data_lst, metric = "useg")
 
-res =  get_metric(data = data_lst, metric = "oseg", summary = "mean")
-res =  get_metric(data = data_lst, metric = "oseg", summary = "w_mean", 
-                  weight_field = "inter_area")
+get_metric(data_lst, metric = "oseg_cli") %>% summary()
+get_metric(data_lst, metric = "useg_cli") %>% summary()
+get_metric(data_lst, metric = "oseg_per") %>% summary()
+get_metric(data_lst, metric = "useg_per") %>% summary()
+get_metric(data_lst, metric = "AFI") %>% summary()
+get_metric(data_lst, metric = "QR") %>% summary()
+get_metric(data_lst, metric = "D_index") %>% summary()
+get_metric(data_lst, metric = "recall")
 
 ```
 
