@@ -1,12 +1,3 @@
-# TODO:
-# - This code computes metrics twice. Optimize! (line 41 --------). A possible solution would be to change lapply for a for loop, lines 66 & 77.
-# - Separate summary from get_metric. i.e summarize_metric?
-# - Do we need to compute more then one metric at once?
-# - Check if summarize works for all metrics.
-# - Add metrics from Costa's paper (Supervised methods of image segmentation accuracy assessment in land cover mapping).
-# - Update vignette & examples.
-
-
 rows_inset <- function(x, y) {
     
     stopifnot(inherits(x, "sf"))
@@ -33,8 +24,11 @@ area <- function(x, order = NULL) {
     stopifnot(inherits(x, "sf"))
     
     res <- suppressWarnings(suppressMessages(
-        units::drop_units(sf::st_area(x))
+        sf::st_area(x)
     ))
+    
+    if (inherits(res, "units"))
+        res <- units::drop_units(res)
     
     if (!is.null(order))
         return(res[order])
@@ -50,14 +44,23 @@ centroid <- function(x) {
     ))
 }
 
-intersection <- function(x, y) {
+intersection <- function(x, y, touches = TRUE) {
     
     stopifnot(inherits(x, "sf"))
     stopifnot(inherits(y, "sf"))
     
-    suppressWarnings(suppressMessages({
+    res <- suppressWarnings(suppressMessages({
         sf::st_intersection(x = x, y = y)
     }))
+    
+    # filter only polygons
+    if (!touches)
+        res <- res[sf::st_area(res) > 0,]
+    
+    # post condition
+    stopifnot(nrow(res) > 0)
+    
+    res
 }
 
 union2 <- function(x, seg_sf, ref_sf) {
@@ -286,13 +289,13 @@ seg_id <- function(x) {
         "Y_tilde" = list(
             depends    = character(),
             expression = quote({
-                intersection(x = ref_sf, y = seg_sf)
+                intersection(x = ref_sf, y = seg_sf, touches = FALSE)
             })
         ),
         "X_tilde" = list(
             depends    = character(),
             expression = quote({
-                intersection(x = seg_sf, y = ref_sf)
+                intersection(x = seg_sf, y = ref_sf, touches = FALSE)
             })
         ),
         "Y_prime" = list(
@@ -513,7 +516,6 @@ db_summary <- list(
     m
 }
 
-# TODO: check for same CRS
 #' @export
 metric <- function(ref_sf, seg_sf) {
     
@@ -524,6 +526,8 @@ metric <- function(ref_sf, seg_sf) {
     if (is.character(seg_sf))
         seg_sf <- sf::read_sf(seg_sf)
     stopifnot(inherits(seg_sf, "sf"))
+    
+    stopifnot(sf::st_crs(ref_sf) == sf::st_crs(seg_sf))
     
     ref_sf[["ref_id"]] <- seq_len(nrow(ref_sf))
     seg_sf[["seg_id"]] <- seq_len(nrow(seg_sf))
@@ -547,8 +551,8 @@ desc_metric <- function(metric) {
     stopifnot(metric %in% list_metrics())
     
     f <- .db_get(d = .db_m, key = metric)
-    cat(paste(metric), fill = TRUE)
-    cat(paste(f[["description"]]), fill = TRUE)
+    cat(paste("-", metric), fill = TRUE)
+    # cat(paste(f[["description"]]), fill = TRUE)
     cat(paste("citation:", f[["citation"]]), fill = TRUE)
 }
 
@@ -605,9 +609,6 @@ get_inter_area <- function(m) {
     area(.metric_get(m = m, field = field))
 }
 
-
-# TODO: get either a global metric or metric and returns a global metric
-# using an aggregation method
 #' @exportS3Method 
 summary.metric <- function(m, w = NULL, ...) {
     
