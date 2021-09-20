@@ -24,7 +24,7 @@ area <- function(x, order = NULL) {
     stopifnot(inherits(x, "sf"))
     
     res <- suppressWarnings(suppressMessages(
-        sf::st_area(x)
+            sf::st_area(x)
     ))
     
     if (inherits(res, "units"))
@@ -88,7 +88,9 @@ bind_all <- function(...) {
     dots <- list(...)
     stopifnot(all(vapply(dots, inherits, logical(1), "sf")))
     
-    res <- do.call(rbind, args = dots)
+    res <- suppressWarnings(
+        do.call(rbind, args = dots)
+    )
     suppressWarnings(
         res[rows_distinct(res),]
     )
@@ -355,7 +357,9 @@ seg_id <- function(x) {
             depends    = c("Y_tilde", "seg_centroids"),
             expression = quote({
                 Y_b <- intersection(x = seg_centroids, y = ref_sf)
-                Y_tilde[rows_inset(Y_tilde, Y_b),]
+                suppressWarnings(
+                    Y_tilde[rows_inset(Y_tilde, Y_b),]
+                )
             })
         ),
         "Y_c" = list(
@@ -413,7 +417,9 @@ seg_id <- function(x) {
                 seg_area <- area(seg_sf, order = seg_id(Y_tilde))
                 inter_area <- area(Y_tilde)
                 
-                Y_tilde[inter_area / seg_area > 0.55,]
+                suppressWarnings(
+                    Y_tilde[inter_area / seg_area > 0.55,]
+                )
             })
         ),
         "Y_g" = list(
@@ -626,6 +632,12 @@ get_inter_area <- function(m) {
     stopifnot(field %in% .db_fields(d = .db_f))
     
     area(.metric_get(m = m, field = field))
+}
+
+#' @exportS3Method 
+plot.metric <- function(m, ...) {
+    
+    
 }
 
 #' @exportS3Method 
