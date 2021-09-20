@@ -55,10 +55,10 @@ intersection <- function(x, y, touches = TRUE) {
     
     # filter only polygons
     if (!touches)
-        res <- res[sf::st_area(res) > 0,]
+        res <- res[area(res) > 0,]
     
-    # post condition
-    stopifnot(nrow(res) > 0)
+    # # post condition
+    # stopifnot(nrow(res) > 0)
     
     res
 }
@@ -89,7 +89,9 @@ bind_all <- function(...) {
     stopifnot(all(vapply(dots, inherits, logical(1), "sf")))
     
     res <- do.call(rbind, args = dots)
-    res[rows_distinct(res),]
+    suppressWarnings(
+        res[rows_distinct(res),]
+    )
 }
 
 seg_id <- function(x) {
@@ -198,6 +200,7 @@ seg_id <- function(x) {
             }),
             citation   = "Janssen and Molenaar (1995) and Feitosa et al. (2010)"
         ),
+        # TODO: check formula in Carleer et al. (2005)
         "E" = list(
             depends    = c("X_prime"),
             expression = quote({
@@ -266,10 +269,10 @@ seg_id <- function(x) {
         "F_measure" = list(
             depends    = c("X_prime", "Y_prime"),
             expression = quote({
-                1 / ((alpha / (sum(area(X_prime)) /
-                          sum(area(seg_sf, order = seg_id(X_prime))))) 
-                     + ((1 - alpha) / (sum(area(Y_prime)) / 
-                            sum(area(ref_sf, order = ref_id(Y_prime))))))
+                1 / ((0.5 / (sum(area(X_prime)) /
+                                 sum(area(seg_sf, order = seg_id(X_prime))))) 
+                     + ((1 - 0.5) / (sum(area(Y_prime)) / 
+                                         sum(area(ref_sf, order = ref_id(Y_prime))))))
             }),
             citation   = "Van Rijsbergen (1979) and Zhang et al. (2015)"
         )
@@ -301,26 +304,29 @@ seg_id <- function(x) {
         "Y_prime" = list(
             depends    = c("Y_tilde"),
             expression = quote({
-                
-                Y_tilde %>% 
-                    dplyr::mutate(inter_area = area(.)) %>%
-                    dplyr::group_by(ref_id) %>% 
-                    dplyr::filter(inter_area == max(inter_area)) %>%
-                    dplyr::select(-inter_area) %>% 
-                    dplyr::slice(1) %>% 
-                    dplyr::ungroup()
+                suppressWarnings(
+                    Y_tilde %>% 
+                        dplyr::mutate(inter_area = area(.)) %>%
+                        dplyr::group_by(ref_id) %>% 
+                        dplyr::filter(inter_area == max(inter_area)) %>%
+                        dplyr::select(-inter_area) %>% 
+                        dplyr::slice(1) %>% 
+                        dplyr::ungroup()
+                )
             })
         ),
         "X_prime" = list(
             depends    = c("X_tilde"),
             expression = quote({
-                X_tilde %>% 
-                    dplyr::mutate(inter_area = area(.)) %>%
-                    dplyr::group_by(seg_id) %>% 
-                    dplyr::filter(inter_area == max(inter_area)) %>%
-                    dplyr::select(-inter_area) %>% 
-                    dplyr::slice(1) %>% 
-                    dplyr::ungroup()
+                suppressWarnings(
+                    X_tilde %>% 
+                        dplyr::mutate(inter_area = area(.)) %>%
+                        dplyr::group_by(seg_id) %>% 
+                        dplyr::filter(inter_area == max(inter_area)) %>%
+                        dplyr::select(-inter_area) %>% 
+                        dplyr::slice(1) %>% 
+                        dplyr::ungroup()
+                )
             })
         ),
         "ref_centroids" = list(
@@ -333,7 +339,10 @@ seg_id <- function(x) {
             depends    = c("Y_tilde", "ref_centroids"),
             expression = quote({
                 Y_a <- intersection(x = ref_centroids, y = seg_sf)
-                Y_tilde[rows_inset(Y_tilde, Y_a),]
+                
+                suppressWarnings(
+                    Y_tilde[rows_inset(Y_tilde, Y_a),]
+                )
             })
         ),
         "seg_centroids" = list(
@@ -355,8 +364,9 @@ seg_id <- function(x) {
                 
                 seg_area <- area(seg_sf, order = seg_id(Y_tilde))
                 inter_area <- area(Y_tilde)
-                
-                Y_tilde[inter_area / seg_area > 0.5,]
+                suppressWarnings(
+                    Y_tilde[inter_area / seg_area > 0.5,]
+                )
             })
         ),
         "Y_d" = list(
@@ -365,8 +375,9 @@ seg_id <- function(x) {
                 
                 ref_area <- area(ref_sf, order = ref_id(Y_tilde))
                 inter_area <- area(Y_tilde)
-                
-                Y_tilde[inter_area / ref_area > 0.5,]
+                suppressWarnings(
+                    Y_tilde[inter_area / ref_area > 0.5,]
+                )
             })
         ),
         "Y_star" = list(
@@ -390,7 +401,9 @@ seg_id <- function(x) {
                 seg_area <- area(seg_sf, order = seg_id(Y_tilde))
                 inter_area <- area(Y_tilde)
                 
-                Y_tilde[inter_area / seg_area == 1,]
+                suppressWarnings(
+                    Y_tilde[inter_area / seg_area == 1,]
+                )
             })
         ),
         "Y_f" = list(
@@ -410,7 +423,9 @@ seg_id <- function(x) {
                 seg_area <- area(seg_sf, order = seg_id(Y_tilde))
                 inter_area <- area(Y_tilde)
                 
-                Y_tilde[inter_area / seg_area > 0.75,]
+                suppressWarnings(
+                    Y_tilde[inter_area / seg_area > 0.75,]
+                )
             })
         )),
     class = "db_metric"
@@ -469,6 +484,10 @@ db_summary <- list(
 
 .metric_fields <- function(m) {
     ls(.metric_env(m))
+}
+
+.metric_exists <- function(m, field) {
+    exists(field, envir = .metric_env(m))
 }
 
 .metric_set <- function(m, field, value) {
