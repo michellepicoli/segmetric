@@ -637,15 +637,17 @@ get_inter_area <- function(m) {
 #' @exportS3Method
 plot.metric <- function(m, ...) {
 
-    # TODO: Don't fill the polygons, just change borders' colors
-
     ref_sf <- dplyr::transmute(ref_sf(m), type = "reference")
     seg_sf <- dplyr::transmute(seg_sf(m), type = "segmentation")
-    data_sf <- rbind(ref_sf, seg_sf)
-    plot(data_sf,
-         col = c("blue", "red"),
-         main = "Reference (blue) and Segmentation (red)"
-    )
+
+    plot(sf::st_geometry(ref_sf),
+         border = 'blue',
+         extent = rbind(ref_sf, seg_sf),
+         main = "Reference (blue) versus Segmentation (red)")
+
+    plot(sf::st_geometry(seg_sf),
+         border = 'red',
+         add = TRUE)
 }
 
 #' @exportS3Method
