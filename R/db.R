@@ -355,9 +355,7 @@ db_summary <- list(
 # 
 .metric_compute <- function(m, metric, parameters = list()) {
     
-    f <- .db_get(d = .db_m, key = metric)
-    
-    m[[1]] <- .metric_eval(m = m, fn = f[["fn"]], 
+    m[[1]] <- .metric_eval(m = m, fn = metric, 
                            parameters = parameters)
     names(m) <- metric
     m
