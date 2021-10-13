@@ -641,12 +641,22 @@ plot.metric <- function(m, ...) {
     seg_sf <- dplyr::transmute(seg_sf(m), type = "segmentation")
 
     plot(sf::st_geometry(ref_sf),
-         border = 'blue',
-         extent = rbind(ref_sf, seg_sf),
-         main = "Reference (blue) versus Segmentation (red)")
+        border = 'blue',
+        extent = rbind(ref_sf, seg_sf),
+        main = "Reference (blue) versus Segmentation (red) and their centroids")
 
     plot(sf::st_geometry(seg_sf),
          border = 'red',
+         add = TRUE)
+    
+    plot(sf::st_centroid(sf::st_geometry(ref_sf)), 
+         pch = 1,
+         col = 'blue',
+         add = TRUE)
+    
+    plot(sf::st_centroid(sf::st_geometry(seg_sf)), 
+         pch = 2,
+         col = 'red',
          add = TRUE)
 }
 
