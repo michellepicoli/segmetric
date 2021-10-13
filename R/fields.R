@@ -38,6 +38,7 @@ Y_prime <- function(m) {
         dplyr::select(-inter_area) %>%
         dplyr::slice(1) %>%
         dplyr::ungroup()
+    class(res) <- c("universe_sf", class(res))
     .metric_set(m, field, value = res)
     res
 }
@@ -54,6 +55,7 @@ X_prime <- function(m) {
         dplyr::select(-inter_area) %>%
         dplyr::slice(1) %>%
         dplyr::ungroup()
+    class(res) <- c("universe_sf", class(res))
     .metric_set(m, field, value = res)
     res
 }
@@ -83,9 +85,11 @@ Y_a <- function(m) {
     if (.metric_exists(m, field))
         return(.metric_get(m, field))
 
-    Y_tilde <- Y_tilde(m)
-    res <- intersection(x = ref_centroids(m), y = seg_sf(m))
-    res <- Y_tilde[rows_inset(Y_tilde, res),]
+    Y <- Y_tilde(m)
+    sel <- Y %inset% intersection(x = ref_centroids(m), y = seg_sf(m))
+    res <- suppressWarnings(
+        Y[sel,]
+    )
     .metric_set(m, field, value = res)
     res
 }
@@ -95,9 +99,11 @@ Y_b <- function(m) {
     if (.metric_exists(m, field))
         return(.metric_get(m, field))
 
-    Y_tilde <- Y_tilde(m)
-    res <- intersection(x = seg_centroids(m), y = ref_sf(m))
-    res <- Y_tilde[rows_inset(Y_tilde, res),]
+    Y <- Y_tilde(m)
+    sel <- Y %inset% intersection(x = seg_centroids(m), y = ref_sf(m))
+    res <- suppressWarnings(
+        Y[sel,]
+    )
     .metric_set(m, field, value = res)
     res
 }
@@ -107,80 +113,90 @@ Y_c <- function(m) {
     if (.metric_exists(m, field))
         return(.metric_get(m, field))
 
-    Y_tilde <- Y_tilde(m)
-    seg_area <- area(seg_sf, order = seg_id(Y_tilde))
-    inter_area <- area(Y_tilde)
-
-    Y_tilde[inter_area / seg_area > 0.5,]
+    Y <- Y_tilde(m)
+    sel <- area(Y) / area(seg_sf(m), order = seg_id(Y)) > 0.5
+    res <- suppressWarnings(
+        Y[sel,]
+    )
     .metric_set(m, field, value = res)
     res
 }
 
-# 
-# 
-#         "Y_c" = list(
-#             depends    = c("Y_tilde"),
-#             expression = quote({
-# 
-#                 seg_area <- area(seg_sf, order = seg_id(Y_tilde))
-#                 inter_area <- area(Y_tilde)
-# 
-#                 Y_tilde[inter_area / seg_area > 0.5,]
-#             })
-#         ),
-#         "Y_d" = list(
-#             depends    = c("Y_tilde"),
-#             expression = quote({
-# 
-#                 ref_area <- area(ref_sf, order = ref_id(Y_tilde))
-#                 inter_area <- area(Y_tilde)
-# 
-#                 Y_tilde[inter_area / ref_area > 0.5,]
-#             })
-#         ),
-#         "Y_star" = list(
-#             depends    = c("Y_a", "Y_b", "Y_c", "Y_d"),
-#             expression = quote({
-# 
-#                 bind_all(Y_a, Y_b, Y_c, Y_d)
-#             })
-#         ),
-#         "Y_cd" = list(
-#             depends    = c("Y_c", "Y_d"),
-#             expression = quote({
-# 
-#                 bind_all(Y_c, Y_d)
-#             })
-#         ),
-#         "Y_e" = list(
-#             depends    = c("Y_tilde"),
-#             expression = quote({
-# 
-#                 seg_area <- area(seg_sf, order = seg_id(Y_tilde))
-#                 inter_area <- area(Y_tilde)
-# 
-#                 Y_tilde[inter_area / seg_area == 1,]
-#             })
-#         ),
-#         "Y_f" = list(
-#             depends    = c("Y_tilde"),
-#             expression = quote({
-# 
-#                 seg_area <- area(seg_sf, order = seg_id(Y_tilde))
-#                 inter_area <- area(Y_tilde)
-# 
-#                 Y_tilde[inter_area / seg_area > 0.55,]
-#             })
-#         ),
-#         "Y_g" = list(
-#             depends    = c("Y_tilde"),
-#             expression = quote({
-# 
-#                 seg_area <- area(seg_sf, order = seg_id(Y_tilde))
-#                 inter_area <- area(Y_tilde)
-# 
-#                 Y_tilde[inter_area / seg_area > 0.75,]
-#             })
-#         )),
-#     class = "db_metric"
-# )
+Y_d <- function(m) {
+    field <- "Y_d"
+    if (.metric_exists(m, field))
+        return(.metric_get(m, field))
+    
+    Y <- Y_tilde(m)
+    sel <- area(Y) / area(ref_sf(m), order = ref_id(Y)) > 0.5
+    res <- suppressWarnings(
+        Y[sel,]
+    )
+    .metric_set(m, field, value = res)
+    res
+}
+
+Y_star <- function(m) {
+    field <- "Y_star"
+    if (.metric_exists(m, field))
+        return(.metric_get(m, field))
+    
+    res <- bind_all(Y_a(m), Y_b(m), Y_c(m), Y_d(m))
+    .metric_set(m, field, value = res)
+    res
+}
+
+Y_cd <- function(m) {
+    field <- "Y_cd"
+    if (.metric_exists(m, field))
+        return(.metric_get(m, field))
+    
+    res <- bind_all(Y_c(m), Y_d(m))
+    .metric_set(m, field, value = res)
+    res
+}
+
+Y_e <- function(m) {
+    field <- "Y_e"
+    if (.metric_exists(m, field))
+        return(.metric_get(m, field))
+    
+    Y <- Y_tilde(m)
+    seg_area <- area(seg_sf(m), order = seg_id(Y))
+    inter_area <- area(Y)
+    res <- suppressWarnings(
+        Y[inter_area / seg_area == 1,]
+    )
+    .metric_set(m, field, value = res)
+    res
+}
+
+Y_f <- function(m) {
+    field <- "Y_f"
+    if (.metric_exists(m, field))
+        return(.metric_get(m, field))
+    
+    Y <- Y_tilde(m)
+    seg_area <- area(seg_sf(m), order = seg_id(Y))
+    inter_area <- area(Y)
+    res <- suppressWarnings(
+        Y[inter_area / seg_area == 0.55,]
+    )
+    .metric_set(m, field, value = res)
+    res
+}
+
+Y_g <- function(m) {
+    field <- "Y_f"
+    if (.metric_exists(m, field))
+        return(.metric_get(m, field))
+    
+    Y <- Y_tilde(m)
+    seg_area <- area(seg_sf(m), order = seg_id(Y))
+    inter_area <- area(Y)
+    res <- suppressWarnings(
+        Y[inter_area / seg_area == 0.75,]
+    )
+    .metric_set(m, field, value = res)
+    res
+}

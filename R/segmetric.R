@@ -154,3 +154,7 @@ compute_union <- function(ref_sf, seg_sf, ref_id, seg_id, id_ref, id_seg) {
                              by_feature = FALSE)
     return(sf::st_area(union_sf))
 }
+
+#' @importFrom magrittr `%>%`
+#' 
+NULL

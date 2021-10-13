@@ -12,15 +12,25 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports:
     sf,
     units
 Suggests: 
     dplyr,
     knitr,
-    testthat (>= 3.0.0),
     lwgeom,
-    rmarkdown
+    magrittr,
+    testthat (>= 3.0.0),
+    rmarkdown,
+Collate:
+    checks.R
+    inset.R
+    ids.R
+    functions.R
+    fields.R
+    metrics.R
+    segmetric.R
+    db.R
 VignetteBuilder: knitr
 Config/testthat/edition: 3
