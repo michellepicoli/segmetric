@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 ## Test code
 
 ```{r}
+library(magrittr)
 library(segmetric)
 
 ref_shp <- system.file("extdata", "ground_truth", 
@@ -28,14 +29,18 @@ seg_shp <- system.file("extdata", "segmentation",
                        "ae_seg_s032020_meanshift_sr5_rr5_s10.shp",
                        package = "segmetric")
 
+plot(sf::st_geometry(sf::st_read(ref_shp)), 
+     lty = 1, 
+     lwd = 1, 
+     reset = FALSE, 
+     col = "yellow", 
+     main = "Reference (yellow) and Segmentation data.")
+plot(sf::st_geometry(sf::st_read(seg_shp)), 
+     lty = 1, 
+     lwd = 1, 
+     add = TRUE)
+
 data_lst <- metric(ref_shp, seg_shp)
-
-# .compute_field(field = "ref_area", data = data_lst)
-# .compute_field(field = "seg_area", data = data_lst)
-# .compute_field(field = "inter_area", data = data_lst)
-
-# res = .compute_metric(data = data_lst, metric = "oseg")
-# res = .compute_metric(data = data_lst, metric = "useg")
 
 get_metric(data_lst, metric = "OS1") %>% summary()
 get_metric(data_lst, metric = "US1") %>% summary()
@@ -44,235 +49,7 @@ get_metric(data_lst, metric = "US2") %>% summary()
 get_metric(data_lst, metric = "AFI") %>% summary()
 get_metric(data_lst, metric = "QR") %>% summary()
 get_metric(data_lst, metric = "D_index") %>% summary()
-get_metric(data_lst, metric = "recall")
+get_metric(data_lst, metric = "recall") %>% summary()
 
 ```
 
-
-
-
-## Load data
-
-This pakage comes with 
-
-```{r setup}
-
-library(segmetric)
-library(dplyr)
-library(knitr)
-library(sf)
-library(units)
-
-```
-
-## Get data 
-
-```{r get_data, echo=TRUE, fig.width = 7, fig.height = 7}
-
-# Input data.
-ref_shp <- system.file("extdata", "ground_truth", 
-                       "crop_10m_resolution.shp", 
-                       package = "segmetric")
-seg_shp <- system.file("extdata", "segmentation", 
-                       "ae_seg_s032020_meanshift_sr5_rr5_s10.shp",
-                       package = "segmetric")
-
-# Read data and add unique IDs.
-ref_sf <- ref_shp %>%
-  read_sf() %>%
-  mutate(ref_id = 1:nrow(.))
-seg_sf <- seg_shp %>%
-  read_sf() %>%
-  mutate(seg_id = 1:nrow(.))
-
-# Plot and make sure they overlap.
-plot(sf::st_geometry(ref_sf), lty = 1, lwd = 1, reset = FALSE, col = "yellow",
-     main = "Reference (yellow) and Segmentation data.")
-plot(sf::st_geometry(seg_sf), lty = 1, lwd = 1, add = TRUE)
-
-```
-
-
-
-## Compute metrics.
-
-```{r compute_metrics, echo=TRUE}
-
-metrics_df <- get_metrics(ref_sf, seg_sf, "ref_id", "seg_id") %>%
-  as_tibble()
-
-metrics_df %>%
-  head() %>%
-  kable(digits = 1)
-
-```
-
-
-
-## Jaccard index 
-
-Plot the polygons in the segmentation that best match the reference data using
-the Jaccard index.
-
-```{r plot_jaccard, echo = TRUE, fig.width = 7, fig.height = 7}
-
-best_jaccard <- metrics_df %>%
-    select(ref_id, seg_id, jaccard) %>%
-    group_by(ref_id) %>%
-    slice(which.max(jaccard)) %>%
-    dplyr::ungroup() 
-
-best_seg_id <- best_jaccard %>%
-    dplyr::select(seg_id) %>%
-    unlist()
-    
-# Plot and make sure they overlap.
-best_seg <- seg_sf %>%
-    dplyr::filter(seg_id %in% best_seg_id)
-plot(sf::st_geometry(ref_sf), lty = 1, lwd = 1, reset = FALSE, col = "yellow",
-     main = "Best match according to Jaccard index.")
-plot(sf::st_geometry(best_seg), lty = 1, lwd = 1, add = TRUE)
-
-best_jaccard %>%
-  head() %>%
-  kable(digits = 2)
-
-```
-
-
-
-## Over segmentation
-
-```{r plot_oseg, echo = TRUE, fig.width = 7, fig.height = 7}
-
-# Get the segmentation polygons meeting the OS criteria.
-oseg_tb <- metrics_df %>%
-    filter(centroid_in_ref == TRUE  | 
-           rate_int_ref_area >= 0.5 |
-           rate_int_seg_area >= 0.5) 
-
-# IDs of the segmentation data meeting the criteria.
-seg_id_vec <- oseg_tb %>%
-    dplyr::select(seg_id) %>%
-    unlist()
-
-# SF object of the segmentation data meeting the criteria.
-seg_tb <- seg_sf %>%
-    dplyr::filter(seg_id %in% seg_id_vec)
-
-plot(sf::st_geometry(ref_sf), lty = 1, lwd = 1, reset = FALSE, col = "yellow",
-     main = "Best match according to Over Segmentation index.")
-plot(sf::st_geometry(seg_tb), lty = 1, lwd = 1, add = TRUE)
-
-# Mean OSeg for each reference polygon.
-oseg_tb %>%
-  select(ref_id, seg_id, oseg) %>%
-  group_by(ref_id) %>%
-  summarize(mean_oseg = mean(oseg)) %>%
-  head() %>%
-  kable(digits = 2)
-
-```
-
-
-
-## Under segmentation
-
-```{r plot_useg, echo = TRUE, fig.width = 7, fig.height = 7}
-
-# Get the segmentation polygons meeting the OS criteria.
-useg_tb <- metrics_df %>%
-    filter(centroid_in_ref == TRUE  | 
-           rate_int_ref_area >= 0.5 |
-           rate_int_seg_area >= 0.5) 
-
-# IDs of the segmentation data meeting the criteria.
-seg_id_vec <- useg_tb %>%
-    dplyr::select(seg_id) %>%
-    unlist()
-
-# SF object of the segmentation data meeting the criteria.
-seg_tb <- seg_sf %>%
-    dplyr::filter(seg_id %in% seg_id_vec)
-
-plot(sf::st_geometry(ref_sf), lty = 1, lwd = 1, reset = FALSE, col = "yellow",
-     main = "Best match according to Under Segmentation index.")
-plot(sf::st_geometry(seg_tb), lty = 1, lwd = 1, add = TRUE)
-
-# Mean USeg for each reference polygon.
-useg_tb %>%
-  select(ref_id, seg_id, useg) %>%
-  group_by(ref_id) %>%
-  summarize(mean_useg = mean(useg)) %>%
-  head() %>%
-  kable(digits = 2)
-
-```
-
-
-
-## F measure
-
-```{r plot_fmeasure, echo = TRUE, fig.width = 7, fig.height = 7}
-
-# Get the segmentation polygons meeting the OS & US criteria.
-fmeasure <- metrics_df %>%
-  filter(centroid_in_ref == TRUE  | 
-           rate_int_ref_area >= 0.5 |
-           rate_int_seg_area >= 0.5) 
-
-# IDs of the segmentation data meeting the criteria.
-seg_id_vec <- fmeasure %>%
-    dplyr::select(seg_id) %>%
-    unlist()
-    
-# SF object of the segmentation data meeting the criteria.
-seg_tb <- seg_sf %>%
-    dplyr::filter(seg_id %in% seg_id_vec)
-
-plot(sf::st_geometry(ref_sf), lty = 1, lwd = 1, reset = FALSE, col = "yellow",
-     main = "Best match according to the F Measure.")
-plot(sf::st_geometry(seg_tb), lty = 1, lwd = 1, add = TRUE)
-
-# Mean F_measure for each reference polygon.
-fmeasure %>%
-  select(ref_id, seg_id, f_measure) %>%
-  group_by(ref_id) %>%
-  summarize(mean_fmeasure = mean(f_measure)) %>%
-  head() %>%
-  kable(digits = 2)
-
-```
-
-
-
-## AFI
-
-```{r plot_afi, echo = TRUE, fig.width = 7, fig.height = 7}
-
-best_afi <- metrics_df %>%
-    group_by(ref_id) %>%
-    slice(which.max(intersect_area)) %>%
-    dplyr::ungroup() %>%
-    select(ref_id, seg_id, afi)
-
-best_seg_id <- best_afi %>%
-    dplyr::select(seg_id) %>%
-    unlist()
-    
-best_afi %>%
-  head() %>%
-  kable(digits = 2)
-
-# Plot and make sure they overlap.
-best_seg <- seg_sf %>%
-    dplyr::filter(seg_id %in% best_seg_id)
-plot(sf::st_geometry(ref_sf), lty = 1, lwd = 1, reset = FALSE, col = "yellow",
-     main = "Best match according to AFI.")
-plot(sf::st_geometry(best_seg), lty = 1, lwd = 1, add = TRUE)
-
-best_afi %>%
-  head() %>%
-  kable(digits = 2)
-
-```
