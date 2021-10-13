@@ -11,7 +11,7 @@
             depends    = c("Y_star"),
             fn         = OS1,
             citation   = "Clinton et al. (2010)"
-        ), 
+        ),
         "US2" = list(
             depends    = c("Y_prime"),
             fn         = US2,
@@ -92,17 +92,17 @@
             depends    = c("Y_cd"),
             fn         = OS3,
             citation   = "Yang et al. (2014)"
-        ), 
+        ),
         "US3" = list(
             depends    = c("Y_cd"),
             fn         = US3,
             citation   = "Yang et al. (2014)"
-        ), 
+        ),
         "ED3" = list(
             depends    = c("Y_cd"),
             fn         = ED3,
             citation   = "Yang et al. (2014)"
-        ), 
+        ),
         "F_measure" = list(
             depends    = c("X_prime", "Y_prime"),
             fn         = F_measure,
@@ -281,22 +281,22 @@ db_summary <- list(
 )
 
 .db_fields <- function(d, where = NULL, ...) {
-    
+
     if (is.null(where))
         return(names(d))
-    
+
     names(d[vapply(d, where, logical(1), ...)])
 }
 
 .db_get <- function(d, key) {
-    
+
     stopifnot(length(key) == 1)
     stopifnot(key %in% names(d))
     d[[key]]
 }
 
 .metric_check <- function(m, len = NULL) {
-    
+
     stopifnot(inherits(m, "metric"))
     stopifnot(length(m) <= 1)
     stopifnot(all(c("ref_sf", "seg_sf") %in% .metric_fields(m)))
@@ -309,7 +309,7 @@ db_summary <- list(
 }
 
 .metric_env <- function(m) {
-    attr(m, which = ".env", exact = TRUE) 
+    attr(m, which = ".env", exact = TRUE)
 }
 
 .metric_eval <- function(m, fn, parameters = list()) {
@@ -363,25 +363,25 @@ db_summary <- list(
 
 #' @export
 metric <- function(ref_sf, seg_sf) {
-    
+
     if (is.character(ref_sf))
         ref_sf <- sf::read_sf(ref_sf)
     stopifnot(inherits(ref_sf, "sf"))
-    
+
     if (is.character(seg_sf))
         seg_sf <- sf::read_sf(seg_sf)
     stopifnot(inherits(seg_sf, "sf"))
-    
+
     stopifnot(sf::st_crs(ref_sf) == sf::st_crs(seg_sf))
-    
+
     ref_sf[["ref_id"]] <- seq_len(nrow(ref_sf))
     seg_sf[["seg_id"]] <- seq_len(nrow(seg_sf))
-    
+
     class(ref_sf) <- c("ref_sf", class(ref_sf))
     class(seg_sf) <- c("seg_sf", class(seg_sf))
     
     .env <- environment()
-    
+
     structure(list(),
               .env = .env,
               class = c("metric"))
@@ -389,15 +389,15 @@ metric <- function(ref_sf, seg_sf) {
 
 #' @export
 list_metrics <- function() {
-    
+
     .db_fields(d = .db_m)
 }
 
 #' @export
 desc_metric <- function(metric) {
-    
+
     stopifnot(metric %in% list_metrics())
-    
+
     f <- .db_get(d = .db_m, key = metric)
     cat(paste("-", metric), fill = TRUE)
     # cat(paste(f[["description"]]), fill = TRUE)
@@ -407,70 +407,80 @@ desc_metric <- function(metric) {
 
 #' @export
 get_metric <- function(m, metric, ...) {
-    
+
     .metric_check(m = m)
     stopifnot(metric %in% list_metrics())
-    
+
     .metric_compute(m = m, metric = metric, parameters = list(...))
 }
 
 #' @export
 get_ref_area <- function(m) {
-    
+
     .metric_check(m = m, len = 1)
-    
+
     f <- .db_get(d = .db_m, key = names(m))
     ordering <- f[["depends"]][[1]]
-    
+
     # stopifnot(ordering %in% .db_fields(d = .db_f))
     
     ref_sf <- .metric_get(m = m, field = "ref_sf")
     ref_rows <- ref_id(.metric_get(m = m, field = ordering))
-    
+
     area(ref_sf, order = ref_rows)
 }
 
 #' @export
 get_seg_area <- function(m) {
     .metric_check(m = m, len = 1)
-    
+
     f <- .db_get(d = .db_m, key = names(m))
     ordering <- f[["depends"]][[1]]
-    
+
     # stopifnot(ordering %in% .db_fields(d = .db_f))
     
     seg_sf <- .metric_get(m = m, field = "seg_sf")
     seg_rows <- seg_id(.metric_get(m = m, field = ordering))
-    
+
     area(seg_sf, order = seg_rows)
 }
 
 #' @export
 get_inter_area <- function(m) {
     .metric_check(m = m, len = 1)
-    
+
     f <- .db_get(d = .db_m, key = names(m))
     field <- f[["depends"]][[1]]
-    
+
     # stopifnot(field %in% .db_fields(d = .db_f))
     
     area(.metric_get(m = m, field = field))
 }
 
-#' @exportS3Method 
+#' @exportS3Method
 plot.metric <- function(m, ...) {
-    
-    
+
+    ref_sf <- dplyr::transmute(ref_sf(m), type = "reference")
+    seg_sf <- dplyr::transmute(seg_sf(m), type = "segmentation")
+
+    plot(sf::st_geometry(ref_sf),
+         border = 'blue',
+         extent = rbind(ref_sf, seg_sf),
+         main = "Reference (blue) versus Segmentation (red)")
+
+    plot(sf::st_geometry(seg_sf),
+         border = 'red',
+         add = TRUE)
 }
 
-#' @exportS3Method 
+#' @exportS3Method
 summary.metric <- function(m, w = NULL, ...) {
-    
+
     stopifnot(inherits(m, "metric"))
-    
+
     if (!is.null(w))
         return(lapply(m, weighted.mean, w = w))
-    
+
     lapply(m, mean)
 }
 
