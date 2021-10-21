@@ -230,12 +230,12 @@ test_that("two segments inside", {
 
 test_that("test grid", {
     
-    ref_sf <- sf::st_sf(geometry = sf::st_sfc(p05))
-    seg_sf <- sf::st_sf(geometry = sf::st_sfc(p05 + c(-0.5, -0.5),
-                                              p05 + c( 0.5, -0.5),
-                                              p05 + c( 0.5,  0.5),
-                                              p05 + c(-0.5,  0.5)))
-    data <- metric(ref_sf, seg_sf)
+    ref <- sf::st_sf(geometry = sf::st_sfc(p05))
+    seg <- sf::st_sf(geometry = sf::st_sfc(p05 + c(-0.5, -0.5),
+                                           p05 + c( 0.5, -0.5),
+                                           p05 + c( 0.5,  0.5),
+                                           p05 + c(-0.5,  0.5)))
+    data <- metric(ref, seg)
     
     expect_true(is.numeric(get_metric(data, "OS2")$OS2))
     expect_true(length(get_metric(data, "OS2")$OS2) == 1)

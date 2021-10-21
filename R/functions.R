@@ -48,8 +48,8 @@ union <- function(x, ref_sf, seg_sf) {
     
     dplyr::bind_rows(lapply(seq_len(nrow(x)), function(i) {
         suppressWarnings(suppressMessages({
-            sf::st_union(x = seg_sf[ref_id(x[i,]),], 
-                         y = ref_sf[seg_id(x[i,]),])
+            sf::st_union(x = ref_sf[ref_id(x[i,]),], 
+                         y = seg_sf[seg_id(x[i,]),])
         }))
     }))
 }
