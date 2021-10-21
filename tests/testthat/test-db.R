@@ -58,11 +58,12 @@ test_that("empty intersection", {
     
     expect_true(is.nan(get_metric(data, "F_measure")$F_measure))
     
-    # TODO: Functions not found. 
-    #get_metric(data, "underMerging") 
-    #get_metric(data, "overMerging") 
-    #get_metric(data, "F") 
+    expect_true(is.na(get_metric(data, "UMerging")$UMerging))
     
+    expect_true(is.na(get_metric(data, "OMerging")$OMerging))
+    
+    expect_true(is.numeric(get_metric(data, "F")$F))
+    expect_true(length(get_metric(data, "F")$F) == 0)
     
 })
 
@@ -101,12 +102,12 @@ test_that("one vertex and a polygon", {
 
 test_that("normal use", {
     
-    ref_sf <- sf::st_sf(geometry = sf::st_sfc(p05 * 1))
-    seg_sf <- sf::st_sf(geometry = sf::st_sfc(p05 + 0.9,
-                                              p05 - 0.5,
-                                              p05 + c(0.8, -0.9),
-                                              p05 + c(-0.8, 0.9)))
-    data <- metric(ref_sf, seg_sf)
+    ref <- sf::st_sf(geometry = sf::st_sfc(p05 * 1))
+    seg <- sf::st_sf(geometry = sf::st_sfc(p05 + 0.9,
+                                           p05 - 0.5,
+                                           p05 + c(0.8, -0.9),
+                                           p05 + c(-0.8, 0.9)))
+    data <- metric(ref, seg)
     
     expect_true(is.numeric(get_metric(data, "OS2")$OS2))
     expect_true(length(get_metric(data, "OS2")$OS2) == 1)
@@ -148,10 +149,13 @@ test_that("normal use", {
     expect_true(length(get_metric(data, "F_measure")$F_measure) == 1)
     
     # TODO: Functions not found. 
-    #get_metric(data, "underMerging") 
-    #get_metric(data, "overMerging") 
-    #get_metric(data, "F") 
-     
+    expect_true(is.numeric(get_metric(data, "UMerging")$UMerging))
+    expect_true(length(get_metric(data, "UMerging")$UMerging) == 1)
+    expect_true(is.numeric(get_metric(data, "OMerging")$OMerging))
+    expect_true(length(get_metric(data, "OMerging")$OMerging) == 1)
+    expect_true(is.numeric(get_metric(data, "F")$F))
+    expect_true(length(get_metric(data, "F")$F) == 4)
+    
     area_df <- get_areas(ref_sf(data), seg_sf(data))
     x_prime <- test_x_prime(area_df)
     y_prime <- test_y_prime(area_df)
@@ -163,9 +167,10 @@ test_that("normal use", {
     expect_true(test_US2(y_prime) == get_metric(data, "US2"))
     expect_true(test_OS1(y_star)  == get_metric(data, "OS1"))
     expect_true(test_US1(y_star)  == get_metric(data, "US1"))
-    #expect_true(test_overMerging(y_star)  == get_metric(data, "overMerging"))
-    #expect_true(test_underMerging(y_star) == get_metric(data, "underMerging"))
+    expect_true(test_overMerging(y_star)  == get_metric(data, "OMerging"))
+    expect_true(test_underMerging(y_star) == get_metric(data, "UMerging"))
     expect_true(test_AFI(y_prime) == get_metric(data, "AFI"))
+    # TODO: check why is not equal
     expect_true(test_QR(y_star) == get_metric(data, "QR"))
     expect_true(test_D_index(y_star) == get_metric(data, "D_index"))
     expect_true(test_precision(x_prime) == get_metric(data, "precision"))
@@ -285,8 +290,8 @@ test_that("test grid", {
     expect_true(mean(test_US2(y_prime)) == get_metric(data, "US2"))
     expect_true(all(test_OS1(y_star)  == get_metric(data, "OS1")$OS1))
     expect_true(all(test_US1(y_star)  == get_metric(data, "US1")$US1))
-    #expect_true(test_overMerging(y_star)  == get_metric(data, "overMerging"))
-    #expect_true(test_underMerging(y_star) == get_metric(data, "underMerging"))
+    expect_true(all(test_overMerging(y_star)  == get_metric(data, "OMerging")$OMerging))
+    expect_true(all(test_underMerging(y_star) == get_metric(data, "UMerging")$UMerging))
     expect_true(mean(test_AFI(y_prime)) == get_metric(data, "AFI")$AFI)
     expect_true(all(test_QR(y_star) == get_metric(data, "QR")$QR))
     expect_true(all(test_D_index(y_star) == get_metric(data, "D_index")$D_index))
