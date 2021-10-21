@@ -41,7 +41,7 @@ intersection <- function(x, y, touches = TRUE) {
     res
 }
 
-union2 <- function(x, seg_sf, ref_sf) {
+union <- function(x, ref_sf, seg_sf) {
     
     stopifnot(inherits(x, "sf"))
     stopifnot(c("ref_id", "seg_id") %in% names(x))

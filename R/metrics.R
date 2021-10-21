@@ -29,7 +29,8 @@ AFI <- function(m) {
 }
 
 QR <- function(m) {
-    norm_frac(area(Y_star(m)), area(union2(Y_star(m), seg_sf(m), ref_sf(m))))
+    norm_frac(area(Y_star(m)), 
+              area(union(Y_star(m), ref_sf(m), seg_sf(m))))
 }
 
 D_index <- function(m) {
