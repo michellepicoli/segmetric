@@ -41,15 +41,15 @@ intersection <- function(x, y, touches = TRUE) {
     res
 }
 
-union2 <- function(x, seg_sf, ref_sf) {
+union <- function(x, ref_sf, seg_sf) {
     
     stopifnot(inherits(x, "sf"))
     stopifnot(c("ref_id", "seg_id") %in% names(x))
     
     dplyr::bind_rows(lapply(seq_len(nrow(x)), function(i) {
         suppressWarnings(suppressMessages({
-            sf::st_union(x = seg_sf[ref_id(x[i,]),], 
-                         y = ref_sf[seg_id(x[i,]),])
+            sf::st_union(x = ref_sf[ref_id(x[i,]),], 
+                         y = seg_sf[seg_id(x[i,]),])
         }))
     }))
 }

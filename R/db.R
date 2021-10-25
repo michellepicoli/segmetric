@@ -47,12 +47,12 @@
             fn         = recall,
             citation   = "Van Rijsbergen (1979) and Zhang et al. (2015)"
         ),
-        "underMerging" = list(
+        "UMerging" = list(
             depends    = c("Y_star"),
             fn         = UMerging,
             citation   = "Levine and Nazif (1982) and Clinton et al. (2010)"
         ),
-        "overMerging" = list(
+        "OMerging" = list(
             depends    = c("Y_star"),
             fn         = OMerging,
             citation   = "Levine and Nazif (1982) and Clinton et al. (2010)"
@@ -355,7 +355,9 @@ db_summary <- list(
 # 
 .metric_compute <- function(m, metric, parameters = list()) {
     
-    m[[1]] <- .metric_eval(m = m, fn = metric, 
+    f <- .db_get(d = .db_m, key = metric)
+    
+    m[[1]] <- .metric_eval(m = m, fn = f[["fn"]], 
                            parameters = parameters)
     names(m) <- metric
     m

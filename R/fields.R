@@ -90,7 +90,7 @@ Y_a <- function(m) {
     res <- suppressWarnings(
         Y[sel,]
     )
-    .metric_set(m, field, value = res)
+    .metric_set(m, field = field, value = res)
     res
 }
 
