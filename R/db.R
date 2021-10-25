@@ -417,6 +417,14 @@ get_metric <- function(m, metric, ...) {
 }
 
 #' @export
+multi_metrics <- function(m, metrics, ...) {
+    
+    unlist(lapply(metrics, function(metric) {
+        summary(get_metric(m, metric = metric, ...))
+    }))
+}
+
+#' @export
 get_ref_area <- function(m) {
 
     .metric_check(m = m, len = 1)
