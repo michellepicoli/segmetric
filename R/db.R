@@ -42,7 +42,7 @@ list_metrics <- function() {
 new_metric <- function(fn, 
                        name = "", 
                        description = "", 
-                       citation = "") {
+                       reference = "") {
     
     stopifnot(inherits(fn, "function"))
     stopifnot(is.character(name))
@@ -54,7 +54,7 @@ new_metric <- function(fn,
         list(fn = fn,
              name = name,
              description = description,
-             citation = citation),
+             reference = reference),
         class = c("metric_entry", "list"))
 }
 
