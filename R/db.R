@@ -1,299 +1,50 @@
 
-.db_m <- structure(
-    list(
-        ### metrics
-        "OS2" = list(
-            depends    = c("Y_prime"),
-            fn         = OS2,
-            citation   = "Persello and Bruzzone (2010)"
-        ),
-        "OS1" = list(
-            depends    = c("Y_star"),
-            fn         = OS1,
-            citation   = "Clinton et al. (2010)"
-        ),
-        "US2" = list(
-            depends    = c("Y_prime"),
-            fn         = US2,
-            citation   = "Persello and Bruzzone (2010)"
-        ),
-        "US1" = list(
-            depends    = c("Y_star"),
-            fn         = US1,
-            citation   = "Clinton et al. (2010)"
-        ),
-        "AFI" = list(
-            depends    = c("Y_prime"),
-            fn         = AFI,
-            citation   = "Lucieer and Stein (2002) and Clinton et al. (2010)"
-        ),
-        "QR" = list(
-            depends    = c("Y_star"),
-            fn         = QR,
-            citation   = "Weidner (2008) and Clinton et al. (2010)"
-        ),
-        "D_index" = list(
-            depends    = c("Y_star"),
-            fn         = D_index,
-            citation   = "Levine and Nazif (1982) and Clinton et al. (2010)"
-        ),
-        "precision" = list(
-            depends    = c("X_prime"),
-            fn         = precision,
-            citation   = "Van Rijsbergen (1979) and Zhang et al. (2015)"
-        ),
-        "recall" = list(
-            depends    = c("Y_prime"),
-            fn         = recall,
-            citation   = "Van Rijsbergen (1979) and Zhang et al. (2015)"
-        ),
-        "UMerging" = list(
-            depends    = c("Y_star"),
-            fn         = UMerging,
-            citation   = "Levine and Nazif (1982) and Clinton et al. (2010)"
-        ),
-        "OMerging" = list(
-            depends    = c("Y_star"),
-            fn         = OMerging,
-            citation   = "Levine and Nazif (1982) and Clinton et al. (2010)"
-        ),
-        "M" = list(
-            depends    = c("Y_prime"),
-            fn         = M,
-            citation   = "Janssen and Molenaar (1995) and Feitosa et al. (2010)"
-        ),
-        # TODO: check formula in Carleer et al. (2005)
-        "E" = list(
-            depends    = c("X_prime"),
-            fn         = E,
-            citation   = "Carleer et al. (2005)"
-        ),
-        "RAsub" = list(
-            depends    = c("Y_tilde"),
-            fn         = RAsub,
-            citation   = "Möller et al. (2007) and Clinton et al. (2010)"
-        ),
-        "RAsuper" = list(
-            depends    = c("Y_tilde"),
-            fn         = RAsuper,
-            citation   = "Möller et al. (2007) and Clinton et al. (2010)"
-        ),
-        "PI" = list(
-            depends    = c("Y_tilde"),
-            fn         = PI,
-            citation   = "van Coillie et al. (2008)"
-        ),
-        "F" = list(
-            depends    = c("X_prime"),
-            fn         = F1,
-            citation   = "Costa et al. (2008)"
-        ),
-        "OS3" = list(
-            depends    = c("Y_cd"),
-            fn         = OS3,
-            citation   = "Yang et al. (2014)"
-        ),
-        "US3" = list(
-            depends    = c("Y_cd"),
-            fn         = US3,
-            citation   = "Yang et al. (2014)"
-        ),
-        "ED3" = list(
-            depends    = c("Y_cd"),
-            fn         = ED3,
-            citation   = "Yang et al. (2014)"
-        ),
-        "F_measure" = list(
-            depends    = c("X_prime", "Y_prime"),
-            fn         = F_measure,
-            citation   = "Van Rijsbergen (1979) and Zhang et al. (2015)"
-        )
-    )
-)
-
-# 
-# .db_f <- structure(
-#     list(
-#         "ref_sf"  = list(
-#             depends    = character(),
-#             expression = quote({})
-#         ),
-#         "seg_sf"  = list(
-#             depends    = character(),
-#             expression = quote({})
-#         ),
-#         "Y_tilde" = list(
-#             depends    = character(),
-#             expression = quote({
-#                 intersection(x = ref_sf, y = seg_sf, touches = FALSE)
-#             })
-#         ),
-#         "X_tilde" = list(
-#             depends    = character(),
-#             expression = quote({
-#                 intersection(x = seg_sf, y = ref_sf, touches = FALSE)
-#             })
-#         ),
-#         "Y_prime" = list(
-#             depends    = c("Y_tilde"),
-#             expression = quote({
-#                 suppressWarnings(
-#                     Y_tilde %>% 
-#                         dplyr::mutate(inter_area = area(.)) %>%
-#                         dplyr::group_by(ref_id) %>% 
-#                         dplyr::filter(inter_area == max(inter_area)) %>%
-#                         dplyr::select(-inter_area) %>% 
-#                         dplyr::slice(1) %>% 
-#                         dplyr::ungroup()
-#                 )
-#             })
-#         ),
-#         "X_prime" = list(
-#             depends    = c("X_tilde"),
-#             expression = quote({
-#                 suppressWarnings(
-#                     X_tilde %>% 
-#                         dplyr::mutate(inter_area = area(.)) %>%
-#                         dplyr::group_by(seg_id) %>% 
-#                         dplyr::filter(inter_area == max(inter_area)) %>%
-#                         dplyr::select(-inter_area) %>% 
-#                         dplyr::slice(1) %>% 
-#                         dplyr::ungroup()
-#                 )
-#             })
-#         ),
-#         "ref_centroids" = list(
-#             depends    = character(),
-#             expression = quote({
-#                 centroid(ref_sf)
-#             })
-#         ),
-#         "Y_a" = list(
-#             depends    = c("Y_tilde", "ref_centroids"),
-#             expression = quote({
-#                 Y_a <- intersection(x = ref_centroids, y = seg_sf)
-#                 
-#                 suppressWarnings(
-#                     Y_tilde[rows_inset(Y_tilde, Y_a),]
-#                 )
-#             })
-#         ),
-#         "seg_centroids" = list(
-#             depends    = character(),
-#             expression = quote({
-#                 centroid(seg_sf)
-#             })
-#         ),
-#         "Y_b" = list(
-#             depends    = c("Y_tilde", "seg_centroids"),
-#             expression = quote({
-#                 Y_b <- intersection(x = seg_centroids, y = ref_sf)
-#                 suppressWarnings(
-#                     Y_tilde[rows_inset(Y_tilde, Y_b),]
-#                 )
-#             })
-#         ),
-#         "Y_c" = list(
-#             depends    = c("Y_tilde"),
-#             expression = quote({
-#                 
-#                 seg_area <- area(seg_sf, order = seg_id(Y_tilde))
-#                 inter_area <- area(Y_tilde)
-#                 suppressWarnings(
-#                     Y_tilde[inter_area / seg_area > 0.5,]
-#                 )
-#             })
-#         ),
-#         "Y_d" = list(
-#             depends    = c("Y_tilde"),
-#             expression = quote({
-#                 
-#                 ref_area <- area(ref_sf, order = ref_id(Y_tilde))
-#                 inter_area <- area(Y_tilde)
-#                 suppressWarnings(
-#                     Y_tilde[inter_area / ref_area > 0.5,]
-#                 )
-#             })
-#         ),
-#         "Y_star" = list(
-#             depends    = c("Y_a", "Y_b", "Y_c", "Y_d"),
-#             expression = quote({
-#                 
-#                 bind_all(Y_a, Y_b, Y_c, Y_d)
-#             })
-#         ),
-#         "Y_cd" = list(
-#             depends    = c("Y_c", "Y_d"),
-#             expression = quote({
-#                 
-#                 bind_all(Y_c, Y_d)
-#             })
-#         ),
-#         "Y_e" = list(
-#             depends    = c("Y_tilde"),
-#             expression = quote({
-#                 
-#                 seg_area <- area(seg_sf, order = seg_id(Y_tilde))
-#                 inter_area <- area(Y_tilde)
-#                 
-#                 suppressWarnings(
-#                     Y_tilde[inter_area / seg_area == 1,]
-#                 )
-#             })
-#         ),
-#         "Y_f" = list(
-#             depends    = c("Y_tilde"),
-#             expression = quote({
-#                 
-#                 seg_area <- area(seg_sf, order = seg_id(Y_tilde))
-#                 inter_area <- area(Y_tilde)
-#                 
-#                 suppressWarnings(
-#                     Y_tilde[inter_area / seg_area > 0.55,]
-#                 )
-#             })
-#         ),
-#         "Y_g" = list(
-#             depends    = c("Y_tilde"),
-#             expression = quote({
-#                 
-#                 seg_area <- area(seg_sf, order = seg_id(Y_tilde))
-#                 inter_area <- area(Y_tilde)
-#                 
-#                 suppressWarnings(
-#                     Y_tilde[inter_area / seg_area > 0.75,]
-#                 )
-#             })
-#         )),
-#     class = "db_metric"
-# )
-
-db_summary <- list(
-    "mean"   = list(
-        expression = quote(mean(metric, na.rm = TRUE))
-    ),
-    "w_mean" = list(
-        expression = quote(weighted.mean(metric, weight, na.rm = TRUE))
-    ),
-    "identity" = list(
-        expression = quote(metric)
-    )
-)
-
-.db_fields <- function(d, where = NULL, ...) {
-
-    if (is.null(where))
-        return(names(d))
-
-    names(d[vapply(d, where, logical(1), ...)])
-}
-
-.db_get <- function(d, key) {
+.db_get <- function(key) {
 
     stopifnot(length(key) == 1)
-    stopifnot(key %in% names(d))
-    d[[key]]
+    stopifnot(key %in% names(env[["db_m"]]))
+    env[["db_m"]][[key]]
 }
+
+# add / rem / get
+
+#' @export
+new_metric <- function(fn, 
+                       name = "", 
+                       description = "", 
+                       citation = "") {
+    
+    stopifnot(is.character(name))
+    stopifnot(inherits(fn, "function"))
+    
+    structure(
+        list(fn = fn,
+             name = name,
+             description = description,
+             citation = citation),
+        class = c("metric_entry", "list"))
+}
+
+#' @export
+register_metrics <- function(...) {
+    
+    dots <- list(...)
+    
+    stopifnot(!is.null(names(dots)))
+    stopifnot(all(sapply(names(dots), nchar) > 0))
+    stopifnot(all(sapply(dots, inherits, "metric_entry")))
+    stopifnot(all(!names(dots) %in% names(env[["db_m"]])))
+    
+    if (is.null(env[["db_m"]]))
+        env[["db_m"]] <- list()
+    
+    env[["db_m"]] <- structure(
+        utils::modifyList(env[["db_m"]], dots), 
+        class = c("metric_db", "list"))
+    
+    invisible(NULL)
+}
+
 
 .metric_check <- function(m, len = NULL) {
 
@@ -302,7 +53,7 @@ db_summary <- list(
     stopifnot(all(c("ref_sf", "seg_sf") %in% .metric_fields(m)))
     if (length(m) == 1) {
         stopifnot(!is.null(names(m)))
-        stopifnot(names(m) %in% .db_fields(d = .db_m))
+        stopifnot(all(names(m) %in% names(env[["db_m"]])))
     }
     if (!is.null(len))
         stopifnot(length(m) == len)
@@ -340,22 +91,9 @@ db_summary <- list(
     invisible(NULL)
 }
 
-# .metric_compute_field <- function(m, field) {
-#     
-#     f <- .db_get(d = .db_f, key = field)
-#     stopifnot(all(f[["depends"]] %in% .db_fields(d = .db_f)))
-#     
-#     for (dep in f[["depends"]]) {
-#         if (dep %in% .metric_fields(m)) next
-#         .metric_compute_field(m = m, field = dep)
-#     }
-#     value <- .metric_eval(m = m, expr = f[["expression"]])
-#     .metric_set(m, field = field, value = value)
-# }
-# 
 .metric_compute <- function(m, metric, parameters = list()) {
     
-    f <- .db_get(d = .db_m, key = metric)
+    f <- .db_get(key = metric)
     
     m[[1]] <- .metric_eval(m = m, fn = f[["fn"]], 
                            parameters = parameters)
@@ -392,17 +130,17 @@ metric <- function(ref_sf, seg_sf) {
 #' @export
 list_metrics <- function() {
 
-    .db_fields(d = .db_m)
+    names(env[["db_m"]])
 }
 
-#' @export
-desc_metric <- function(metric) {
+#' @exportS3Method
+print.metric_entry <- function(metric) {
 
     stopifnot(metric %in% list_metrics())
 
-    f <- .db_get(d = .db_m, key = metric)
-    cat(paste("-", metric), fill = TRUE)
-    # cat(paste(f[["description"]]), fill = TRUE)
+    f <- .db_get(key = metric)
+    cat(paste("-", metric, paste0("(", f[["name"]], ")")), fill = TRUE)
+    cat(paste(f[["description"]]), fill = TRUE)
     cat(paste("citation:", f[["citation"]]), fill = TRUE)
 }
 
@@ -417,14 +155,20 @@ get_metric <- function(m, metric, ...) {
 }
 
 #' @export
+multi_metrics <- function(m, metrics, ...) {
+    
+    unlist(lapply(metrics, function(metric) {
+        summary(get_metric(m, metric = metric, ...))
+    }))
+}
+
+#' @export
 get_ref_area <- function(m) {
 
     .metric_check(m = m, len = 1)
 
-    f <- .db_get(d = .db_m, key = names(m))
+    f <- .db_get(key = names(m))
     ordering <- f[["depends"]][[1]]
-
-    # stopifnot(ordering %in% .db_fields(d = .db_f))
     
     ref_sf <- .metric_get(m = m, field = "ref_sf")
     ref_rows <- ref_id(.metric_get(m = m, field = ordering))
@@ -436,10 +180,8 @@ get_ref_area <- function(m) {
 get_seg_area <- function(m) {
     .metric_check(m = m, len = 1)
 
-    f <- .db_get(d = .db_m, key = names(m))
+    f <- .db_get(key = names(m))
     ordering <- f[["depends"]][[1]]
-
-    # stopifnot(ordering %in% .db_fields(d = .db_f))
     
     seg_sf <- .metric_get(m = m, field = "seg_sf")
     seg_rows <- seg_id(.metric_get(m = m, field = ordering))
@@ -451,10 +193,8 @@ get_seg_area <- function(m) {
 get_inter_area <- function(m) {
     .metric_check(m = m, len = 1)
 
-    f <- .db_get(d = .db_m, key = names(m))
+    f <- .db_get(key = names(m))
     field <- f[["depends"]][[1]]
-
-    # stopifnot(field %in% .db_fields(d = .db_f))
     
     area(.metric_get(m = m, field = field))
 }

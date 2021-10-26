@@ -1,11 +1,14 @@
+#' @export
 ref_sf  <- function(m) {
     .metric_get(m, "ref_sf")
 }
 
+#' @export
 seg_sf <- function(m) {
     .metric_get(m, "seg_sf")
 }
 
+#' @export
 Y_tilde <- function(m) {
     field <- "Y_tilde"
     if (.metric_exists(m, field))
@@ -16,6 +19,7 @@ Y_tilde <- function(m) {
     res
 }
 
+#' @export
 X_tilde <- function(m) {
     field <- "X_tilde"
     if (.metric_exists(m, field))
@@ -26,6 +30,7 @@ X_tilde <- function(m) {
     res
 }
 
+#' @export
 Y_prime <- function(m) {
     field <- "Y_prime"
     if (.metric_exists(m, field))
@@ -43,6 +48,7 @@ Y_prime <- function(m) {
     res
 }
 
+#' @export
 X_prime <- function(m) {
     field <- "X_prime"
     if (.metric_exists(m, field))
@@ -60,6 +66,7 @@ X_prime <- function(m) {
     res
 }
 
+#' @export
 ref_centroids <- function(m) {
     field <- "ref_centroids"
     if (.metric_exists(m, field))
@@ -70,6 +77,7 @@ ref_centroids <- function(m) {
     res
 }
 
+#' @export
 seg_centroids <- function(m) {
     field <- "seg_centroids"
     if (.metric_exists(m, field))
@@ -80,6 +88,7 @@ seg_centroids <- function(m) {
     res
 }
 
+#' @export
 Y_a <- function(m) {
     field <- "Y_a"
     if (.metric_exists(m, field))
@@ -94,6 +103,7 @@ Y_a <- function(m) {
     res
 }
 
+#' @export
 Y_b <- function(m) {
     field <- "Y_b"
     if (.metric_exists(m, field))
@@ -108,6 +118,7 @@ Y_b <- function(m) {
     res
 }
 
+#' @export
 Y_c <- function(m) {
     field <- "Y_c"
     if (.metric_exists(m, field))
@@ -122,6 +133,7 @@ Y_c <- function(m) {
     res
 }
 
+#' @export
 Y_d <- function(m) {
     field <- "Y_d"
     if (.metric_exists(m, field))
@@ -136,6 +148,7 @@ Y_d <- function(m) {
     res
 }
 
+#' @export
 Y_star <- function(m) {
     field <- "Y_star"
     if (.metric_exists(m, field))
@@ -146,6 +159,7 @@ Y_star <- function(m) {
     res
 }
 
+#' @export
 Y_cd <- function(m) {
     field <- "Y_cd"
     if (.metric_exists(m, field))
@@ -156,6 +170,7 @@ Y_cd <- function(m) {
     res
 }
 
+#' @export
 Y_e <- function(m) {
     field <- "Y_e"
     if (.metric_exists(m, field))
@@ -171,6 +186,7 @@ Y_e <- function(m) {
     res
 }
 
+#' @export
 Y_f <- function(m) {
     field <- "Y_f"
     if (.metric_exists(m, field))
@@ -186,6 +202,7 @@ Y_f <- function(m) {
     res
 }
 
+#' @export
 Y_g <- function(m) {
     field <- "Y_f"
     if (.metric_exists(m, field))

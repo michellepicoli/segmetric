@@ -81,9 +81,10 @@ RAsuper <- function(m) {
 
 # check formula
 PI <- function(m) {
-    area(Y_tilde(m)) ^ 2 /
-        area(ref_sf(m), order = ref_id(Y_tilde(m))) /
-        area(seg_sf(m), order = ref_id(Y_tilde(m)))
+    area(Y_tilde(m)) ^ 2 / (
+        area(ref_sf(m), order = ref_id(Y_tilde(m))) *
+        area(seg_sf(m), order = seg_id(Y_tilde(m)))
+    )
 }
 
 # check metric name
