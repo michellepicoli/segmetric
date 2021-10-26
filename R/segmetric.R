@@ -33,7 +33,7 @@ env <- new.env()
             reference    = "Clinton et al. (2010)"
         ),
         AFI = new_metric(
-            fn         = AFI,
+            fn          = AFI,
             reference   = "Lucieer and Stein (2002) and Clinton et al. (2010)"
         ),
         QR = new_metric(
