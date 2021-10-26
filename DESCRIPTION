@@ -1,6 +1,6 @@
 Package: segmetric
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Segmentation Assessment Metrics
+Version: 0.1.0
 Authors@R: 
     person(given = "First",
            family = "Last",
@@ -17,9 +17,7 @@ Imports:
     sf,
     units
 Suggests: 
-    dplyr,
     knitr,
-    lwgeom,
     magrittr,
     testthat (>= 3.0.0),
     rmarkdown,
@@ -30,7 +28,7 @@ Collate:
     functions.R
     fields.R
     metrics.R
-    segmetric.R
     db.R
+    segmetric.R
 VignetteBuilder: knitr
 Config/testthat/edition: 3
