@@ -33,73 +33,107 @@ env <- new.env()
             reference    = "Clinton et al. (2010)"
         ),
         AFI = new_metric(
-            fn          = AFI,
-            reference   = "Lucieer and Stein (2002) and Clinton et al. (2010)"
+            fn           = AFI,
+            name         = "Area fit index",
+            description  = "Optimal value: 0",
+            reference    = "Lucieer and Stein (2002) and Clinton et al. (2010)"
         ),
         QR = new_metric(
-            fn         = QR,
-            reference   = "Weidner (2008) and Clinton et al. (2010)"
+            fn           = QR,
+            name         = "Quality rate",
+            description  = "Values from 0 (optimal) to 1",
+            reference    = "Weidner (2008) and Clinton et al. (2010)"
         ),
         D_index = new_metric(
-            fn         = D_index,
-            reference   = "Levine and Nazif (1982) and Clinton et al. (2010)"
+            fn           = D_index,
+            name         = "Index D",
+            description  = "Values from 0 (optimal) to 1",
+            reference    = "Levine and Nazif (1982) and Clinton et al. (2010)"
         ),
         precision = new_metric(
-            fn         = precision,
-            reference   = "Van Rijsbergen (1979) and Zhang et al. (2015)"
+            fn           = precision,
+            name         = "Precision",
+            description  = "Values from 0 to 1 (optimal)",
+            reference    = "Van Rijsbergen (1979) and Zhang et al. (2015)"
         ),
         recall = new_metric(
-            fn         = recall,
-            reference   = "Van Rijsbergen (1979) and Zhang et al. (2015)"
+            fn           = recall,
+            name         = "Recall",
+            description  = "Values from 0 to 1 (optimal)",
+            reference    = "Van Rijsbergen (1979) and Zhang et al. (2015)"
         ),
         UMerging = new_metric(
-            fn         = UMerging,
-            reference   = "Levine and Nazif (1982) and Clinton et al. (2010)"
+            fn           = UMerging,
+            name         = "underMerging",
+            description  = "Values from 0 (optimal) to 0.5",
+            reference    = "Levine and Nazif (1982) and Clinton et al. (2010)"
         ),
         OMerging = new_metric(
-            fn         = OMerging,
-            reference   = "Levine and Nazif (1982) and Clinton et al. (2010)"
+            fn           = OMerging,
+            name         = "overMerging",
+            description  = "Values from 0 (optimal) to 0.5",
+            reference    = "Levine and Nazif (1982) and Clinton et al. (2010)"
         ),
         M = new_metric(
-            fn         = M,
-            reference   = "Janssen and Molenaar (1995) and Feitosa et al. (2010)"
+            fn           = M,
+            name         = "Match",
+            description  = "Values from 0 to 1 (optimal)",
+            reference    = "Janssen and Molenaar (1995) and Feitosa et al. (2010)"
         ),
         # TODO: check formula in Carleer et al. (2005)
         E = new_metric(
-            fn         = E,
-            reference   = "Carleer et al. (2005)"
+            fn           = E,
+            name         = "Evaluation measure",
+            description  = "Values from 0 (optimal) to 50",
+            reference    = "Carleer et al. (2005)"
         ),
         RAsub = new_metric(
-            fn         = RAsub,
-            reference   = "Möller et al. (2007) and Clinton et al. (2010)"
+            fn           = RAsub,
+            name         = "Relative area",
+            description  = "Values from 0 to 1 (optimal)",
+            reference    = "Möller et al. (2007) and Clinton et al. (2010)"
         ),
         RAsuper = new_metric(
-            fn         = RAsuper,
-            reference   = "Möller et al. (2007) and Clinton et al. (2010)"
+            fn           = RAsuper,
+            name         = "Relative area",
+            description  = "Values from 0 to 1 (optimal)",
+            reference    = "Möller et al. (2007) and Clinton et al. (2010)"
         ),
         PI = new_metric(
-            fn         = PI,
-            reference   = "van Coillie et al. (2008)"
+            fn           = PI,
+            name         = "Purity Index",
+            description  = "Values from 0 to 1 (optimal)",
+            reference    = "van Coillie et al. (2008)"
         ),
         `F` = new_metric(
-            fn         = F1,
-            reference   = "Costa et al. (2008)"
+            fn           = F1,
+            name         = "Fitness function",
+            description  = "Optimal value: 0",
+            reference    = "Costa et al. (2008)"
         ),
         OS3 = new_metric(
-            fn         = OS3,
-            reference   = "Yang et al. (2014)"
+            fn           = OS3,
+            name         = "OverSegmentation",
+            description  = "Values from 0 (optimal) to 1",
+            reference    = "Yang et al. (2014)"
         ),
         US3 = new_metric(
-            fn         = US3,
-            reference   = "Yang et al. (2014)"
+            fn           = US3,
+            name         = "UnderSegmentation",
+            description  = "Values from 0 (optimal) to 1",
+            reference    = "Yang et al. (2014)"
         ),
         ED3 = new_metric(
-            fn         = ED3,
-            reference   = "Yang et al. (2014)"
+            fn           = ED3,
+            name         = "Euclidean Distance",
+            description  = "Values from 0 (optimal) to 1",
+            reference    = "Yang et al. (2014)"
         ),
         F_measure = new_metric(
-            fn         = F_measure,
-            reference   = "Van Rijsbergen (1979) and Zhang et al. (2015)"
+            fn           = F_measure,
+            name         = "F-measure",
+            description  = "Values from 0 to 1 (optimal)",
+            reference    = "Van Rijsbergen (1979) and Zhang et al. (2015)"
         )
     )
 }
