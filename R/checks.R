@@ -16,7 +16,3 @@ check_seg_sf <- function(x, allow_universe = TRUE) {
     stopifnot(c("seg_id") %in% names(x))
 }
 
-check_universe_sf <- function(x) {
-    check_ref_sf(x, allow_universe = TRUE)
-    check_seg_sf(x, allow_universe = TRUE)
-}

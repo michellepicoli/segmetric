@@ -1,55 +1,77 @@
-area <- function(x, order = NULL) {
+
+sm_area <- function(s, order = NULL) {
+    # s checked
     
-    stopifnot(inherits(x, "sf"))
+    .subset_check(s)
+    if (!is.null(order))
+        .subset_check(order, allowed_types = "subset_sf")
     
     res <- suppressWarnings(suppressMessages(
-        sf::st_area(x)
+        sf::st_area(s)
     ))
     
     if (inherits(res, "units"))
         res <- units::drop_units(res)
     
     if (!is.null(order))
-        return(res[order])
+        return(res[sm_id(s, inset = order)])
+    
     return(res)
 }
 
-centroid <- function(x) {
+sm_filter_intersects <- function(s1, s2, order = NULL) {
     
-    stopifnot(inherits(x, "sf"))
-    
-    suppressWarnings(suppressMessages(
-        sf::st_centroid(x, of_largest_polygon = FALSE)
-    ))
 }
 
-intersection <- function(x, y, touches = TRUE) {
+sm_centroid <- function(s) {
+    # s checked
     
-    stopifnot(inherits(x, "sf"))
-    stopifnot(inherits(y, "sf"))
+    .subset_check(s, allowed_types = c("ref_sf", "seg_sf"))
+    
+    res <- suppressWarnings(suppressMessages(
+        sf::st_centroid(s, of_largest_polygon = FALSE)
+    ))
+    
+    class(res) <- class(s)
+    
+    return(res)
+}
+
+sm_intersections <- function(s1, s2, touches = TRUE) {
+    # s checked
+    
+    .subset_check(s1, allowed_types = c("ref_sf", "seg_sf"))
+    .subset_check(s2, allowed_types = c("ref_sf", "seg_sf"))
     
     res <- suppressWarnings(suppressMessages({
-        sf::st_intersection(x = x, y = y)
+        sf::st_intersection(x = s1, y = s2)
     }))
     
     # filter only polygons
-    if (!touches)
-        res <- res[area(res) > 0,]
+    if (!touches) {
+        area <- sm_area(res)
+        
+        res <- suppressWarnings(suppressMessages(
+            res[area > 0,]
+        ))
+    }
     
-    class(res) <- c("universe_sf", class(res))
+    class(res) <- c("subset_sf", class(res))
     
-    res
+    return(res)
 }
 
-union <- function(x, ref_sf, seg_sf) {
-    
-    stopifnot(inherits(x, "sf"))
-    stopifnot(c("ref_id", "seg_id") %in% names(x))
-    
-    dplyr::bind_rows(lapply(seq_len(nrow(x)), function(i) {
+sm_union <- function(s1, s2, order) {
+    # s checked
+
+    .subset_check(s1)
+    .subset_check(s2)
+    .subset_check(order)
+
+    dplyr::bind_rows(lapply(seq_len(nrow(order)), function(i) {
         suppressWarnings(suppressMessages({
-            sf::st_union(x = ref_sf[ref_id(x[i,]),], 
-                         y = seg_sf[seg_id(x[i,]),])
+            sf::st_union(x = x[ref_id(x[i,]),],
+                         y = y[seg_id(x[i,]),])
         }))
     }))
 }
@@ -57,16 +79,15 @@ union <- function(x, ref_sf, seg_sf) {
 bind_all <- function(...) {
     
     dots <- list(...)
-    ref_class <- all(vapply(dots, inherits, logical(1), "ref_sf"))
-    seg_class <- all(vapply(dots, inherits, logical(1), "seg_sf"))
-    universe_class <- all(vapply(dots, inherits, logical(1), "universe_sf"))
-    stopifnot(any(c(ref_class, seg_class, universe_class)))
+    stopifnot(all(vapply(dots, inherits, logical(1), "universe_sf")))
 
     res <- suppressWarnings(
         do.call(rbind, args = dots)
     )
     
-    distinct(res)
+    id <- paste0(res[["ref_id"]], ";", res[["seg_id"]])
+    
+    suppressWarnings(res[match(unique(id), id),])
 }
 
 norm_left <- function(x, y) {
