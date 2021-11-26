@@ -1,61 +1,48 @@
+#' @title General functions
+#' 
+#' @name general_functions
+#' 
+#' @description 
+#' These functions manipulate segmetric objects.
+#' * `sm_read()` ...
+#' * `sm_clear()` ...
+#' * `sm_compute()` ...
+#' * `summary.segmetric()` ...
+#' * `get_ref_area()` ...
+#' * `get_seg_area()` ...
+#' * `get_inter_area()` ...
+#' 
+#' @param ref_sf A `sf` object...
+#' @param seg_sf A `sf` object...
+#' @param m      A `segmetric` object ...
+#' @param metric A `character` value ...
+#' @param ...    Additional parameters. See details.
+#' @param weight A `numeric` vector ...
+#' 
+#' @examples 
+#' 
+NULL
 
-.metric_check <- function(m, len = NULL) {
+.segmetric_check <- function(m) {
     
-    stopifnot(inherits(m, "metric"))
+    stopifnot(inherits(m, "segmetric"))
     stopifnot(length(m) <= 1)
-    stopifnot(all(c("ref_sf", "seg_sf") %in% .metric_fields(m)))
+    stopifnot(all(c("ref_sf", "seg_sf") %in% sm_list_subsets(m)))
     if (length(m) == 1) {
         stopifnot(!is.null(names(m)))
-        stopifnot(all(names(m) %in% list_metrics()))
+        stopifnot(names(m) %in% .db_list())
     }
-    if (!is.null(len))
-        stopifnot(length(m) == len)
 }
 
-.metric_env <- function(m) {
+.segmetric_env <- function(m) {
+    
     attr(m, which = ".env", exact = TRUE)
 }
 
-.metric_eval <- function(m, fn, parameters = list()) {
-    do.call(fn, args = c(list(m = m), parameters))
-}
-
-.metric_fields <- function(m) {
-    ls(.metric_env(m))
-}
-
-.metric_exists <- function(m, field) {
-    exists(field, envir = .metric_env(m), inherits = FALSE)
-}
-
-.metric_set <- function(m, field, value) {
-    assign(field, value, envir = .metric_env(m))
-    m
-}
-
-.metric_get <- function(m, field) {
-    get(field, envir = .metric_env(m), inherits = FALSE)
-}
-
-.metric_clear <- function(m) {
-    fields <- .metric_fields(m)
-    fields <- fields[!fields %in% c("ref_sf", "seg_sf")]
-    rm(list = fields, envir = .metric_env(m), inherits = FALSE)
-    invisible(NULL)
-}
-
-.metric_compute <- function(m, metric, parameters = list()) {
-    
-    f <- .db_get(key = metric)
-    
-    m[[1]] <- .metric_eval(m = m, fn = f[["fn"]], 
-                           parameters = parameters)
-    names(m) <- metric
-    m
-}
-
 #' @export
-metric <- function(ref_sf, seg_sf) {
+#' @rdname general_functions
+sm_read <- function(ref_sf, seg_sf) {
+    # checked
     
     if (is.character(ref_sf))
         ref_sf <- sf::read_sf(ref_sf)
@@ -75,68 +62,43 @@ metric <- function(ref_sf, seg_sf) {
     
     .env <- environment()
     
-    structure(list(),
-              .env = .env,
-              class = c("metric"))
-}
-
-
-#' @export
-get_metric <- function(m, metric, ...) {
+    m <- structure(list(),
+                   .env = .env,
+                   class = c("segmetric"))
     
-    .metric_check(m = m)
-    stopifnot(metric %in% list_metrics())
-    
-    .metric_compute(m = m, metric = metric, parameters = list(...))
+    .segmetric_check(m)
+    m
 }
 
 #' @export
-multi_metrics <- function(m, metrics, ...) {
+#' @rdname general_functions
+sm_clear <- function(m) {
+    # checked
     
-    unlist(lapply(metrics, function(metric) {
-        summary(get_metric(m, metric = metric, ...))
-    }))
+    subsets <- sm_list_subsets(m)
+    subsets <- subsets[!subsets %in% c("ref_sf", "seg_sf")]
+    rm(list = subsets, envir = .segmetric_env(m), inherits = FALSE)
+    m
 }
 
 #' @export
-get_ref_area <- function(m) {
+#' @rdname general_functions
+sm_compute <- function(m, metric_id, ...) {
+    # checked
     
-    .metric_check(m = m, len = 1)
+    .segmetric_check(m)
     
-    f <- .db_get(key = names(m))
-    ordering <- f[["depends"]][[1]]
+    f <- .db_get(key = metric_id)
     
-    ref_sf <- .metric_get(m = m, field = "ref_sf")
-    ref_rows <- ref_id(.metric_get(m = m, field = ordering))
+    parameters <- list(...)
+    m[[1]] <- do.call(f[["fn"]], args = c(list(m = m), parameters))
+    names(m) <- metric_id
     
-    area(ref_sf, order = ref_rows)
-}
-
-#' @export
-get_seg_area <- function(m) {
-    .metric_check(m = m, len = 1)
-    
-    f <- .db_get(key = names(m))
-    ordering <- f[["depends"]][[1]]
-    
-    seg_sf <- .metric_get(m = m, field = "seg_sf")
-    seg_rows <- seg_id(.metric_get(m = m, field = ordering))
-    
-    area(seg_sf, order = seg_rows)
-}
-
-#' @export
-get_inter_area <- function(m) {
-    .metric_check(m = m, len = 1)
-    
-    f <- .db_get(key = names(m))
-    field <- f[["depends"]][[1]]
-    
-    area(.metric_get(m = m, field = field))
+    m
 }
 
 #' @exportS3Method
-plot.metric <- function(m, ...) {
+plot.segmetric <- function(m, ...) {
     
     ref_sf <- dplyr::transmute(ref_sf(m), type = "reference")
     seg_sf <- dplyr::transmute(seg_sf(m), type = "segmentation")
@@ -162,13 +124,71 @@ plot.metric <- function(m, ...) {
 }
 
 #' @exportS3Method
-summary.metric <- function(m, w = NULL, ...) {
+#' @rdname general_functions
+summary.segmetric <- function(m, weight = NULL, ...) {
     
-    stopifnot(inherits(m, "metric"))
+    stopifnot(inherits(m, "segmetric"))
     
-    if (!is.null(w))
-        return(lapply(m, weighted.mean, w = w))
+    if (!is.null(weight))
+        return(lapply(m, weighted.mean, w = weight))
     
     lapply(m, mean)
 }
 
+
+#' @export
+sm_ref  <- function(m) {
+    # checked
+    
+    sm_get_subset(
+        m = m,
+        subset_id = "ref_sf"
+    )
+}
+
+#' @export
+sm_seg <- function(m) {
+    # checked
+    
+    sm_get_subset(
+        m = m, 
+        subset_id = "seg_sf"
+    )
+}
+
+#' @export
+get_ref_area <- function(m) {
+    
+    sm_check(m = m)
+    
+    f <- .db_get(key = names(m))
+    ordering <- f[["depends"]][[1]]
+    
+    ref_sf <- sm_get_subset(m = m, subset = "ref_sf")
+    ref_rows <- ref_id(sm_get_subset(m = m, subset = ordering))
+    
+    area(ref_sf, order = ref_rows)
+}
+
+#' @export
+get_seg_area <- function(m) {
+    sm_check(m = m)
+    
+    f <- .db_get(key = names(m))
+    ordering <- f[["depends"]][[1]]
+    
+    seg_sf <- sm_get_subset(m = m, subset = "seg_sf")
+    seg_rows <- seg_id(sm_get_subset(m = m, subset = ordering))
+    
+    area(seg_sf, order = seg_rows)
+}
+
+#' @export
+get_inter_area <- function(m) {
+    sm_check(m = m)
+    
+    f <- .db_get(key = names(m))
+    field <- f[["depends"]][[1]]
+    
+    area(sm_get_subset(m = m, subset = field))
+}
