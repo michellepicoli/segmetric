@@ -136,6 +136,7 @@ summary.segmetric <- function(m, weight = NULL, ...) {
 }
 
 
+#' @rdname set_functions
 #' @export
 sm_ref  <- function(m) {
     # checked
@@ -146,6 +147,7 @@ sm_ref  <- function(m) {
     )
 }
 
+#' @rdname set_functions
 #' @export
 sm_seg <- function(m) {
     # checked
