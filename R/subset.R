@@ -8,10 +8,10 @@
 #' * `sm_eval_subset()` ...
 #' * `sm_get_subset()` ...
 #' 
-#' @param s A `sf` object...
+#' @param s      A `sf` object...
 #' @param m      A `segmetric` object ...
 #' @param subset A `character` value ...
-#' @param expr A `numeric` vector ...
+#' @param expr   A `numeric` vector ...
 #' 
 #' @examples 
 #' 
@@ -86,6 +86,22 @@ sm_get_subset <- function(m, subset_id) {
     # m checked
     
     get(subset_id, envir = .segmetric_env(m), inherits = FALSE)
+}
+
+#' @export
+sm_ref_id <- function(s) {
+    # s checked
+    
+    .subset_check(s, allowed_types = "ref_sf")
+    s[["ref_id"]]
+}
+
+#' @export
+sm_seg_id <- function(s) {
+    # s checked
+    
+    .subset_check(s, allowed_types = "seg_sf")
+    s[["seg_id"]]
 }
 
 #' @export
