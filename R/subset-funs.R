@@ -1,25 +1,35 @@
-#' @title Subset handling functions
+#' @title Set functions
 #' 
-#' @name subset_handling_functions
+#' @name set_functions
 #' 
 #' @description 
 #' These functions manipulate segmetric objects.
-#' * `sm_list_subsets()` ...
-#' * `sm_eval_subset()` ...
-#' * `sm_get_subset()` ...
+#' * `sm_ref()` Get the set of n polygons of reference, represented by \eqn{X = \{x_{i}: i = 1, ....., n\}}
+#' * `sm_seg()` Get the set of m segmentation polygons, represented by \eqn{Y = \{y_{j}: j = 1, ....., m\}}
+#' * `sm_ytilde()` Get the \eqn{Y} subset \eqn{\tile{Y}_{i} = \{y_{j}: area(x_{i} \cap y_{j}) \neq 0\}}
+#' * `sm_xtilde()` Get the \eqn{X} subset \eqn{\tile{X}_{j} = \{x_{i}: area(y_{j} \cap x_{i}) \neq 0\}}
+#' * `sm_yprime()` Get the \eqn{Y} subset \eqn{Y'_{i} = \{y_{j}: max(area(x_{i} \cap y_{j}))\}}
+#' * `sm_xprime()` Get the \eqn{X} subset \eqn{X'_{j} = \{x_{i}: max(area(y_{j} \cap x_{i}))\}}
+#' * `sm_ya()` Get the \eqn{\tilde{Y}_{i}$ subset $Ya_{i} = \{y_{j}: the centroid of x_{i} is in y_{j}\}}
+#' * `sm_yb()` Get the \eqn{\tilde{Y}_{i}$ subset $Yb_{i} = \{y_{j}: the centroid of y_{j} is in x_{i}\}}
+#' * `sm_yc()` Get the \eqn{\tilde{Y}_{i}$ subset $Yc_{i} = \{y_{j}: area(x_{i} \cap y_{j}) \div area(y_{j}) > 0.5\}}
+#' * `sm_yd()` Get the \eqn{\tilde{Y}_{i}$ subset $Yd_{i} = \{y_{j}: area(x_{i} \cap y_{j}) \div area(x_{i}) > 0.5\}} 
+#' * `sm_ystar()` Get the subset \eqn{\star{Y}_{i} = Ya_{i} \cup Yb_{i} \cup Yc_{i} \cup Yc_{i}}  
+#' * `sm_ycd()` Get the subset \eqn{Ycd_{i} = Yc_{i} \cup Yd_{i}} 
+#' * `sm_ye()` Get the \eqn{\tilde{Y}_{i}$ subset $Ye_{i} = \{y_{j}: area(x_{i} \cap y_{j}) \div area(y_{j}) = 1\}} 
+#' * `sm_yf()` Get the \eqn{\tilde{Y}_{i}$ subset $Yf_{ì} = \{y_{j}: area(x_{i} \cap y_{j}) \div area(y_{j}) > 0.55\}} 
+#' * `sm_yg()` Get the \eqn{\tilde{Y}_{i}$ subset $Yg_{ì} = \{y_{j}: area(x_{i} \cap y_{j}) \div area(y_{j}) > 0.75\}} 
 #' 
-#' @param s A `sf` object...
-#' @param m      A `segmetric` object ...
-#' @param subset A `character` value ...
-#' @param expr A `numeric` vector ...
+#' @param m      A `segmetric` object.
 #' 
-#' @examples 
-#' 
+#' @references
+#' Clinton, N., Holt, A., Scarborough, J., Yan, L., & Gong, P. (2010). Accuracy Assessment Measures for Object-based Image Segmentation Goodness. Photogrammetric Engineering & Remote Sensing, 76(3), 289–299. https://doi.org/10.14358/PERS.76.3.289
+#' Costa, H., Foody, G. M., & Boyd, D. S. (2018). Supervised methods of image segmentation accuracy assessment in land cover mapping. Remote Sensing of Environment, 205(December 2017), 338–351. https://doi.org/10.1016/j.rse.2017.11.024
 NULL
 
-
+#' @rdname set_functions
 #' @export
-Y_tilde <- function(m) {
+sm_ytilde <- function(m) {
     sm_eval_subset(
         m = m, 
         subset = "Y_tilde", 
@@ -29,8 +39,9 @@ Y_tilde <- function(m) {
     )
 }
 
+#' @rdname set_functions
 #' @export
-X_tilde <- function(m) {
+sm_xtilde <- function(m) {
     sm_eval_subset(
         m = m, 
         subset = "X_tilde", 
@@ -40,8 +51,9 @@ X_tilde <- function(m) {
     )
 }
 
+#' @rdname set_functions
 #' @export
-Y_prime <- function(m) {
+sm_yprime <- function(m) {
     sm_eval_subset(
         m = m, 
         subset = "Y_prime", 
@@ -57,8 +69,9 @@ Y_prime <- function(m) {
     )
 }
 
+#' @rdname set_functions
 #' @export
-X_prime <- function(m) {
+sm_xprime <- function(m) {
     sm_eval_subset(
         m = m, 
         subset = "X_prime", 
@@ -74,8 +87,9 @@ X_prime <- function(m) {
     )
 }
 
+#' @rdname set_functions
 #' @export
-Y_a <- function(m) {
+sm_ya <- function(m) {
     sm_eval_subset(
         m = m, 
         subset = "Y_a", 
@@ -89,8 +103,9 @@ Y_a <- function(m) {
     )
 }
 
+#' @rdname set_functions
 #' @export
-Y_b <- function(m) {
+sm_yb <- function(m) {
     sm_eval_subset(
         m = m, 
         subset = "Y_b", 
@@ -104,8 +119,9 @@ Y_b <- function(m) {
     )
 }
 
+#' @rdname set_functions
 #' @export
-Y_c <- function(m) {
+sm_yc <- function(m) {
     sm_eval_subset(
         m = m, 
         subset = "Y_c", 
@@ -118,8 +134,9 @@ Y_c <- function(m) {
     )
 }
 
+#' @rdname set_functions
 #' @export
-Y_d <- function(m) {
+sm_yd <- function(m) {
     sm_eval_subset(
         m = m, 
         subset = "Y_d", 
@@ -132,8 +149,9 @@ Y_d <- function(m) {
     )
 }
 
+#' @rdname set_functions
 #' @export
-Y_star <- function(m) {
+sm_ystar <- function(m) {
     sm_eval_subset(
         m = m, 
         subset = "Y_star", 
@@ -143,8 +161,9 @@ Y_star <- function(m) {
     )
 }
 
+#' @rdname set_functions
 #' @export
-Y_cd <- function(m) {
+sm_ycd <- function(m) {
     sm_eval_subset(
         m = m, 
         subset = "Y_cd", 
@@ -154,8 +173,9 @@ Y_cd <- function(m) {
     )
 }
 
+#' @rdname set_functions
 #' @export
-Y_e <- function(m) {
+sm_ye <- function(m) {
     sm_eval_subset(
         m = m, 
         subset = "Y_e", 
@@ -168,8 +188,9 @@ Y_e <- function(m) {
     )
 }
 
+#' @rdname set_functions
 #' @export
-Y_f <- function(m) {
+sm_yf <- function(m) {
     sm_eval_subset(
         m = m, 
         subset = "Y_f", 
@@ -182,8 +203,9 @@ Y_f <- function(m) {
     )
 }
 
+#' @rdname set_functions
 #' @export
-Y_g <- function(m) {
+sm_yg <- function(m) {
     sm_eval_subset(
         m = m, 
         subset = "Y_g", 
