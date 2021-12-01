@@ -8,9 +8,9 @@
 #' * `sm_clear()` ...
 #' * `sm_compute()` ...
 #' * `summary.segmetric()` ...
-#' * `get_ref_area()` ...
-#' * `get_seg_area()` ...
-#' * `get_inter_area()` ...
+#' * `sm_ref_area()` ...
+#' * `sm_seg_area()` ...
+#' * `sm_inter_area()` ...
 #' 
 #' @param ref_sf A `sf` object...
 #' @param seg_sf A `sf` object...
@@ -27,7 +27,7 @@ NULL
     
     stopifnot(inherits(m, "segmetric"))
     stopifnot(length(m) <= 1)
-    stopifnot(all(c("ref_sf", "seg_sf") %in% sm_list_subsets(m)))
+    stopifnot(all(c("ref_sf", "seg_sf") %in% sm_list(m)))
     if (length(m) == 1) {
         stopifnot(!is.null(names(m)))
         stopifnot(names(m) %in% .db_list())
@@ -62,12 +62,9 @@ sm_read <- function(ref_sf, seg_sf) {
     
     .env <- environment()
     
-    m <- structure(list(),
-                   .env = .env,
-                   class = c("segmetric"))
-    
-    .segmetric_check(m)
-    m
+    structure(list(),
+              .env = .env,
+              class = c("segmetric"))
 }
 
 #' @export
@@ -75,7 +72,7 @@ sm_read <- function(ref_sf, seg_sf) {
 sm_clear <- function(m) {
     # checked
     
-    subsets <- sm_list_subsets(m)
+    subsets <- sm_list(m)
     subsets <- subsets[!subsets %in% c("ref_sf", "seg_sf")]
     rm(list = subsets, envir = .segmetric_env(m), inherits = FALSE)
     m
@@ -100,8 +97,8 @@ sm_compute <- function(m, metric_id, ...) {
 #' @exportS3Method
 plot.segmetric <- function(m, ...) {
     
-    ref_sf <- dplyr::transmute(ref_sf(m), type = "reference")
-    seg_sf <- dplyr::transmute(seg_sf(m), type = "segmentation")
+    ref_sf <- dplyr::transmute(sm_ref(m), type = "reference")
+    seg_sf <- dplyr::transmute(sm_seg(m), type = "segmentation")
     
     plot(sf::st_geometry(ref_sf),
          border = 'blue',
@@ -135,62 +132,34 @@ summary.segmetric <- function(m, weight = NULL, ...) {
     lapply(m, mean)
 }
 
-
-#' @rdname set_functions
 #' @export
-sm_ref  <- function(m) {
-    # checked
-    
-    sm_get_subset(
-        m = m,
-        subset_id = "ref_sf"
-    )
-}
-
-#' @rdname set_functions
-#' @export
-sm_seg <- function(m) {
-    # checked
-    
-    sm_get_subset(
-        m = m, 
-        subset_id = "seg_sf"
-    )
-}
-
-#' @export
-get_ref_area <- function(m) {
+sm_ref_area <- function(m) {
     
     sm_check(m = m)
     
     f <- .db_get(key = names(m))
-    ordering <- f[["depends"]][[1]]
+    ref_sf <- sm_get(m = m, subset_id = "ref_sf")
+    ordering <- sm_get(m = m, subset_id = f[["depends"]][[1]])
     
-    ref_sf <- sm_get_subset(m = m, subset = "ref_sf")
-    ref_rows <- ref_id(sm_get_subset(m = m, subset = ordering))
-    
-    area(ref_sf, order = ref_rows)
+    sm_area(ref_sf, order = ordering)
 }
 
 #' @export
-get_seg_area <- function(m) {
+sm_seg_area <- function(m) {
     sm_check(m = m)
     
     f <- .db_get(key = names(m))
-    ordering <- f[["depends"]][[1]]
+    seg_sf <- sm_get(m = m, subset_id = "seg_sf")
+    ordering <- sm_get(m = m, subset_id = f[["depends"]][[1]])
     
-    seg_sf <- sm_get_subset(m = m, subset = "seg_sf")
-    seg_rows <- seg_id(sm_get_subset(m = m, subset = ordering))
-    
-    area(seg_sf, order = seg_rows)
+    sm_area(seg_sf, order = ordering)
 }
 
 #' @export
-get_inter_area <- function(m) {
+sm_inter_area <- function(m) {
     sm_check(m = m)
     
     f <- .db_get(key = names(m))
-    field <- f[["depends"]][[1]]
     
-    area(sm_get_subset(m = m, subset = field))
+    sm_area(sm_get(m = m, subset_id = f[["depends"]][[1]]))
 }

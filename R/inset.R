@@ -6,15 +6,22 @@
 
 `%inset%.ref_sf` <- function(x, y) {
     
-    which(ref_id(x) %in% ref_id(y))
+    sm_id(x, inset = y)
 }
 
 `%inset%.seg_sf` <- function(x, y) {
     
-    which(seg_id(x) %in% seg_id(y))
+    sm_id(x, inset = y)
 }
 
-`%inset%.universe_sf` <- function(x, y) {
+`%inset%.subset_sf` <- function(x, y) {
     
-    which(universe_id(x) %in% universe_id(y))
+    .subset_check(x)
+    .subset_check(y, allowed_types = "subset_sf")
+    
+    id <- sm_id(x)
+    
+    inset_id <- sm_id(y)
+        
+    which(inset_id %in% id)
 }
