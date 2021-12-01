@@ -32,7 +32,7 @@ NULL
 sm_ytilde <- function(m) {
     sm_eval_subset(
         m = m, 
-        subset = "Y_tilde", 
+        subset_id = "Y_tilde", 
         expr = {
             sm_intersections(s1 = sm_ref(m), s2 = sm_seg(m), touches = FALSE)
         }
@@ -44,7 +44,7 @@ sm_ytilde <- function(m) {
 sm_xtilde <- function(m) {
     sm_eval_subset(
         m = m, 
-        subset = "X_tilde", 
+        subset_id = "X_tilde", 
         expr = {
             intersection(x = sm_seg(m), y = sm_ref(m), touches = FALSE)
         }
@@ -56,14 +56,11 @@ sm_xtilde <- function(m) {
 sm_yprime <- function(m) {
     sm_eval_subset(
         m = m, 
-        subset = "Y_prime", 
+        subset_id = "Y_prime", 
         expr = {
-            Y_tilde(m) %>%
-                dplyr::mutate(inter_area = area(.)) %>%
+            sm_ytilde(m) %>%
                 dplyr::group_by(ref_id) %>%
-                dplyr::filter(inter_area == max(inter_area)) %>%
-                dplyr::select(-inter_area) %>%
-                dplyr::slice(1) %>%
+                dplyr::slice_max(sm_area(.))
                 dplyr::ungroup()
         }
     )
@@ -74,14 +71,11 @@ sm_yprime <- function(m) {
 sm_xprime <- function(m) {
     sm_eval_subset(
         m = m, 
-        subset = "X_prime", 
+        subset_id = "X_prime", 
         expr = {
-            X_tilde(m) %>%
-                dplyr::mutate(inter_area = area(.)) %>%
+            sm_xtilde(m) %>%
                 dplyr::group_by(seg_id) %>%
-                dplyr::filter(inter_area == max(inter_area)) %>%
-                dplyr::select(-inter_area) %>%
-                dplyr::slice(1) %>%
+                dplyr::slice_max(sm_area(.)) %>%
                 dplyr::ungroup()
         }
     )
@@ -92,11 +86,11 @@ sm_xprime <- function(m) {
 sm_ya <- function(m) {
     sm_eval_subset(
         m = m, 
-        subset = "Y_a", 
+        subset_id = "Y_a", 
         expr = {
-            m <- Y_tilde(m)
+            Y <- sm_ytilde(m)
             suppressWarnings(
-                m[m %inset% intersection(m1 = centroid(sm_ref(m)), 
+                Y[Y %inset% intersection(m1 = sm_centroid(sm_ref(m)), 
                                          m2 = sm_seg(m)),]
             )
         }
@@ -108,11 +102,11 @@ sm_ya <- function(m) {
 sm_yb <- function(m) {
     sm_eval_subset(
         m = m, 
-        subset = "Y_b", 
+        subset_id = "Y_b", 
         expr = {
-            Y <- Y_tilde(m)
+            Y <- sm_ytilde(m)
             suppressWarnings(
-                Y[Y %inset% intersection(x = centroid(sm_seg(m)), 
+                Y[Y %inset% intersection(x = sm_centroid(sm_seg(m)), 
                                          y = sm_ref(m)),]
             )
         }
@@ -124,11 +118,11 @@ sm_yb <- function(m) {
 sm_yc <- function(m) {
     sm_eval_subset(
         m = m, 
-        subset = "Y_c", 
+        subset_id = "Y_c", 
         expr = {
-            Y <- Y_tilde(m)
+            Y <- sm_ytilde(m)
             suppressWarnings(
-                Y[area(Y) / area(sm_seg(m), order = seg_id(Y)) > 0.5,]
+                Y[sm_area(Y) / sm_area(sm_seg(m), order = Y) > 0.5,]
             )
         }
     )
@@ -139,11 +133,11 @@ sm_yc <- function(m) {
 sm_yd <- function(m) {
     sm_eval_subset(
         m = m, 
-        subset = "Y_d", 
+        subset_id = "Y_d", 
         expr = {
-            Y <- Y_tilde(m)
+            Y <- sm_ytilde(m)
             suppressWarnings(
-                Y[area(Y) / area(sm_ref(m), order = ref_id(Y)) > 0.5,]
+                Y[sm_area(Y) / sm_area(sm_ref(m), order = Y) > 0.5,]
             )
         }
     )
@@ -154,9 +148,9 @@ sm_yd <- function(m) {
 sm_ystar <- function(m) {
     sm_eval_subset(
         m = m, 
-        subset = "Y_star", 
+        subset_id = "Y_star", 
         expr = {
-            bind_all(Y_a(m), Y_b(m), Y_c(m), Y_d(m))
+            rbind_distinct(sm_ya(m), sm_yb(m), sm_yc(m), sm_yd(m))
         }
     )
 }
@@ -166,9 +160,9 @@ sm_ystar <- function(m) {
 sm_ycd <- function(m) {
     sm_eval_subset(
         m = m, 
-        subset = "Y_cd", 
+        subset_id = "Y_cd", 
         expr = {
-            bind_all(Y_c(m), Y_d(m))
+            rbind_distinct(sm_yc(m), sm_yd(m))
         }
     )
 }
@@ -178,11 +172,11 @@ sm_ycd <- function(m) {
 sm_ye <- function(m) {
     sm_eval_subset(
         m = m, 
-        subset = "Y_e", 
+        subset_id = "Y_e", 
         expr = {
-            Y <- Y_tilde(m)
+            Y <- sm_ytilde(m)
             suppressWarnings(
-                Y[area(Y) / area(sm_seg(m), order = seg_id(Y)) == 1,]
+                Y[sm_area(Y) / sm_area(sm_seg(m), order = Y) == 1,]
             )
         }
     )
@@ -193,11 +187,11 @@ sm_ye <- function(m) {
 sm_yf <- function(m) {
     sm_eval_subset(
         m = m, 
-        subset = "Y_f", 
+        subset_id = "Y_f", 
         expr = {
-            Y <- Y_tilde(m)
+            Y <- sm_ytilde(m)
             suppressWarnings(
-                Y[area(Y) / area(sm_seg(m), order = seg_id(Y)) == 0.55,]
+                Y[sm_area(Y) / sm_area(sm_seg(m), order = Y) == 0.55,]
             )
         }
     )
@@ -208,11 +202,11 @@ sm_yf <- function(m) {
 sm_yg <- function(m) {
     sm_eval_subset(
         m = m, 
-        subset = "Y_g", 
+        subset_id = "Y_g", 
         expr = {
-            Y <- Y_tilde(m)
+            Y <- sm_ytilde(m)
             suppressWarnings(
-                Y[area(Y) / area(sm_seg(m), order = seg_id(Y)) == 0.75,]
+                Y[sm_area(Y) / sm_area(sm_seg(m), order = Y) == 0.75,]
             )
         }
     )

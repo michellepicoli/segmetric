@@ -62,12 +62,9 @@ sm_read <- function(ref_sf, seg_sf) {
     
     .env <- environment()
     
-    m <- structure(list(),
-                   .env = .env,
-                   class = c("segmetric"))
-    
-    .segmetric_check(m)
-    m
+    structure(list(),
+              .env = .env,
+              class = c("segmetric"))
 }
 
 #' @export
@@ -164,12 +161,10 @@ get_ref_area <- function(m) {
     sm_check(m = m)
     
     f <- .db_get(key = names(m))
-    ordering <- f[["depends"]][[1]]
+    ref_sf <- sm_get_subset(m = m, subset_id = "ref_sf")
+    ordering <- sm_get_subset(m = m, subset_id = f[["depends"]][[1]])
     
-    ref_sf <- sm_get_subset(m = m, subset = "ref_sf")
-    ref_rows <- ref_id(sm_get_subset(m = m, subset = ordering))
-    
-    area(ref_sf, order = ref_rows)
+    sm_area(ref_sf, order = ordering)
 }
 
 #' @export
@@ -177,12 +172,10 @@ get_seg_area <- function(m) {
     sm_check(m = m)
     
     f <- .db_get(key = names(m))
-    ordering <- f[["depends"]][[1]]
+    seg_sf <- sm_get_subset(m = m, subset_id = "seg_sf")
+    ordering <- sm_get_subset(m = m, subset_id = f[["depends"]][[1]])
     
-    seg_sf <- sm_get_subset(m = m, subset = "seg_sf")
-    seg_rows <- seg_id(sm_get_subset(m = m, subset = ordering))
-    
-    area(seg_sf, order = seg_rows)
+    sm_area(seg_sf, order = ordering)
 }
 
 #' @export
@@ -190,7 +183,6 @@ get_inter_area <- function(m) {
     sm_check(m = m)
     
     f <- .db_get(key = names(m))
-    field <- f[["depends"]][[1]]
     
-    area(sm_get_subset(m = m, subset = field))
+    sm_area(sm_get_subset(m = m, subset_id = f[["depends"]][[1]]))
 }

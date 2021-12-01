@@ -6,11 +6,17 @@
 \arguments{
 \item{s}{A \code{sf} object...}
 
+\item{allowed_types}{...}
+
+\item{...}{...}
+
 \item{m}{A \code{segmetric} object ...}
 
-\item{subset}{A \code{character} value ...}
+\item{subset_id}{A \code{character} value ...}
 
 \item{expr}{A \code{numeric} vector ...}
+
+\item{inset}{...}
 }
 \description{
 These functions manipulate segmetric objects.

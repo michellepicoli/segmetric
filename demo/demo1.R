@@ -47,4 +47,6 @@ sm_desc_metric("AFI")
 sm_compute(m, metric = "AFI") %>% summary()
 sm_compute(m, metric = "OS3") %>% summary()
 
+sm_list_subsets(m)
+
 plot(m)
