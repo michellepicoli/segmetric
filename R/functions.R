@@ -2,7 +2,7 @@
 sm_area <- function(s, order = NULL) {
     # s checked
     
-    .subset_check(s)
+    #.subset_check(s)
     if (!is.null(order))
         .subset_check(order, allowed_types = "subset_sf")
     
@@ -68,7 +68,7 @@ sm_union <- function(s1, s2, order) {
     .subset_check(s2, allowed_types = c("ref_sf", "seg_sf"))
     .subset_check(order, allowed_types = "subset_sf")
 
-    dplyr::bind_rows(lapply(seq_len(nrow(order)), function(i) {
+    do.call(rbind, args = lapply(seq_len(nrow(order)), function(i) {
         suppressWarnings(suppressMessages({
             sf::st_union(x = s1[sm_id(s1, inset = order[i,]),],
                          y = s2[sm_id(s2, inset = order[i,]),])

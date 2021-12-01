@@ -34,8 +34,8 @@ AFI <- function(m) {
 
 QR <- function(m) {
     norm_frac(sm_area(sm_ystar(m)), 
-              sm_area(sm_union(x = sm_ref(m), 
-                               y = sm_seg(m), 
+              sm_area(sm_union(sm_ref(m), 
+                               sm_seg(m), 
                                order = sm_ystar(m))))
 }
 

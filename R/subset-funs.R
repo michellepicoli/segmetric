@@ -30,7 +30,7 @@ NULL
 #' @rdname set_functions
 #' @export
 sm_ytilde <- function(m) {
-    sm_eval_subset(
+    sm_eval(
         m = m, 
         subset_id = "Y_tilde", 
         expr = {
@@ -42,11 +42,13 @@ sm_ytilde <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_xtilde <- function(m) {
-    sm_eval_subset(
+    sm_eval(
         m = m, 
         subset_id = "X_tilde", 
         expr = {
-            intersection(x = sm_seg(m), y = sm_ref(m), touches = FALSE)
+            sm_intersections(sm_seg(m), 
+                             sm_ref(m), 
+                             touches = FALSE)
         }
     )
 }
@@ -54,13 +56,13 @@ sm_xtilde <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_yprime <- function(m) {
-    sm_eval_subset(
+    sm_eval(
         m = m, 
         subset_id = "Y_prime", 
         expr = {
             sm_ytilde(m) %>%
                 dplyr::group_by(ref_id) %>%
-                dplyr::slice_max(sm_area(.))
+                dplyr::slice_max(sm_area(.)) %>% 
                 dplyr::ungroup()
         }
     )
@@ -69,7 +71,7 @@ sm_yprime <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_xprime <- function(m) {
-    sm_eval_subset(
+    sm_eval(
         m = m, 
         subset_id = "X_prime", 
         expr = {
@@ -84,14 +86,15 @@ sm_xprime <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_ya <- function(m) {
-    sm_eval_subset(
+    sm_eval(
         m = m, 
         subset_id = "Y_a", 
         expr = {
             Y <- sm_ytilde(m)
             suppressWarnings(
-                Y[Y %inset% intersection(m1 = sm_centroid(sm_ref(m)), 
-                                         m2 = sm_seg(m)),]
+                Y[Y %inset% sm_intersections(s1 = sm_centroid(sm_ref(m)), 
+                                             s2 = sm_seg(m),
+                                             touches = TRUE),]
             )
         }
     )
@@ -100,14 +103,15 @@ sm_ya <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_yb <- function(m) {
-    sm_eval_subset(
+    sm_eval(
         m = m, 
         subset_id = "Y_b", 
         expr = {
             Y <- sm_ytilde(m)
             suppressWarnings(
-                Y[Y %inset% intersection(x = sm_centroid(sm_seg(m)), 
-                                         y = sm_ref(m)),]
+                Y[Y %inset% sm_intersections(s1 = sm_centroid(sm_seg(m)), 
+                                             s2 = sm_ref(m),
+                                             touches = TRUE),]
             )
         }
     )
@@ -116,7 +120,7 @@ sm_yb <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_yc <- function(m) {
-    sm_eval_subset(
+    sm_eval(
         m = m, 
         subset_id = "Y_c", 
         expr = {
@@ -131,7 +135,7 @@ sm_yc <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_yd <- function(m) {
-    sm_eval_subset(
+    sm_eval(
         m = m, 
         subset_id = "Y_d", 
         expr = {
@@ -146,7 +150,7 @@ sm_yd <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_ystar <- function(m) {
-    sm_eval_subset(
+    sm_eval(
         m = m, 
         subset_id = "Y_star", 
         expr = {
@@ -158,7 +162,7 @@ sm_ystar <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_ycd <- function(m) {
-    sm_eval_subset(
+    sm_eval(
         m = m, 
         subset_id = "Y_cd", 
         expr = {
@@ -170,7 +174,7 @@ sm_ycd <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_ye <- function(m) {
-    sm_eval_subset(
+    sm_eval(
         m = m, 
         subset_id = "Y_e", 
         expr = {
@@ -185,7 +189,7 @@ sm_ye <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_yf <- function(m) {
-    sm_eval_subset(
+    sm_eval(
         m = m, 
         subset_id = "Y_f", 
         expr = {
@@ -200,7 +204,7 @@ sm_yf <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_yg <- function(m) {
-    sm_eval_subset(
+    sm_eval(
         m = m, 
         subset_id = "Y_g", 
         expr = {

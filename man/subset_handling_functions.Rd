@@ -2,28 +2,72 @@
 % Please edit documentation in R/subset.R
 \name{subset_handling_functions}
 \alias{subset_handling_functions}
+\alias{.subset_check}
+\alias{.subset_check.ref_sf}
+\alias{.subset_check.seg_sf}
+\alias{.subset_check.subset_sf}
+\alias{sm_list}
+\alias{sm_eval}
+\alias{sm_get}
+\alias{sm_ref}
+\alias{sm_seg}
+\alias{sm_id}
+\alias{sm_id.ref_sf}
+\alias{sm_id.seg_sf}
+\alias{sm_id.subset_sf}
 \title{Subset handling functions}
+\usage{
+.subset_check(s, allowed_types = c("ref_sf", "seg_sf", "subset_sf"))
+
+\method{.subset_check}{ref_sf}(s, ...)
+
+\method{.subset_check}{seg_sf}(s, ...)
+
+\method{.subset_check}{subset_sf}(s, ...)
+
+sm_list(m)
+
+sm_eval(m, subset_id, expr = NULL)
+
+sm_get(m, subset_id)
+
+sm_ref(m)
+
+sm_seg(m)
+
+sm_id(s, inset = NULL)
+
+\method{sm_id}{ref_sf}(s, inset = NULL)
+
+\method{sm_id}{seg_sf}(s, inset = NULL)
+
+\method{sm_id}{subset_sf}(s, inset = NULL)
+}
 \arguments{
-\item{s}{A \code{sf} object...}
+\item{s}{Either a \code{ref_sf}, a \code{seg_sf}, or a \code{subset_sf} object
+(extension of \code{sf} class).}
 
-\item{allowed_types}{...}
+\item{allowed_types}{A \code{character} vector containing one or more of
+following values: "ref_sf", "seg_sf", "subset_sf".}
 
-\item{...}{...}
+\item{...}{Additional parameter (not implemented).}
 
-\item{m}{A \code{segmetric} object ...}
+\item{m}{A \code{segmetric} object.}
 
-\item{subset_id}{A \code{character} value ...}
+\item{subset_id}{A \code{character} value informing a subset name.}
 
-\item{expr}{A \code{numeric} vector ...}
+\item{expr}{A \code{subset_sf} object (an extension of \code{sf} class).}
 
-\item{inset}{...}
+\item{inset}{A \code{subset_sf} object (an extension of \code{sf} class).}
 }
 \description{
-These functions manipulate segmetric objects.
+These functions handles \code{subset_sf} objects stored in \code{segmetric} objects.
 \itemize{
-\item \code{sm_list_subsets()} ...
-\item \code{sm_eval_subset()} ...
-\item \code{sm_get_subset()} ...
+\item \code{sm_list()} lists subsets already computed.
+\item \code{sm_eval()} evaluates and stores a \code{subset_sf} object.
+\item \code{sm_get()} get a \code{subset_sf} object already stored.
+\item \code{sm_id()} returns identification values of data objects
+(\code{ref_sf}, \code{seg_sf}, \code{subset_sf}).
 }
 }
 \examples{

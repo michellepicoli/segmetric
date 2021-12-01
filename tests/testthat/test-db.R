@@ -2,7 +2,7 @@
 p00 <- sf::st_polygon(list(rbind(c(0,0), c(1,0), c(1,1), c(0,1), c(0,0))))
 p05 <- p00 + 5
 
-#source("segmetric_util.R")
+source("segmetric_util.R")
 
 
 
@@ -15,12 +15,14 @@ test_that("empty intersection works", {
     expect_true(is.numeric(sm_compute(data, "OS2")$OS2))
     expect_true(length(sm_compute(data, "OS2")$OS2) == 0)
     
-    expect_true(is.na(sm_compute(data, "OS1")$OS1))
-    
+    expect_true(is.numeric(sm_compute(data, "OS1")$OS1))
+    expect_true(length(sm_compute(data, "OS1")$OS1) == 0)
+
     expect_true(is.numeric(sm_compute(data, "US2")$US2))
     expect_true(length(sm_compute(data, "US2")$US2) == 0)
     
-    expect_true(is.na(sm_compute(data, "US1")))
+    expect_true(is.numeric(sm_compute(data, "US1")$US1))
+    expect_true(length(sm_compute(data, "US1")$US1) == 0)
     
     expect_true(is.numeric(sm_compute(data, "AFI")$AFI))
     expect_true(length(sm_compute(data, "AFI")$AFI) == 0)
@@ -600,8 +602,8 @@ test_that("grid works", {
                              tibble::as_tibble(test_y_d(area_df))) %>%
         dplyr::distinct(seg_id, ref_id, .keep_all = TRUE)
    
-    expect_true(mean(test_OS2(y_prime)) == sm_compute(data, "OS2"))
-    expect_true(mean(test_US2(y_prime)) == sm_compute(data, "US2"))
+    expect_true(mean(test_OS2(y_prime)) == summary(sm_compute(data, "OS2")))
+    expect_true(mean(test_US2(y_prime)) == summary(sm_compute(data, "US2")))
     expect_true(all(test_OS1(y_star)  == sm_compute(data, "OS1")$OS1))
     expect_true(all(test_US1(y_star)  == sm_compute(data, "US1")$US1))
     expect_true(all(test_overMerging(y_star)  == sm_compute(data, "OMerging")$OMerging))
@@ -615,11 +617,12 @@ test_that("grid works", {
     expect_true(all(test_RAsub(y_tilde) == unlist(sm_compute(data, "RAsub"))))
     expect_true(all(test_RAsuper(y_tilde) == unlist(sm_compute(data, "RAsuper"))))
     expect_true(all(test_PI(y_tilde) == sm_compute(data, "PI")$PI))
-    if (nrow(y_cd) == 0) {
+    #if (nrow(y_cd) == 0) {
         expect_true(is.na(sm_compute(data, "OS3")))
         expect_true(is.na(sm_compute(data, "US3")))
-        expect_true(is.na(sm_compute(data, "ED3")))
-    } 
+        expect_true(is.numeric(sm_compute(data, "ED3")$ED3))
+        expect_true(length(sm_compute(data, "ED3")$ED3 == 0))
+    #} 
     expect_true(
         test_F_measure(test_precision(x_prime), 
                        test_recall(y_prime)) == sm_compute(data, "F_measure"))
