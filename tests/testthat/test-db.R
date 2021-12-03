@@ -619,7 +619,7 @@ test_that("grid works", {
     expect_true(all(test_PI(y_tilde) == sm_compute(data, "PI")$PI))
     #if (nrow(y_cd) == 0) {
         expect_true(is.na(sm_compute(data, "OS3")))
-        expect_true(is.na(sm_compute(data, "US3")))
+        expect_true(is.numeric(sm_compute(data, "US3")))
         expect_true(is.numeric(sm_compute(data, "ED3")$ED3))
         expect_true(length(sm_compute(data, "ED3")$ED3 == 0))
     #} 
