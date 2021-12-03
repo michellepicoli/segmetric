@@ -1,6 +1,6 @@
 #' @title General functions
 #' 
-#' @name general_functions
+#' @name segmetric_functions
 #' 
 #' @description 
 #' These functions manipulate segmetric objects.
@@ -40,7 +40,7 @@ NULL
 }
 
 #' @export
-#' @rdname general_functions
+#' @rdname segmetric_functions
 sm_read <- function(ref_sf, seg_sf) {
     # checked
     
@@ -68,7 +68,7 @@ sm_read <- function(ref_sf, seg_sf) {
 }
 
 #' @export
-#' @rdname general_functions
+#' @rdname segmetric_functions
 sm_clear <- function(m) {
     # checked
     
@@ -79,7 +79,7 @@ sm_clear <- function(m) {
 }
 
 #' @export
-#' @rdname general_functions
+#' @rdname segmetric_functions
 sm_compute <- function(m, metric_id, ...) {
     # checked
     
@@ -121,7 +121,7 @@ plot.segmetric <- function(m, ...) {
 }
 
 #' @exportS3Method
-#' @rdname general_functions
+#' @rdname segmetric_functions
 summary.segmetric <- function(m, weight = NULL, ...) {
     
     stopifnot(inherits(m, "segmetric"))
