@@ -23,6 +23,8 @@
 #' 
 NULL
 
+#' @rdname general_functions
+#' @export
 sm_area <- function(s, order = NULL) {
     # s checked
     
@@ -43,10 +45,8 @@ sm_area <- function(s, order = NULL) {
     return(res)
 }
 
-sm_filter_intersects <- function(s1, s2, order = NULL) {
-    
-}
-
+#' @rdname general_functions
+#' @export
 sm_centroid <- function(s) {
     # s checked
     
@@ -61,6 +61,8 @@ sm_centroid <- function(s) {
     return(res)
 }
 
+#' @rdname general_functions
+#' @export
 sm_intersections <- function(s1, s2, touches = TRUE) {
     # s checked
     
@@ -85,6 +87,8 @@ sm_intersections <- function(s1, s2, touches = TRUE) {
     return(res)
 }
 
+#' @rdname general_functions
+#' @export
 sm_union <- function(s1, s2, order) {
     # s checked
 
@@ -100,7 +104,8 @@ sm_union <- function(s1, s2, order) {
     }))
 }
 
-#' @export 
+#' @rdname general_functions
+#' @export
 rbind_distinct <- function(...) {
     
     subsets <- list(...)
@@ -118,14 +123,20 @@ rbind_distinct <- function(...) {
     res
 }
 
+#' @rdname general_functions
+#' @export
 norm_left <- function(x, y) {
     (x - y) / x
 }
 
+#' @rdname general_functions
+#' @export
 norm_frac <- function(x, y) {
     1 - x / y
 }
 
+#' @rdname general_functions
+#' @export
 norm_diff <- function(x, y) {
     (x - y) / (x + y)
 }
