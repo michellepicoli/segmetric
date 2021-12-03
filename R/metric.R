@@ -163,3 +163,11 @@ sm_inter_area <- function(m) {
     
     sm_area(sm_get(m = m, subset_id = f[["depends"]][[1]]))
 }
+
+#' @export
+sm_is_empty <- function(m) {
+    
+    return((length(m[[1]]) == 1 && is.na(m[[1]])) || 
+               is.null(m[[1]]) || 
+               length(m[[1]]) == 0)
+}
