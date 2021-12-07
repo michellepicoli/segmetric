@@ -3,26 +3,43 @@
 #' @name segmetric_functions
 #' 
 #' @description 
-#' These functions manipulate segmetric objects.
-#' * `sm_read()` ...
-#' * `sm_clear()` ...
-#' * `sm_compute()` ...
-#' * `summary.segmetric()` ...
-#' * `sm_ref_area()` ...
-#' * `sm_seg_area()` ...
-#' * `sm_inter_area()` ...
+#' These functions manipulate `segmetric` objects.
+#' * `sm_read()` Load the reference and segmentation polygons into segmetric.
+#' * `sm_clear()` Remove the already calculated metrics from segmetric.
+#' * `sm_compute()` Compare the reference to the segmentation polygons using a metric.
+#' * `plot()` Plot the reference and segmentation polygons.
+#' * `summary()` Compute a measure of central tendency over the values of a metric.
+#' * `sm_ref_area()` Return the areas of the reference polygons.
+#' * `sm_seg_area()` Return the areas of the segmentation polygons.
+#' * `sm_inter_area()` Return the areas of the intersection between the reference and segmentation polygons.
+#' * `sm_is_empty()` Check if a `segmetric` object is empty.
 #' 
-#' @param ref_sf A `sf` object...
-#' @param seg_sf A `sf` object...
-#' @param m      A `segmetric` object ...
-#' @param metric A `character` value ...
-#' @param ...    Additional parameters. See details.
+#' @param m A `segmetric` object.
+#' @param metric_id A character. The name of a metric.
+#' @param ref_sf A `sf` object. The reference polygons.
+#' @param seg_sf A `sf` object. The segmentation polygons.
 #' @param weight A `numeric` vector ...
+#' @param ...    Additional parameters. See details.
+#' 
+#' @details
+#' \itemize{
+#' \item{\code{F_measure} takes the optional weight argument `alpha`, which by 
+#' default is `0.5`. For more information check `sm_desc_metric("F_measure")`.
+#' } 
+#' } 
 #' 
 #' @examples 
 #' 
 NULL
 
+
+#' @title Internal function
+#' 
+#' @description
+#' This function check if a segmetric object is valid.
+#' 
+#' @keywords internal
+#' 
 .segmetric_check <- function(m) {
     
     stopifnot(inherits(m, "segmetric"))
@@ -33,6 +50,13 @@ NULL
     }
 }
 
+#' @title Internal function
+#' 
+#' @description
+#' This function returns the segmetric environment. 
+#' 
+#' @keywords internal
+#' 
 .segmetric_env <- function(m) {
     
     attr(m, which = ".env", exact = TRUE)
