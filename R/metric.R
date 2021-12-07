@@ -26,9 +26,8 @@ NULL
 .segmetric_check <- function(m) {
     
     stopifnot(inherits(m, "segmetric"))
-    stopifnot(length(m) <= 1)
     stopifnot(all(c("ref_sf", "seg_sf") %in% sm_list(m)))
-    if (length(m) == 1) {
+    if (length(m) > 0) {
         stopifnot(!is.null(names(m)))
         stopifnot(names(m) %in% .db_list())
     }
@@ -86,10 +85,10 @@ sm_compute <- function(m, metric_id, ...) {
     .segmetric_check(m)
     
     f <- .db_get(key = metric_id)
-    
+    metrics <- names(m)
     parameters <- list(...)
-    m[[1]] <- do.call(f[["fn"]], args = c(list(m = m), parameters))
-    names(m) <- metric_id
+    m[[length(m) + 1]] <- do.call(f[["fn"]], args = c(list(m = m), parameters))
+    names(m) <- c(metrics, metric_id)
     
     m
 }
@@ -135,8 +134,6 @@ summary.segmetric <- function(m, weight = NULL, ...) {
 #' @export
 sm_ref_area <- function(m) {
     
-    sm_check(m = m)
-    
     f <- .db_get(key = names(m))
     ref_sf <- sm_get(m = m, subset_id = "ref_sf")
     ordering <- sm_get(m = m, subset_id = f[["depends"]][[1]])
@@ -146,7 +143,7 @@ sm_ref_area <- function(m) {
 
 #' @export
 sm_seg_area <- function(m) {
-    sm_check(m = m)
+    .segmetric_check(m)
     
     f <- .db_get(key = names(m))
     seg_sf <- sm_get(m = m, subset_id = "seg_sf")
@@ -157,7 +154,7 @@ sm_seg_area <- function(m) {
 
 #' @export
 sm_inter_area <- function(m) {
-    sm_check(m = m)
+    .segmetric_check(m)
     
     f <- .db_get(key = names(m))
     
@@ -167,7 +164,7 @@ sm_inter_area <- function(m) {
 #' @export
 sm_is_empty <- function(m) {
     
-    return((length(m[[1]]) == 1 && is.na(m[[1]])) || 
+    return((length(m[[1]]) == 1 && (is.na(m[[1]]) || is.nan(m[[1]]))) || 
                is.null(m[[1]]) || 
                length(m[[1]]) == 0)
 }

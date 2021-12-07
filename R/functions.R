@@ -96,6 +96,9 @@ sm_union <- function(s1, s2, order) {
     .subset_check(s2, allowed_types = c("ref_sf", "seg_sf"))
     .subset_check(order, allowed_types = "subset_sf")
 
+    if (nrow(order) == 0)
+        return(order)
+    
     do.call(rbind, args = lapply(seq_len(nrow(order)), function(i) {
         suppressWarnings(suppressMessages({
             sf::st_union(x = s1[sm_id(s1, inset = order[i,]),],
@@ -125,13 +128,13 @@ rbind_distinct <- function(...) {
 
 #' @rdname general_functions
 #' @export
-norm_left <- function(x, y) {
+sm_norm_left <- function(x, y) {
     (x - y) / x
 }
 
 #' @rdname general_functions
 #' @export
-norm_frac <- function(x, y) {
+sm_norm_frac <- function(x, y) {
     1 - x / y
 }
 

@@ -62,7 +62,7 @@ sm_yprime <- function(m) {
         expr = {
             sm_ytilde(m) %>%
                 dplyr::group_by(ref_id) %>%
-                dplyr::slice_max(sm_area(.)) %>% 
+                dplyr::slice_max(sm_area(geometry)) %>% 
                 dplyr::ungroup()
         }
     )
@@ -77,7 +77,7 @@ sm_xprime <- function(m) {
         expr = {
             sm_xtilde(m) %>%
                 dplyr::group_by(seg_id) %>%
-                dplyr::slice_max(sm_area(.)) %>%
+                dplyr::slice_max(sm_area(geometry)) %>%
                 dplyr::ungroup()
         }
     )

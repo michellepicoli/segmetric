@@ -8,7 +8,7 @@ NULL
 .onLoad <- function(libname, pkgname) {
     
     sm_reg_metric(
-        metric = "OS2",
+        metric_id = "OS2",
         entry = sm_new_metric(
             fn           = OS2,
             name         = "OverSegmentation",
@@ -17,7 +17,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "OS1",
+        metric_id = "OS1",
         entry = sm_new_metric(
             fn           = OS1,
             name         = "OverSegmentation",
@@ -26,7 +26,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "US2",
+        metric_id = "US2",
         entry = sm_new_metric(
             fn           = US2,
             name         = "UnderSegmentation",
@@ -35,7 +35,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "US1",
+        metric_id = "US1",
         entry = sm_new_metric(
             fn           = US1,
             name         = "UnderSegmentation",
@@ -44,7 +44,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "AFI",
+        metric_id = "AFI",
         entry = sm_new_metric(
             fn           = AFI,
             name         = "Area fit index",
@@ -53,7 +53,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "QR",
+        metric_id = "QR",
         entry = sm_new_metric(
             fn           = QR,
             name         = "Quality rate",
@@ -62,7 +62,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "D_index",
+        metric_id = "D_index",
         entry = sm_new_metric(
             fn           = D_index,
             name         = "Index D",
@@ -71,7 +71,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "precision",
+        metric_id = "precision",
         entry = sm_new_metric(
             fn           = precision,
             name         = "Precision",
@@ -80,7 +80,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "recall",
+        metric_id = "recall",
         entry = sm_new_metric(
             fn           = recall,
             name         = "Recall",
@@ -89,7 +89,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "UMerging",
+        metric_id = "UMerging",
         entry = sm_new_metric(
             fn           = UMerging,
             name         = "underMerging",
@@ -98,7 +98,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "OMerging",
+        metric_id = "OMerging",
         entry = sm_new_metric(
             fn           = OMerging,
             name         = "overMerging",
@@ -107,7 +107,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "M",
+        metric_id = "M",
         entry = sm_new_metric(
             fn           = M,
             name         = "Match",
@@ -118,7 +118,7 @@ NULL
         
     )
     sm_reg_metric(
-        metric = "E",
+        metric_id = "E",
         entry = sm_new_metric(
             fn           = E,
             name         = "Evaluation measure",
@@ -127,7 +127,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "RAsub",
+        metric_id = "RAsub",
         entry = sm_new_metric(
             fn           = RAsub,
             name         = "Relative area",
@@ -136,7 +136,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "RAsuper",
+        metric_id = "RAsuper",
         entry = sm_new_metric(
             fn           = RAsuper,
             name         = "Relative area",
@@ -145,7 +145,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "PI",
+        metric_id = "PI",
         entry = sm_new_metric(
             fn           = PI,
             name         = "Purity Index",
@@ -154,7 +154,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "F",
+        metric_id = "F",
         entry = sm_new_metric(
             fn           = F1,
             name         = "Fitness function",
@@ -163,7 +163,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "OS3",
+        metric_id = "OS3",
         entry = sm_new_metric(
             fn           = OS3,
             name         = "OverSegmentation",
@@ -172,7 +172,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "US3",
+        metric_id = "US3",
         entry = sm_new_metric(
             fn           = US3,
             name         = "UnderSegmentation",
@@ -181,7 +181,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "ED3",
+        metric_id = "ED3",
         entry = sm_new_metric(
             fn           = ED3,
             name         = "Euclidean Distance",
@@ -190,7 +190,7 @@ NULL
         )
     )
     sm_reg_metric(
-        metric = "F_measure",
+        metric_id = "F_measure",
         entry = sm_new_metric(
             fn           = F_measure,
             name         = "F-measure",
