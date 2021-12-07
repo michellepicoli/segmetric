@@ -145,12 +145,9 @@ plot.segmetric <- function(m, ...) {
 
 #' @exportS3Method
 #' @rdname segmetric_functions
-summary.segmetric <- function(m, weight = NULL, ...) {
+summary.segmetric <- function(m, ...) {
     
     stopifnot(inherits(m, "segmetric"))
-    
-    if (!is.null(weight))
-        return(lapply(m, weighted.mean, w = weight))
     
     lapply(m, mean)
 }

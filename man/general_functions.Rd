@@ -22,36 +22,19 @@ sm_union(s1, s2, order)
 
 rbind_distinct(...)
 
-<<<<<<< HEAD
 sm_norm_left(x, y)
 
 sm_norm_frac(x, y)
-=======
-norm_left(x, y)
-
-norm_frac(x, y)
->>>>>>> 09b943806163d7fbdad815c03f43954fb6a84f6e
 
 norm_diff(x, y)
 }
 \arguments{
-<<<<<<< HEAD
-\item{...}{Additional parameters. See details.}
-
-\item{ref_sf}{A \code{sf} object...}
-=======
 \item{s}{A \code{sf} object. Either a reference, a segmentation, or a subset.}
->>>>>>> 09b943806163d7fbdad815c03f43954fb6a84f6e
 
 \item{order}{A \code{sf} object of type subset\code{sf}.}
 
 \item{s1}{A \code{sf} object. Either a reference, a segmentation, or a subset.}
 
-<<<<<<< HEAD
-\item{metric}{A \code{character} value ...}
-
-\item{weight}{A \code{numeric} vector ...}
-=======
 \item{s2}{A \code{sf} object. Either a reference, a segmentation, or a subset.}
 
 \item{touches}{A logical. Is the border part of the intersection?}
@@ -61,7 +44,6 @@ norm_diff(x, y)
 \item{x}{A numerator of a fraction.}
 
 \item{y}{A denominator of a fraction.}
->>>>>>> 09b943806163d7fbdad815c03f43954fb6a84f6e
 }
 \description{
 These functions manipulate segmetric objects.

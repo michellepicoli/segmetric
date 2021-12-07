@@ -18,6 +18,9 @@ test_that("Test real data", {
         sm_compute(metric_id = "US1") %>% 
         sm_compute(metric_id = "OS2") %>% 
         sm_compute(metric_id = "PI") %>% 
-        summary(weight = sm_ref_area(.))
+        summary()
 
+    
+    sm_compute(data, metric_id = "RAsub") %>%  
+        summary()
 })

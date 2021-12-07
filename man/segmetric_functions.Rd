@@ -14,31 +14,40 @@ sm_clear(m)
 
 sm_compute(m, metric_id, ...)
 
-\method{summary}{segmetric}(m, weight = NULL, ...)
+\method{summary}{segmetric}(m, ...)
 }
 \arguments{
-\item{ref_sf}{A \code{sf} object...}
+\item{ref_sf}{A \code{sf} object. The reference polygons.}
 
-\item{seg_sf}{A \code{sf} object...}
+\item{seg_sf}{A \code{sf} object. The segmentation polygons.}
 
-\item{m}{A \code{segmetric} object ...}
+\item{m}{A \code{segmetric} object.}
+
+\item{metric_id}{A character. The name of a metric.}
 
 \item{...}{Additional parameters. See details.}
 
 \item{weight}{A \code{numeric} vector ...}
-
-\item{metric}{A \code{character} value ...}
 }
 \description{
-These functions manipulate segmetric objects.
+These functions manipulate \code{segmetric} objects.
 \itemize{
-\item \code{sm_read()} ...
-\item \code{sm_clear()} ...
-\item \code{sm_compute()} ...
-\item \code{summary.segmetric()} ...
-\item \code{sm_ref_area()} ...
-\item \code{sm_seg_area()} ...
-\item \code{sm_inter_area()} ...
+\item \code{sm_read()} Load the reference and segmentation polygons into segmetric.
+\item \code{sm_clear()} Remove the already calculated metrics from segmetric.
+\item \code{sm_compute()} Compare the reference to the segmentation polygons using a metric.
+\item \code{plot()} Plot the reference and segmentation polygons.
+\item \code{summary()} Compute a measure of central tendency over the values of a metric.
+\item \code{sm_ref_area()} Return the areas of the reference polygons.
+\item \code{sm_seg_area()} Return the areas of the segmentation polygons.
+\item \code{sm_inter_area()} Return the areas of the intersection between the reference and segmentation polygons.
+\item \code{sm_is_empty()} Check if a \code{segmetric} object is empty.
+}
+}
+\details{
+\itemize{
+\item{\code{F_measure} takes the optional weight argument \code{alpha}, which by
+default is \code{0.5}. For more information check \code{sm_desc_metric("F_measure")}.
+}
 }
 }
 \examples{
