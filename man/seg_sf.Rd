@@ -51,7 +51,7 @@ segmentation - an optimization approach for high
 quality multi-scale image segmentation. In: Strobl, J.,
 Blaschke, T., Griesebner, G. (Eds.), Angewandte
 Geographische Informations-Verarbeitung XII.
-Wichmann Verlag, Karlsruhe, Germany, pp. 12–23.
+Wichmann Verlag, Karlsruhe, Germany, pp. 12-23.
 }
 }
 \keyword{datasets}

@@ -39,10 +39,12 @@ identification.}
 function.}
 }
 \description{
-These functions manipulate the database of metrics.
+These functions are used to register new metrics in the \code{segmetric}
+database.
 \itemize{
 \item \code{sm_list_metrics()} list all registered metrics.
-\item \code{sm_new_metric()} create a new metric entry to be registered in the database.
+\item \code{sm_new_metric()} create a new metric entry to be registered in
+the database.
 \item \code{sm_reg_metric()} register a new metric in the database.
 \item \code{sm_unreg_metric()} remove a metric entry from the database.
 \item \code{sm_desc_metric()} describe a metric registered from the database.

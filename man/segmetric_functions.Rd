@@ -4,7 +4,6 @@
 \alias{segmetric_functions}
 \alias{sm_read}
 \alias{sm_clear}
-\alias{sm_compute}
 \alias{summary.segmetric}
 \alias{sm_is_empty}
 \title{General functions}
@@ -12,8 +11,6 @@
 sm_read(ref_sf, seg_sf)
 
 sm_clear(m)
-
-sm_compute(m, metric_id, ...)
 
 \method{summary}{segmetric}(object, ...)
 
@@ -26,29 +23,21 @@ sm_is_empty(m)
 
 \item{m}{A \code{segmetric} object.}
 
-\item{metric_id}{A character. The name of a metric.}
-
-\item{...}{Additional parameters. See details.}
-
 \item{object}{A \code{segmetric} object.}
+
+\item{...}{Additional parameters (Not implemented).}
+
+\item{metric_id}{A character. The name of a metric.}
 }
 \description{
 These functions manipulate \code{segmetric} objects.
 \itemize{
 \item \code{sm_read()} Load the reference and segmentation polygons into segmetric.
 \item \code{sm_clear()} Remove the already calculated metrics from segmetric.
-\item \code{sm_compute()} Compare the reference to the segmentation polygons using a metric.
 \item \code{print()} Print a segmetric object.
 \item \code{plot()} Plot the reference and segmentation polygons.
 \item \code{summary()} Compute a measure of central tendency over the values of a metric.
 \item \code{sm_is_empty()} Check if a \code{segmetric} object is empty.
-}
-}
-\details{
-\itemize{
-\item{\code{F_measure} takes the optional weight argument \code{alpha}, which by
-default is \code{0.5}. For more information check \code{sm_desc_metric("F_measure")}.
-}
 }
 }
 \examples{
@@ -68,13 +57,10 @@ sm_compute(m, "AFI")
 # summarize the metric using mean
 sm_compute(m, "AFI") \%>\% summary()
 
-# compute mean of three metrics and summarize
-sm_compute(m, "OS1") \%>\%
-  sm_compute("F_measure") \%>\%
-  sm_compute("US2") \%>\%
-  summary()
-
 # clear computed subsets
 sm_clear(m)
 
+}
+\seealso{
+\code{sm_compute()}
 }

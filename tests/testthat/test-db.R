@@ -52,7 +52,7 @@ test_that("empty intersection works", {
 
     expect_true(sm_is_empty(sm_compute(data, "OMerging")))
 
-    expect_true(sm_is_empty(sm_compute(data, "F")))
+    expect_true(sm_is_empty(sm_compute(data, "Fitness")))
 
 })
 
@@ -104,7 +104,7 @@ test_that("one vertex intersection works", {
 
     expect_true(sm_is_empty(sm_compute(data, "OMerging")))
 
-    expect_true(sm_is_empty(sm_compute(data, "F")))
+    expect_true(sm_is_empty(sm_compute(data, "Fitness")))
 })
 
 test_that("one edge intersection works", {
@@ -155,7 +155,7 @@ test_that("one edge intersection works", {
 
     expect_true(sm_is_empty(sm_compute(data, "OMerging")))
 
-    expect_true(sm_is_empty(sm_compute(data, "F")))
+    expect_true(sm_is_empty(sm_compute(data, "Fitness")))
 
 })
 
@@ -215,7 +215,7 @@ test_that("one vertex and one polygon work", {
 
     expect_true(!sm_is_empty(sm_compute(data, "OMerging")))
 
-    expect_true(!sm_is_empty(sm_compute(data, "F")))
+    expect_true(!sm_is_empty(sm_compute(data, "Fitness")))
 })
 
 
@@ -288,8 +288,8 @@ test_that("normal use works", {
     expect_true(is.numeric(sm_compute(data, "OMerging")$OMerging))
     expect_true(length(sm_compute(data, "OMerging")$OMerging) == 1)
 
-    expect_true(is.numeric(sm_compute(data, "F")$F))
-    expect_true(length(sm_compute(data, "F")$F) == 4)
+    expect_true(is.numeric(sm_compute(data, "Fitness")$Fitness))
+    expect_true(length(sm_compute(data, "Fitness")$Fitness) == 4)
 
     area_df <- get_areas(sm_ref(data), sm_seg(data))
     x_prime <- test_x_prime(area_df)
@@ -401,8 +401,8 @@ test_that("perfect fit works", {
     expect_true(length(sm_compute(data, "UMerging")$UMerging) == 1)
     expect_true(is.numeric(sm_compute(data, "OMerging")$OMerging))
     expect_true(length(sm_compute(data, "OMerging")$OMerging) == 1)
-    expect_true(is.numeric(sm_compute(data, "F")$F))
-    expect_true(length(sm_compute(data, "F")$F) == 1)
+    expect_true(is.numeric(sm_compute(data, "Fitness")$Fitness))
+    expect_true(length(sm_compute(data, "Fitness")$Fitness) == 1)
 
     area_df <- get_areas(sm_ref(data), sm_seg(data))
     x_prime <- test_x_prime(area_df)

@@ -3,9 +3,12 @@
 #' @name db_functions
 #' 
 #' @description 
-#' These functions manipulate the database of metrics.
+#' These functions are used to register new metrics in the `segmetric` 
+#' database.
+#' 
 #' * `sm_list_metrics()` list all registered metrics.
-#' * `sm_new_metric()` create a new metric entry to be registered in the database.
+#' * `sm_new_metric()` create a new metric entry to be registered in 
+#' the database.
 #' * `sm_reg_metric()` register a new metric in the database.
 #' * `sm_unreg_metric()` remove a metric entry from the database.
 #' * `sm_desc_metric()` describe a metric registered from the database.
