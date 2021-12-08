@@ -7,8 +7,8 @@
 \alias{sm_intersections}
 \alias{sm_union}
 \alias{rbind_distinct}
-\alias{norm_left}
-\alias{norm_frac}
+\alias{sm_norm_left}
+\alias{sm_norm_frac}
 \alias{norm_diff}
 \title{General functions}
 \usage{
@@ -22,9 +22,9 @@ sm_union(s1, s2, order)
 
 rbind_distinct(...)
 
-norm_left(x, y)
+sm_norm_left(x, y)
 
-norm_frac(x, y)
+sm_norm_frac(x, y)
 
 norm_diff(x, y)
 }

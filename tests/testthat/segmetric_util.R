@@ -26,57 +26,62 @@
 }
 
 get_areas <- function(ref_sf, seg_sf) {
-    stopifnot("ref_id" %in% colnames(ref_sf))
-    stopifnot("seg_id" %in% colnames(seg_sf))
-
-    ref_sf["ref_area"] = sf::st_area(ref_sf)
-    seg_sf["seg_area"] = sf::st_area(seg_sf)
-    ref_area <- sf::st_set_geometry(ref_sf, NULL)
-    seg_area <- sf::st_set_geometry(seg_sf, NULL)
-    inter_area <- .get_inter(ref_sf, seg_sf)
-    union_area <- .get_union(ref_sf, seg_sf)
     
-    ref_cent <- sf::st_centroid(ref_sf)
-    seg_cent <- sf::st_centroid(seg_sf)
-    ref_cent_inter <- lapply(seq_len(nrow(ref_cent)), 
-                             FUN = .intersect_point_polygon,
-                             point_sf   = ref_cent,
-                             polygon_sf = seg_sf,
-                             point_id   = "ref_id",
-                             polygon_id = "seg_id")
-    seg_cent_inter <- lapply(seq_len(nrow(seg_cent)), 
-                             FUN = .intersect_point_polygon,
-                             point_sf   = seg_cent,
-                             polygon_sf = ref_sf,
-                             point_id   = "seg_id",
-                             polygon_id = "ref_id")
-    ref_cent_inter <- do.call(rbind, ref_cent_inter)
-    seg_cent_inter <- do.call(rbind, seg_cent_inter)
-    colnames(ref_cent_inter) <- c("point_id", "polygon_id", "ref_cent_seg_pol")
-    colnames(seg_cent_inter) <- c("point_id", "polygon_id", "seg_cent_ref_pol")
+    suppressWarnings({
+        
+        stopifnot("ref_id" %in% colnames(ref_sf))
+        stopifnot("seg_id" %in% colnames(seg_sf))
+        
+        ref_sf["ref_area"] = sf::st_area(ref_sf)
+        seg_sf["seg_area"] = sf::st_area(seg_sf)
+        ref_area <- sf::st_set_geometry(ref_sf, NULL)
+        seg_area <- sf::st_set_geometry(seg_sf, NULL)
+        inter_area <- .get_inter(ref_sf, seg_sf)
+        union_area <- .get_union(ref_sf, seg_sf)
+        
+        ref_cent <- sf::st_centroid(ref_sf)
+        seg_cent <- sf::st_centroid(seg_sf)
+        ref_cent_inter <- lapply(seq_len(nrow(ref_cent)), 
+                                 FUN = .intersect_point_polygon,
+                                 point_sf   = ref_cent,
+                                 polygon_sf = seg_sf,
+                                 point_id   = "ref_id",
+                                 polygon_id = "seg_id")
+        seg_cent_inter <- lapply(seq_len(nrow(seg_cent)), 
+                                 FUN = .intersect_point_polygon,
+                                 point_sf   = seg_cent,
+                                 polygon_sf = ref_sf,
+                                 point_id   = "seg_id",
+                                 polygon_id = "ref_id")
+        ref_cent_inter <- do.call(rbind, ref_cent_inter)
+        seg_cent_inter <- do.call(rbind, seg_cent_inter)
+        colnames(ref_cent_inter) <- c("point_id", "polygon_id", "ref_cent_seg_pol")
+        colnames(seg_cent_inter) <- c("point_id", "polygon_id", "seg_cent_ref_pol")
+        
+        inun <- merge(inter_area, union_area,
+                      by = c("ref_id", "seg_id"),
+                      all.x = TRUE,
+                      all.y = FALSE)
+        
+        inun_ref <- merge(inun, ref_area,
+                          by = "ref_id",
+                          all.x = TRUE,
+                          all.y = FALSE)
+        
+        area_df <- merge(inun_ref, seg_area,
+                         by = "seg_id",
+                         all.x = TRUE,
+                         all.y = FALSE)
+        
+        area_df <- merge(area_df, ref_cent_inter,
+                         by.x = c("ref_id", "seg_id"),
+                         by.y = c("point_id", "polygon_id"))
+        area_df <- merge(area_df, seg_cent_inter,
+                         by.x = c("seg_id", "ref_id"),
+                         by.y = c("point_id", "polygon_id"))
+        
+    })
     
-    inun <- merge(inter_area, union_area,
-                  by = c("ref_id", "seg_id"),
-                  all.x = TRUE,
-                  all.y = FALSE)
-
-    inun_ref <- merge(inun, ref_area,
-                        by = "ref_id",
-                        all.x = TRUE,
-                        all.y = FALSE)
-
-    area_df <- merge(inun_ref, seg_area,
-                     by = "seg_id",
-                     all.x = TRUE,
-                     all.y = FALSE)
-    
-    area_df <- merge(area_df, ref_cent_inter,
-                     by.x = c("ref_id", "seg_id"),
-                     by.y = c("point_id", "polygon_id"))
-    area_df <- merge(area_df, seg_cent_inter,
-                     by.x = c("seg_id", "ref_id"),
-                     by.y = c("point_id", "polygon_id"))
-
     return(area_df)
 }
 

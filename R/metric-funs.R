@@ -1,50 +1,52 @@
 
 OS1 <- function(m) {
-    sm_norm_frac(sm_area(sm_ystar(m)), sm_area(sm_ref(m)))
-}
-
-OS1 <- function(m) {
-    norm_frac(sm_area(sm_ystar(m)), sm_area(sm_ref(m), order = sm_ystar(m)))
+    sm_norm_frac(sm_area(sm_ystar(m)), 
+                 sm_area(sm_ref(m), order = sm_ystar(m)))
 }
 
 US1 <- function(m) {
-    norm_frac(sm_area(sm_ystar(m)), sm_area(sm_seg(m), order = sm_ystar(m)))
+    sm_norm_frac(sm_area(sm_ystar(m)), 
+                 sm_area(sm_seg(m), order = sm_ystar(m)))
 }
 
 OS2 <- function(m) {
-    norm_frac(sm_area(sm_yprime(m)), sm_area(sm_ref(m), order = sm_yprime(m)))
+    sm_norm_frac(sm_area(sm_yprime(m)), 
+                 sm_area(sm_ref(m), order = sm_yprime(m)))
 }
 
 US2 <- function(m) {
-    norm_frac(sm_area(sm_yprime(m)), sm_area(sm_seg(m), order = sm_yprime(m)))
+    sm_norm_frac(sm_area(sm_yprime(m)), 
+                 sm_area(sm_seg(m), order = sm_yprime(m)))
 }
 
 OS3 <- function(m) {
-    1 - sm_area(sm_ycd(m)) / sm_area(sm_ref(m), order = sm_ycd(m))
+    sm_norm_frac(sm_area(sm_ycd(m)), 
+                 sm_area(sm_ref(m), order = sm_ycd(m)))
 }
 
 US3 <- function(m) {
-    1 - sm_area(sm_ycd(m)) / sm_area(sm_seg(m), order = sm_ycd(m))
+    sm_norm_frac(sm_area(sm_ycd(m)),
+                 sm_area(sm_seg(m), order = sm_ycd(m)))
 }
 
 AFI <- function(m) {
-    norm_left(sm_area(sm_ref(m), order = sm_yprime(m)),
-              sm_area(sm_seg(m), order = sm_yprime(m)))
+    sm_norm_left(sm_area(sm_ref(m), order = sm_yprime(m)),
+                 sm_area(sm_seg(m), order = sm_yprime(m)))
 }
 
 QR <- function(m) {
-    norm_frac(sm_area(sm_ystar(m)), 
-              sm_area(sm_union(sm_ref(m), 
-                               sm_seg(m), 
-                               order = sm_ystar(m))))
+    sm_norm_frac(sm_area(sm_ystar(m)), 
+                 sm_area(sm_union(sm_ref(m), 
+                                  sm_seg(m), 
+                                  order = sm_ystar(m))))
 }
 
 D_index <- function(m) {
     sqrt((
-        norm_frac(sm_area(sm_ystar(m)),
-                  sm_area(sm_ref(m), order = sm_ystar(m))) ^ 2 +
-            norm_frac(sm_area(sm_ystar(m)),
-                      sm_area(sm_seg(m), order = sm_ystar(m))) ^ 2) / 2)
+        sm_norm_frac(sm_area(sm_ystar(m)),
+                     sm_area(sm_ref(m), order = sm_ystar(m))) ^ 2 +
+            sm_norm_frac(sm_area(sm_ystar(m)),
+                         sm_area(sm_seg(m), order = sm_ystar(m))) ^ 2) / 2)
 }
 
 precision <- function(m) {
@@ -56,7 +58,7 @@ recall <- function(m) {
 }
 
 UMerging <- function(m) {
-    norm_left(sm_area(sm_ref(m), order = sm_ystar(m)), sm_area(sm_ystar(m)))
+    sm_norm_left(sm_area(sm_ref(m), order = sm_ystar(m)), sm_area(sm_ystar(m)))
 }
 
 OMerging <- function(m) {
@@ -73,8 +75,8 @@ M <- function(m) {
 
 # TODO: check formula in Carleer et al. (2005)
 E <- function(m) {
-    norm_left(sm_area(sm_seg(m), order = sm_xprime(m)),
-              sm_area(sm_xprime(m))) * 100
+    sm_norm_left(sm_area(sm_seg(m), order = sm_xprime(m)),
+                 sm_area(sm_xprime(m))) * 100
 }
 
 RAsub <- function(m) {
@@ -89,7 +91,7 @@ RAsuper <- function(m) {
 PI <- function(m) {
     sm_area(sm_ytilde(m)) ^ 2 / (
         sm_area(sm_ref(m), order = sm_ytilde(m)) *
-        sm_area(sm_seg(m), order = sm_ytilde(m))
+            sm_area(sm_seg(m), order = sm_ytilde(m))
     )
 }
 
@@ -102,10 +104,10 @@ F1 <- function(m) {
 }
 
 ED3 <- function(m) {
-    sqrt(((1 - sm_area(sm_ycd(m)) /
-               sm_area(sm_ref(m), order = sm_ycd(m))) ^ 2 +
-              (1 - sm_area(sm_ycd(m)) /
-                   sm_area(sm_seg(m), order = sm_ycd(m))) ^ 2) / 2)
+    sqrt((sm_norm_frac(sm_area(sm_ycd(m)),
+                       sm_area(sm_ref(m), order = sm_ycd(m))) ^ 2 +
+              sm_norm_frac(sm_area(sm_ycd(m)),
+                           sm_area(sm_seg(m), order = sm_ycd(m))) ^ 2) / 2)
 }
 
 F_measure <- function(m, alpha = 0.5) {

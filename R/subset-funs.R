@@ -56,13 +56,17 @@ sm_xtilde <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_yprime <- function(m) {
+    # to avoid warnings during check
+    ref_id <- NULL
+    geometry <- NULL
+    
     sm_eval(
         m = m, 
         subset_id = "Y_prime", 
         expr = {
             sm_ytilde(m) %>%
                 dplyr::group_by(ref_id) %>%
-                dplyr::slice_max(sm_area(.)) %>% 
+                dplyr::slice_max(sm_area(geometry)) %>% 
                 dplyr::ungroup()
         }
     )
@@ -71,13 +75,17 @@ sm_yprime <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_xprime <- function(m) {
+    # to avoid warnings during check
+    seg_id <- NULL
+    geometry <- NULL
+    
     sm_eval(
         m = m, 
         subset_id = "X_prime", 
         expr = {
             sm_xtilde(m) %>%
                 dplyr::group_by(seg_id) %>%
-                dplyr::slice_max(sm_area(.)) %>%
+                dplyr::slice_max(sm_area(geometry)) %>%
                 dplyr::ungroup()
         }
     )
