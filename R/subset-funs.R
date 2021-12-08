@@ -6,8 +6,8 @@
 #' These functions manipulate segmetric objects.
 #' * `sm_ref()` Get the set of n polygons of reference, represented by \eqn{X = \{x_{i}: i = 1, ....., n\}}
 #' * `sm_seg()` Get the set of m segmentation polygons, represented by \eqn{Y = \{y_{j}: j = 1, ....., m\}}
-#' * `sm_ytilde()` Get the \eqn{Y} subset \eqn{\tile{Y}_{i} = \{y_{j}: area(x_{i} \cap y_{j}) \neq 0\}}
-#' * `sm_xtilde()` Get the \eqn{X} subset \eqn{\tile{X}_{j} = \{x_{i}: area(y_{j} \cap x_{i}) \neq 0\}}
+#' * `sm_ytilde()` Get the \eqn{Y} subset \eqn{\tilde{Y}_{i} = \{y_{j}: area(x_{i} \cap y_{j}) \neq 0\}}
+#' * `sm_xtilde()` Get the \eqn{X} subset \eqn{\tilde{X}_{j} = \{x_{i}: area(y_{j} \cap x_{i}) \neq 0\}}
 #' * `sm_yprime()` Get the \eqn{Y} subset \eqn{Y'_{i} = \{y_{j}: max(area(x_{i} \cap y_{j}))\}}
 #' * `sm_xprime()` Get the \eqn{X} subset \eqn{X'_{j} = \{x_{i}: max(area(y_{j} \cap x_{i}))\}}
 #' * `sm_ya()` Get the \eqn{\tilde{Y}_{i}$ subset $Ya_{i} = \{y_{j}: the centroid of x_{i} is in y_{j}\}}

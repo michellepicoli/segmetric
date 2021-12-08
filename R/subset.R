@@ -9,6 +9,8 @@
 #' * `sm_get()` get a `subset_sf` object already stored.
 #' * `sm_id()` returns identification values of data objects 
 #' (`ref_sf`, `seg_sf`, `subset_sf`).
+#' * `%inset%` operator equivalent to left join. It returns objects from `x` 
+#' that appear in `y` using the same order and cardinality of `y`.
 #' 
 #' @param s         Either a `ref_sf`, a `seg_sf`, or a `subset_sf` object
 #' (extension of `sf` class).
@@ -17,10 +19,13 @@
 #' @param ...       Additional parameter (not implemented).
 #' @param m         A `segmetric` object.
 #' @param subset_id A `character` value informing a subset name.
-#' @param expr      A `subset_sf` object (an extension of `sf` class).
+#' @param expr      A valid piece of code in R inside curly braces. This 
+#' code is evaluated to generate a subset, which must be provided in the 
+#' last line.
 #' @param inset     A `subset_sf` object (an extension of `sf` class).
-#' 
-#' @examples 
+#' @param x         Either a `ref_sf`, a `seg_sf`, or a `subset_sf` object
+#' (extension of `sf` class).
+#' @param y         A `subset_sf` object.
 #' 
 NULL
 

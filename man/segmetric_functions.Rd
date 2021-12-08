@@ -6,6 +6,7 @@
 \alias{sm_clear}
 \alias{sm_compute}
 \alias{summary.segmetric}
+\alias{sm_is_empty}
 \title{General functions}
 \usage{
 sm_read(ref_sf, seg_sf)
@@ -15,6 +16,8 @@ sm_clear(m)
 sm_compute(m, metric_id, ...)
 
 \method{summary}{segmetric}(object, ...)
+
+sm_is_empty(m)
 }
 \arguments{
 \item{ref_sf}{A \code{sf} object. The reference polygons.}
