@@ -6,7 +6,6 @@
 #' These functions manipulate `segmetric` objects.
 #' * `sm_read()` Load the reference and segmentation polygons into segmetric.
 #' * `sm_clear()` Remove the already calculated metrics from segmetric.
-#' * `sm_compute()` Compare the reference to the segmentation polygons using a metric.
 #' * `print()` Print a segmetric object.
 #' * `plot()` Plot the reference and segmentation polygons.
 #' * `summary()` Compute a measure of central tendency over the values of a metric.
@@ -17,14 +16,9 @@
 #' @param metric_id A character. The name of a metric.
 #' @param ref_sf A `sf` object. The reference polygons.
 #' @param seg_sf A `sf` object. The segmentation polygons.
-#' @param ...    Additional parameters. See details.
+#' @param ...    Additional parameters (Not implemented).
 #' 
-#' @details
-#' \itemize{
-#' \item{\code{F_measure} takes the optional weight argument `alpha`, which by 
-#' default is `0.5`. For more information check `sm_desc_metric("F_measure")`.
-#' } 
-#' } 
+#' @seealso `sm_compute()`
 #' 
 #' @examples
 #' # load sample datasets
@@ -42,12 +36,6 @@
 #' 
 #' # summarize the metric using mean
 #' sm_compute(m, "AFI") %>% summary()
-#' 
-#' # compute mean of three metrics and summarize
-#' sm_compute(m, "OS1") %>%
-#'   sm_compute("F_measure") %>%
-#'   sm_compute("US2") %>%
-#'   summary()
 #' 
 #' # clear computed subsets
 #' sm_clear(m)
@@ -120,22 +108,6 @@ sm_clear <- function(m) {
     subsets <- sm_list(m)
     subsets <- subsets[!subsets %in% c("ref_sf", "seg_sf")]
     rm(list = subsets, envir = .segmetric_env(m), inherits = FALSE)
-    m
-}
-
-#' @export
-#' @rdname segmetric_functions
-sm_compute <- function(m, metric_id, ...) {
-    # checked
-    
-    .segmetric_check(m)
-    
-    f <- .db_get(key = metric_id)
-    metrics <- names(m)
-    parameters <- list(...)
-    m[[length(m) + 1]] <- do.call(f[["fn"]], args = c(list(m = m), parameters))
-    names(m) <- c(metrics, metric_id)
-    
     m
 }
 

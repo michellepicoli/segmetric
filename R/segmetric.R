@@ -165,9 +165,9 @@ NULL
         )
     )
     sm_reg_metric(
-        metric_id = "F",
+        metric_id = "Fitness",
         entry = sm_new_metric(
-            fn           = F1,
+            fn           = Fitness,
             name         = "Fitness function",
             description  = "Optimal value: 0",
             reference    = "Costa et al. (2008)"
