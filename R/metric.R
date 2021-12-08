@@ -180,6 +180,7 @@ summary.segmetric <- function(object, ...) {
 }
 
 #' @export
+#' @rdname segmetric_functions
 sm_is_empty <- function(m) {
     
     return((length(m[[1]]) == 1 && (is.na(m[[1]]) || is.nan(m[[1]]))) || 

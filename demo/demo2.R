@@ -1,7 +1,7 @@
 #' 
 #' # Demo
 #' 
-#' Study area: Luís Eduardo Magalhães municipality, 
+#' Study area: Lu\u00EDs Eduardo Magalh\u00E3es municipality, 
 #' Bahia state, Brazil
 #' 
 
