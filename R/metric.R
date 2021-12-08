@@ -7,18 +7,16 @@
 #' * `sm_read()` Load the reference and segmentation polygons into segmetric.
 #' * `sm_clear()` Remove the already calculated metrics from segmetric.
 #' * `sm_compute()` Compare the reference to the segmentation polygons using a metric.
+#' * `print()` Print a segmetric object.
 #' * `plot()` Plot the reference and segmentation polygons.
 #' * `summary()` Compute a measure of central tendency over the values of a metric.
-#' * `sm_ref_area()` Return the areas of the reference polygons.
-#' * `sm_seg_area()` Return the areas of the segmentation polygons.
-#' * `sm_inter_area()` Return the areas of the intersection between the reference and segmentation polygons.
 #' * `sm_is_empty()` Check if a `segmetric` object is empty.
 #' 
 #' @param m A `segmetric` object.
+#' @param object A `segmetric` object.
 #' @param metric_id A character. The name of a metric.
 #' @param ref_sf A `sf` object. The reference polygons.
 #' @param seg_sf A `sf` object. The segmentation polygons.
-#' @param weight A `numeric` vector ...
 #' @param ...    Additional parameters. See details.
 #' 
 #' @details
@@ -28,7 +26,31 @@
 #' } 
 #' } 
 #' 
-#' @examples 
+#' @examples
+#' # load sample datasets
+#' data("sample_ref_sf", package = "segmetric")
+#' data("sample_seg_sf", package = "segmetric")
+#' 
+#' # create segmetric object
+#' m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
+#' 
+#' # plot geometries
+#' plot(m)
+#' 
+#' # compute a metric
+#' sm_compute(m, "AFI")
+#' 
+#' # summarize the metric using mean
+#' sm_compute(m, "AFI") %>% summary()
+#' 
+#' # compute mean of three metrics and summarize
+#' sm_compute(m, "OS1") %>%
+#'   sm_compute("F_measure") %>%
+#'   sm_compute("US2") %>%
+#'   summary()
+#' 
+#' # clear computed subsets
+#' sm_clear(m)
 #' 
 NULL
 
@@ -118,10 +140,15 @@ sm_compute <- function(m, metric_id, ...) {
 }
 
 #' @exportS3Method
-plot.segmetric <- function(m, ...) {
+print.segmetric <- function(x, ...) {
+    print(c(x))
+}
+
+#' @exportS3Method
+plot.segmetric <- function(x, ...) {
     
-    ref_sf <- dplyr::transmute(sm_ref(m), type = "reference")
-    seg_sf <- dplyr::transmute(sm_seg(m), type = "segmentation")
+    ref_sf <- dplyr::transmute(sm_ref(x), type = "reference")
+    seg_sf <- dplyr::transmute(sm_seg(x), type = "segmentation")
     
     plot(sf::st_geometry(ref_sf),
          border = 'blue',
@@ -145,41 +172,11 @@ plot.segmetric <- function(m, ...) {
 
 #' @exportS3Method
 #' @rdname segmetric_functions
-summary.segmetric <- function(m, ...) {
+summary.segmetric <- function(object, ...) {
     
-    stopifnot(inherits(m, "segmetric"))
+    stopifnot(inherits(object, "segmetric"))
     
-    lapply(m, mean)
-}
-
-#' @export
-sm_ref_area <- function(m) {
-    
-    f <- .db_get(key = names(m))
-    ref_sf <- sm_get(m = m, subset_id = "ref_sf")
-    ordering <- sm_get(m = m, subset_id = f[["depends"]][[1]])
-    
-    sm_area(ref_sf, order = ordering)
-}
-
-#' @export
-sm_seg_area <- function(m) {
-    .segmetric_check(m)
-    
-    f <- .db_get(key = names(m))
-    seg_sf <- sm_get(m = m, subset_id = "seg_sf")
-    ordering <- sm_get(m = m, subset_id = f[["depends"]][[1]])
-    
-    sm_area(seg_sf, order = ordering)
-}
-
-#' @export
-sm_inter_area <- function(m) {
-    .segmetric_check(m)
-    
-    f <- .db_get(key = names(m))
-    
-    sm_area(sm_get(m = m, subset_id = f[["depends"]][[1]]))
+    lapply(object, mean)
 }
 
 #' @export

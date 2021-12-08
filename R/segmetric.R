@@ -1,5 +1,16 @@
-#' @importFrom magrittr `%>%`
+#' @title Pipe
+#'
+#' @name %>%
 #' 
+#' @importFrom dplyr `%>%`
+#' 
+#' @description
+#' Imported function from `dplyr`.
+#'
+#' @param lhs left hand side parameter.
+#' @param rhs right hand side parameter.
+#' 
+#' @export
 NULL
 
 # package environment
@@ -132,7 +143,7 @@ NULL
             fn           = RAsub,
             name         = "Relative area",
             description  = "Values from 0 to 1 (optimal)",
-            reference    = "Möller et al. (2007) and Clinton et al. (2010)"
+            reference    = "M\u00f6ller et al. (2007) and Clinton et al. (2010)"
         )
     )
     sm_reg_metric(
@@ -141,7 +152,7 @@ NULL
             fn           = RAsuper,
             name         = "Relative area",
             description  = "Values from 0 to 1 (optimal)",
-            reference    = "Möller et al. (2007) and Clinton et al. (2010)"
+            reference    = "M\u00f6ller et al. (2007) and Clinton et al. (2010)"
         )
     )
     sm_reg_metric(

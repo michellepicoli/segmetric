@@ -1,12 +1,8 @@
-#######
-Y_z <- function(m) {
-    
-    m
-}
 
-sm_register_metric(
-    id = "Example",
-    metric = sm_new_metric(
+# register 'Example' metric
+sm_reg_metric(
+    metric_id = "Example",
+    entry = sm_new_metric(
         fn = function(m) {
             sm_area(sm_ytilde(m)) / 
                 sm_area(sm_ref(m), order = sm_ytilde(m))
@@ -17,36 +13,45 @@ sm_register_metric(
         reference = "Author (Year)"
     ))
 
+# describes the 'Example' metric
 sm_desc_metric("Example")
+
+# lists all supported metrics
 sm_list_metrics()
 
+# load datasets
+data("ref_sf", package = "segmetric")
+data("seg_sf", package = "segmetric")
 
-ref <- system.file("extdata", "reference", "LEM_dataset.shp", 
-                   package = "segmetric")
+# create segmetric object
+m <- sm_read(ref_sf = ref_sf, seg_sf = seg_sf)
 
-seg <- system.file("extdata", "segmentation", "LEM_multiresolution.shp", 
-                   package = "segmetric")
+# compute a metric
+sm_compute(m, metric = "Example")
 
-m <- sm_read(ref_sf = ref, seg_sf = seg)
+# clear computed subsets
+sm_clear(m)
 
-sm_compute(data, metric = "Example")
+sm_compute(m, "AFI")
 
-########
-
-ref <- system.file("extdata", "reference", "LEM_dataset.shp", 
-                   package = "segmetric")
-
-seg <- system.file("extdata", "segmentation", "LEM_multiresolution.shp", 
-                   package = "segmetric")
-
-m <- sm_read(ref_sf = ref, seg_sf = seg)
-
-sm_list_metrics()
-sm_desc_metric("AFI")
-
-sm_compute(m, metric = "AFI") %>% summary()
-sm_compute(m, metric = "OS3") %>% summary()
-
+# lists all subsets stored in segmetric object
 sm_list(m)
 
-plot(m)
+# if there is no subset 'my_subset' in the object 
+# evaluates 'expr' and store it. 
+sm_eval(m, "my_subset", expr = {
+    sm_intersections(sm_ref(m), sm_seg(m))
+})
+# 'my_subset' is being listed 
+sm_list(m)
+
+# retrieve 'my_subset' from segmetric object
+sm_get(m, "my_subset")
+
+
+sm_id(sm_get(m, "my_subset"))
+
+sm_id(sm_ref(m))
+
+sm_id(sm_ref(m), inset = sm_get(m, "my_subset"))
+

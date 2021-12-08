@@ -25,8 +25,8 @@
 #'
 #' @examples 
 #' sm_reg_metric(
-#'     id = "Example",
-#'     metric = sm_new_metric(
+#'     metric_id = "Example",
+#'     entry = sm_new_metric(
 #'         fn = function(m) {
 #'             sm_area(sm_ytilde(m)) / 
 #'                 sm_area(sm_ref(m), order = sm_ytilde(m))
@@ -37,8 +37,8 @@
 #'         reference = "Author (Year)"
 #'     ))
 #' 
-#' describe_metric("Example")
-#' list_metrics()
+#' sm_desc_metric("Example")
+#' sm_list_metrics()
 #' 
 NULL
 

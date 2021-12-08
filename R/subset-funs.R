@@ -56,6 +56,10 @@ sm_xtilde <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_yprime <- function(m) {
+    # to avoid warnings during check
+    ref_id <- NULL
+    geometry <- NULL
+    
     sm_eval(
         m = m, 
         subset_id = "Y_prime", 
@@ -71,6 +75,10 @@ sm_yprime <- function(m) {
 #' @rdname set_functions
 #' @export
 sm_xprime <- function(m) {
+    # to avoid warnings during check
+    seg_id <- NULL
+    geometry <- NULL
+    
     sm_eval(
         m = m, 
         subset_id = "X_prime", 

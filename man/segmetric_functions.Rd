@@ -14,7 +14,7 @@ sm_clear(m)
 
 sm_compute(m, metric_id, ...)
 
-\method{summary}{segmetric}(m, ...)
+\method{summary}{segmetric}(object, ...)
 }
 \arguments{
 \item{ref_sf}{A \code{sf} object. The reference polygons.}
@@ -27,7 +27,7 @@ sm_compute(m, metric_id, ...)
 
 \item{...}{Additional parameters. See details.}
 
-\item{weight}{A \code{numeric} vector ...}
+\item{object}{A \code{segmetric} object.}
 }
 \description{
 These functions manipulate \code{segmetric} objects.
@@ -35,11 +35,9 @@ These functions manipulate \code{segmetric} objects.
 \item \code{sm_read()} Load the reference and segmentation polygons into segmetric.
 \item \code{sm_clear()} Remove the already calculated metrics from segmetric.
 \item \code{sm_compute()} Compare the reference to the segmentation polygons using a metric.
+\item \code{print()} Print a segmetric object.
 \item \code{plot()} Plot the reference and segmentation polygons.
 \item \code{summary()} Compute a measure of central tendency over the values of a metric.
-\item \code{sm_ref_area()} Return the areas of the reference polygons.
-\item \code{sm_seg_area()} Return the areas of the segmentation polygons.
-\item \code{sm_inter_area()} Return the areas of the intersection between the reference and segmentation polygons.
 \item \code{sm_is_empty()} Check if a \code{segmetric} object is empty.
 }
 }
@@ -51,5 +49,29 @@ default is \code{0.5}. For more information check \code{sm_desc_metric("F_measur
 }
 }
 \examples{
+# load sample datasets
+data("sample_ref_sf", package = "segmetric")
+data("sample_seg_sf", package = "segmetric")
+
+# create segmetric object
+m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
+
+# plot geometries
+plot(m)
+
+# compute a metric
+sm_compute(m, "AFI")
+
+# summarize the metric using mean
+sm_compute(m, "AFI") \%>\% summary()
+
+# compute mean of three metrics and summarize
+sm_compute(m, "OS1") \%>\%
+  sm_compute("F_measure") \%>\%
+  sm_compute("US2") \%>\%
+  summary()
+
+# clear computed subsets
+sm_clear(m)
 
 }
