@@ -62,12 +62,14 @@ sm_compute <- function(m, metric_id, ...) {
 #' @rdname metric_functions
 #' 
 #' @aliases OS1
+
+#' @param m         A `segmetric`object.
 #' 
 #' @usage sm_compute(m, metric_id = "OS1")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"OS1"` refers to Oversegmentation. Its values range from 0 (optimal) to 1
+#' (Clinton et al., 2010).
 OS1 <- function(m) {
     sm_norm_frac(sm_area(sm_ystar(m)), 
                  sm_area(sm_ref(m), order = sm_ystar(m)))
@@ -80,23 +82,22 @@ OS1 <- function(m) {
 #' @usage sm_compute(m, metric_id = "US1")
 #' 
 #' @details
-#' `"US1"` refers to Under-segmentation. Values range .....
-#' (Costa et al., 2010)
-#' 
+#' `"US1"` refers to Undersegmentation. Its values range from 0 (optimal) to 1 
+#' (Clinton et al., 2010).
 US1 <- function(m) {
     sm_norm_frac(sm_area(sm_ystar(m)), 
                  sm_area(sm_seg(m), order = sm_ystar(m)))
 }
-######################################
+
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases OS2
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "OS2")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"OS2"` refers to Oversegmentation. Its values range from 0 (optimal) to 1 
+#' (Persello and Bruzzone, 2010).
 OS2 <- function(m) {
     sm_norm_frac(sm_area(sm_yprime(m)), 
                  sm_area(sm_ref(m), order = sm_yprime(m)))
@@ -104,13 +105,13 @@ OS2 <- function(m) {
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases US2
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "US2")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"US2"` refers to Undersegmentation. Its values range 0 (optimal) to 1 
+#' (Persello and Bruzzone, 2010).
 US2 <- function(m) {
     sm_norm_frac(sm_area(sm_yprime(m)), 
                  sm_area(sm_seg(m), order = sm_yprime(m)))
@@ -118,13 +119,13 @@ US2 <- function(m) {
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases OS3
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "OS3")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"OS3"` refers to Oversegmentation. Its values range from 0 (optimal) to 1 
+#' (Yang et al., 2014).
 OS3 <- function(m) {
     sm_norm_frac(sm_area(sm_ycd(m)), 
                  sm_area(sm_ref(m), order = sm_ycd(m)))
@@ -132,13 +133,13 @@ OS3 <- function(m) {
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases US3
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "US3")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"US3"` refers to Undersegmentation. Its values range from 0 (optimal) to 1 
+#' (Yang et al., 2014).
 US3 <- function(m) {
     sm_norm_frac(sm_area(sm_ycd(m)),
                  sm_area(sm_seg(m), order = sm_ycd(m)))
@@ -146,13 +147,13 @@ US3 <- function(m) {
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases AFI
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "AFI")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"AFI"` refers to Area Fit Index. Its optimal value is 0 (Lucieer and Stein, 
+#' 2002; Clinton et al., 2010).
 AFI <- function(m) {
     sm_norm_left(sm_area(sm_ref(m), order = sm_yprime(m)),
                  sm_area(sm_seg(m), order = sm_yprime(m)))
@@ -160,13 +161,13 @@ AFI <- function(m) {
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases QR
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "QR")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"QR"` refers to Quality rate. Its values range from 0 (optimal) to 1 
+#' (Weidner, 2008; Clinton et al., 2010).
 QR <- function(m) {
     sm_norm_frac(sm_area(sm_ystar(m)), 
                  sm_area(sm_union(sm_ref(m), 
@@ -176,13 +177,13 @@ QR <- function(m) {
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases D_index
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "D_index")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"D_index"` refers to Index D. Its values range from 0 (optimal) to 1 
+#' (Levine and Nazif, 1982; Clinton et al., 2010).
 D_index <- function(m) {
     sqrt((
         sm_norm_frac(sm_area(sm_ystar(m)),
@@ -193,52 +194,52 @@ D_index <- function(m) {
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases precision
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "precision")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"precision"` refers to Precision. Its values range from 0 to 1 (optimal) 
+#' (Van Rijsbergen, 1979; Zhang et al., 2015).
 precision <- function(m) {
     sum(sm_area(sm_xprime(m))) / sum(sm_area(sm_seg(m), order = sm_xprime(m)))
 }
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases recall
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "recall")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"recall"` refers to Recall. Its values range from 0 to 1 (optimal) (Van 
+#' Rijsbergen, 1979; Zhang et al., 2015).
 recall <- function(m) {
     sum(sm_area(sm_yprime(m))) / sum(sm_area(sm_ref(m), order = sm_yprime(m)))
 }
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases UMerging
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "UMerging")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"UMerging"` refers to Undermerging. Its values range from 0 (optimal) to 0.5 
+#' (Levine and Nazif, 1982; Clinton et al., 2010).
 UMerging <- function(m) {
     sm_norm_left(sm_area(sm_ref(m), order = sm_ystar(m)), sm_area(sm_ystar(m)))
 }
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases OMerging
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "OMerging")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"OMerging"` refers to Overmerging. Its values range from 0 (optimal) to 0.5 
+#' (Levine and Nazif, 1982; Clinton et al., 2010).
 OMerging <- function(m) {
     (sm_area(sm_seg(m), order = sm_ystar(m)) - sm_area(sm_ystar(m))) /
         sm_area(sm_ref(m), order = sm_ystar(m))
@@ -247,13 +248,13 @@ OMerging <- function(m) {
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases M
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "M")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"M"` refers to Match. Its values range from 0 to 1 (optimal) (Janssen and 
+#' Molenaar, 1995; Feitosa et al., 2010).
 M <- function(m) {
     sm_area(sm_yprime(m)) / 
         sqrt(sm_area(sm_ref(m), order = sm_yprime(m)) *
@@ -262,13 +263,13 @@ M <- function(m) {
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases E
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "E")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"E"` refers to Evaluation measure. Its values range from 0 (optimal) to 50 
+#' (Carleer et al., 2005).
 E <- function(m) {
     # TODO: check formula in Carleer et al. (2005)
     sm_norm_left(sm_area(sm_seg(m), order = sm_xprime(m)),
@@ -277,41 +278,40 @@ E <- function(m) {
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases RAsub
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "RAsub")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"RAsub"` refers to Relative area. Its values range from 0 to 1 (optimal) 
+#' (Müller et al., 2007; Clinton et al., 2010).
 RAsub <- function(m) {
     sm_area(sm_ytilde(m)) / sm_area(sm_ref(m), order = sm_ytilde(m))
 }
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases RAsuper
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "RAsuper")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"RAsuper"` refers to Relative area. Its values range from 0 to 1 (optimal) 
+#' (Müller et al., 2007; Clinton et al., 2010).
 RAsuper <- function(m) {
     sm_area(sm_ytilde(m)) / sm_area(sm_seg(m), order = sm_ytilde(m))
 }
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases PI
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "PI")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"PI"` refers to Purity Index. Its values range from 0 to 1 (optimal) (van 
+#' Coillie et al., 2008).
 PI <- function(m) {
-    # TODO: check formula
     sm_area(sm_ytilde(m)) ^ 2 / (
         sm_area(sm_ref(m), order = sm_ytilde(m)) *
             sm_area(sm_seg(m), order = sm_ytilde(m))
@@ -320,13 +320,13 @@ PI <- function(m) {
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases Fitness
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "Fitness")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"Fitness"` refers to Fitness function. Its optimal value is 0 (Costa et al., 
+#' 2008).
 Fitness <- function(m) {
     (sm_area(sm_seg(m), order = sm_xprime(m)) +
          sm_area(sm_ref(m), order = sm_xprime(m)) -
@@ -336,20 +336,20 @@ Fitness <- function(m) {
 
 #' @rdname metric_functions
 #' 
-#' @aliases OS1
+#' @aliases ED3
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
+#' @usage sm_compute(m, metric_id = "ED3")
 #' 
 #' @details
-#' `OS1`: refers to Over-segmentation. Values range .....
-#' 
+#' `"ED3"` refers to Euclidean Distance. Its values range from 0 (optimal) to 1 
+#' (Yang et al., 2014).
 ED3 <- function(m) {
     sqrt((sm_norm_frac(sm_area(sm_ycd(m)),
                        sm_area(sm_ref(m), order = sm_ycd(m))) ^ 2 +
               sm_norm_frac(sm_area(sm_ycd(m)),
                            sm_area(sm_seg(m), order = sm_ycd(m))) ^ 2) / 2)
 }
-################################
+
 #' @rdname metric_functions
 #' 
 #' @aliases F_measure
@@ -357,11 +357,10 @@ ED3 <- function(m) {
 #' @usage sm_compute(m, metric_id = "F_measure", alpha = 0.5)
 #' 
 #' @details
-#' `"F_measure"`: refers to F-measure metric (Van Rijsbergen, 1979; 
-#' Zhang et al., 2015). Values range from 0 to 1 (optimal). It takes the 
+#' `"F_measure"` refers to F-measure metric. Its values range from 0 to 1 
+#' (optimal) (Van Rijsbergen, 1979; Zhang et al., 2015). It takes the 
 #' optional weight argument `alpha`, which ranges from `0.0` to `1.0` 
-#' (default is `0.5`).
-#' 
+#' (the default is `0.5`).
 F_measure <- function(m, alpha = 0.5) {
     stopifnot(alpha >= 0)
     stopifnot(alpha <= 1)
