@@ -229,3 +229,7 @@ test_ED3 <- function(y_cd) {
 test_F_measure <- function(precision, recall, alpha = 0.5) {
     1 / ((alpha / precision) + (1 - alpha) * (1 / recall))
 }
+
+test_E <- function(x_prime) {
+    100 * (x_prime$seg_area - x_prime$inter_area) / x_prime$seg_area
+}
