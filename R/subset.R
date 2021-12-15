@@ -35,8 +35,8 @@
 NULL
 
 #' @rdname subset_handling_functions
-.subset_check <- function(s, allowed_types = c("ref_sf", "seg_sf", 
-                                               "subset_sf")) {
+.subset_check <- function(s, 
+                          allowed_types = c("ref_sf", "seg_sf", "subset_sf")) {
     
     stopifnot(all(allowed_types %in% c("ref_sf", "seg_sf", "subset_sf")))
     
