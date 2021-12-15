@@ -13,7 +13,6 @@
 #' 
 #' @param m A `segmetric` object.
 #' @param object A `segmetric` object.
-#' @param metric_id A character. The name of a metric.
 #' @param ref_sf A `sf` object. The reference polygons.
 #' @param seg_sf A `sf` object. The segmentation polygons.
 #' @param ...    Additional parameters (Not implemented).

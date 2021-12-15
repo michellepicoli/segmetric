@@ -26,8 +26,6 @@ sm_is_empty(m)
 \item{object}{A \code{segmetric} object.}
 
 \item{...}{Additional parameters (Not implemented).}
-
-\item{metric_id}{A character. The name of a metric.}
 }
 \description{
 These functions manipulate \code{segmetric} objects.
