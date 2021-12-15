@@ -39,8 +39,8 @@ sm_list(m)
 
 # if there is no subset 'my_subset' in the object 
 # evaluates 'expr' and store it. 
-sm_eval(m, "my_subset", expr = {
-    sm_intersections(sm_ref(m), sm_seg(m))
+sm_subset(m, "my_subset", expr = {
+    sm_intersection(sm_ref(m), sm_seg(m))
 })
 # 'my_subset' is being listed 
 sm_list(m)
@@ -48,10 +48,4 @@ sm_list(m)
 # retrieve 'my_subset' from segmetric object
 sm_get(m, "my_subset")
 
-
-sm_id(sm_get(m, "my_subset"))
-
-sm_id(sm_ref(m))
-
-sm_id(sm_ref(m), inset = sm_get(m, "my_subset"))
 

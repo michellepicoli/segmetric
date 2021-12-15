@@ -42,30 +42,18 @@
 NULL
 
 
-#' @title Internal function
-#' 
-#' @description
-#' This function check if a segmetric object is valid.
-#' 
-#' @keywords internal
-#' 
+#' @rdname segmetric_functions 
 .segmetric_check <- function(m) {
     
     stopifnot(inherits(m, "segmetric"))
-    stopifnot(all(c("ref_sf", "seg_sf") %in% sm_list(m)))
+    stopifnot(all(c("ref_sf", "seg_sf") %in% ls(.segmetric_env(m))))
     if (length(m) > 0) {
         stopifnot(!is.null(names(m)))
         stopifnot(names(m) %in% .db_list())
     }
 }
 
-#' @title Internal function
-#' 
-#' @description
-#' This function returns the segmetric environment. 
-#' 
-#' @keywords internal
-#' 
+#' @rdname segmetric_functions 
 .segmetric_env <- function(m) {
     
     attr(m, which = ".env", exact = TRUE)
@@ -74,8 +62,7 @@ NULL
 #' @export
 #' @rdname segmetric_functions
 sm_read <- function(ref_sf, seg_sf) {
-    # checked
-    
+
     if (is.character(ref_sf))
         ref_sf <- sf::read_sf(ref_sf)
     stopifnot(inherits(ref_sf, "sf"))
@@ -86,11 +73,20 @@ sm_read <- function(ref_sf, seg_sf) {
     
     stopifnot(sf::st_crs(ref_sf) == sf::st_crs(seg_sf))
     
-    ref_sf[["ref_id"]] <- seq_len(nrow(ref_sf))
-    seg_sf[["seg_id"]] <- seq_len(nrow(seg_sf))
-    
-    class(ref_sf) <- c("ref_sf", class(ref_sf))
-    class(seg_sf) <- c("seg_sf", class(seg_sf))
+    ref_sf <- suppressWarnings(
+        sf::st_sf(ref_id = seq_len(nrow(ref_sf)),
+                  geometry = sf::st_geometry(ref_sf),
+                  sf_column_name = "geometry")
+    )
+        
+    seg_sf <- suppressWarnings(
+        sf::st_sf(seg_id = seq_len(nrow(seg_sf)), 
+                  geometry = sf::st_geometry(seg_sf),
+                  sf_column_name = "geometry")
+    )
+
+    class(ref_sf) <- unique(c("ref_sf", class(ref_sf)))
+    class(seg_sf) <- unique(c("seg_sf", class(seg_sf)))
     
     .env <- environment()
     
@@ -102,8 +98,7 @@ sm_read <- function(ref_sf, seg_sf) {
 #' @export
 #' @rdname segmetric_functions
 sm_clear <- function(m) {
-    # checked
-    
+
     subsets <- sm_list(m)
     subsets <- subsets[!subsets %in% c("ref_sf", "seg_sf")]
     rm(list = subsets, envir = .segmetric_env(m), inherits = FALSE)

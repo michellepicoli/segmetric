@@ -28,12 +28,31 @@ PlanetScope image, level 3B, acquired on Feb 18, 2020, with 3.7-meter
 resolution (Planet Team, 2017), using 'multiresolution segmentation'
 method (Baatz and Schape, 2000).
 
-Algorithm parameters:
+The data was post-processed on using spectral difference algorithm on Band 3.
+
+The polygons were simplified using Douglas-Peucker algorithm in QGIS.
+
+Self-intersections were removed using SAGA's Polygon Self-Intersection.
+
+Segmentation parameters:
 \itemize{
 \item{\verb{scale parameter}: 500}
 \item{\code{shape}: 0.9}
 \item{\code{compactness}: 0.1}
 }
+
+Spectral difference parameters:
+\itemize{
+\item{\verb{spectral difference}: 20}
+}
+
+Simplification parameter:
+\itemize{
+\item{\code{distance}: 10-meters}
+}
+
+Only polygons intersecting reference data and with
+area-perimeter ratio above threshold 25 were selected.
 
 \code{sample_seg_sf}: a subset of \code{seg_sf} dataset.
 }

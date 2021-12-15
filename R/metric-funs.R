@@ -70,7 +70,7 @@ sm_compute <- function(m, metric_id, ...) {
 #' `"OS1"` refers to Oversegmentation. Its values range from 0 (optimal) to 1
 #' (Clinton et al., 2010).
 OS1 <- function(m) {
-    sm_norm_frac(sm_area(sm_ystar(m)), 
+    .norm_right(sm_area(sm_ystar(m)), 
                  sm_area(sm_ref(m), order = sm_ystar(m)))
 }
 
@@ -83,7 +83,7 @@ OS1 <- function(m) {
 #' `"US1"` refers to Undersegmentation. Its values range from 0 (optimal) to 1 
 #' (Clinton et al., 2010).
 US1 <- function(m) {
-    sm_norm_frac(sm_area(sm_ystar(m)), 
+    .norm_right(sm_area(sm_ystar(m)), 
                  sm_area(sm_seg(m), order = sm_ystar(m)))
 }
 
@@ -96,7 +96,7 @@ US1 <- function(m) {
 #' `"OS2"` refers to Oversegmentation. Its values range from 0 (optimal) to 1 
 #' (Persello and Bruzzone, 2010).
 OS2 <- function(m) {
-    sm_norm_frac(sm_area(sm_yprime(m)), 
+    .norm_right(sm_area(sm_yprime(m)), 
                  sm_area(sm_ref(m), order = sm_yprime(m)))
 }
 
@@ -109,7 +109,7 @@ OS2 <- function(m) {
 #' `"US2"` refers to Undersegmentation. Its values range 0 (optimal) to 1 
 #' (Persello and Bruzzone, 2010).
 US2 <- function(m) {
-    sm_norm_frac(sm_area(sm_yprime(m)), 
+    .norm_right(sm_area(sm_yprime(m)), 
                  sm_area(sm_seg(m), order = sm_yprime(m)))
 }
 
@@ -122,7 +122,7 @@ US2 <- function(m) {
 #' `"OS3"` refers to Oversegmentation. Its values range from 0 (optimal) to 1 
 #' (Yang et al., 2014).
 OS3 <- function(m) {
-    sm_norm_frac(sm_area(sm_ycd(m)), 
+    .norm_right(sm_area(sm_ycd(m)), 
                  sm_area(sm_ref(m), order = sm_ycd(m)))
 }
 
@@ -135,7 +135,7 @@ OS3 <- function(m) {
 #' `"US3"` refers to Undersegmentation. Its values range from 0 (optimal) to 1 
 #' (Yang et al., 2014).
 US3 <- function(m) {
-    sm_norm_frac(sm_area(sm_ycd(m)),
+    .norm_right(sm_area(sm_ycd(m)),
                  sm_area(sm_seg(m), order = sm_ycd(m)))
 }
 
@@ -148,7 +148,7 @@ US3 <- function(m) {
 #' `"AFI"` refers to Area Fit Index. Its optimal value is 0 (Lucieer and Stein, 
 #' 2002; Clinton et al., 2010).
 AFI <- function(m) {
-    sm_norm_left(sm_area(sm_ref(m), order = sm_yprime(m)),
+    .norm_left(sm_area(sm_ref(m), order = sm_yprime(m)),
                  sm_area(sm_seg(m), order = sm_yprime(m)))
 }
 
@@ -161,10 +161,8 @@ AFI <- function(m) {
 #' `"QR"` refers to Quality rate. Its values range from 0 (optimal) to 1 
 #' (Weidner, 2008; Clinton et al., 2010).
 QR <- function(m) {
-    sm_norm_frac(sm_area(sm_ystar(m)), 
-                 sm_area(sm_union(sm_ref(m), 
-                                  sm_seg(m), 
-                                  order = sm_ystar(m))))
+    .norm_right(sm_area(sm_ystar(m)), 
+                 sm_area(sm_subset_union(sm_ystar(m))))
 }
 
 #' @rdname metric_functions
@@ -177,9 +175,9 @@ QR <- function(m) {
 #' (Levine and Nazif, 1982; Clinton et al., 2010).
 D_index <- function(m) {
     sqrt((
-        sm_norm_frac(sm_area(sm_ystar(m)),
+        .norm_right(sm_area(sm_ystar(m)),
                      sm_area(sm_ref(m), order = sm_ystar(m))) ^ 2 +
-            sm_norm_frac(sm_area(sm_ystar(m)),
+            .norm_right(sm_area(sm_ystar(m)),
                          sm_area(sm_seg(m), order = sm_ystar(m))) ^ 2) / 2)
 }
 
@@ -216,7 +214,7 @@ recall <- function(m) {
 #' `"UMerging"` refers to Undermerging. Its values range from 0 (optimal) to 0.5 
 #' (Levine and Nazif, 1982; Clinton et al., 2010).
 UMerging <- function(m) {
-    sm_norm_left(sm_area(sm_ref(m), order = sm_ystar(m)), sm_area(sm_ystar(m)))
+    .norm_left(sm_area(sm_ref(m), order = sm_ystar(m)), sm_area(sm_ystar(m)))
 }
 
 #' @rdname metric_functions
@@ -257,7 +255,7 @@ M <- function(m) {
 #' (Carleer et al., 2005).
 E <- function(m) {
     # TODO: check formula in Carleer et al. (2005)
-    sm_norm_left(sm_area(sm_seg(m), order = sm_xprime(m)),
+    .norm_left(sm_area(sm_seg(m), order = sm_xprime(m)),
                  sm_area(sm_xprime(m))) * 100
 }
 
@@ -324,9 +322,9 @@ Fitness <- function(m) {
 #' `"ED3"` refers to Euclidean Distance. Its values range from 0 (optimal) to 1 
 #' (Yang et al., 2014).
 ED3 <- function(m) {
-    sqrt((sm_norm_frac(sm_area(sm_ycd(m)),
+    sqrt((.norm_right(sm_area(sm_ycd(m)),
                        sm_area(sm_ref(m), order = sm_ycd(m))) ^ 2 +
-              sm_norm_frac(sm_area(sm_ycd(m)),
+              .norm_right(sm_area(sm_ycd(m)),
                            sm_area(sm_seg(m), order = sm_ycd(m))) ^ 2) / 2)
 }
 

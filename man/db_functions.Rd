@@ -2,6 +2,9 @@
 % Please edit documentation in R/db.R
 \name{db_functions}
 \alias{db_functions}
+\alias{.db_list}
+\alias{.db_set}
+\alias{.db_get}
 \alias{sm_list_metrics}
 \alias{sm_new_metric}
 \alias{sm_reg_metric}
@@ -9,6 +12,12 @@
 \alias{sm_desc_metric}
 \title{Database of metrics functions}
 \usage{
+.db_list()
+
+.db_set(key, value)
+
+.db_get(key)
+
 sm_list_metrics()
 
 sm_new_metric(fn, name = "", description = "", reference = "")

@@ -5,12 +5,16 @@
 #' @description 
 #' These functions handles `subset_sf` objects stored in `segmetric` objects.
 #' * `sm_list()` lists subsets already computed.
-#' * `sm_eval()` evaluates and stores a `subset_sf` object. 
-#' * `sm_get()` get a `subset_sf` object already stored.
-#' * `sm_id()` returns identification values of data objects 
-#' (`ref_sf`, `seg_sf`, `subset_sf`).
-#' * `%inset%` operator equivalent to left join. It returns objects from `x` 
-#' that appear in `y` using the same order and cardinality of `y`.
+#' * `sm_exists()` verifies if a subset_id exists in a `segmetric` object.
+#' * `sm_subset()` evaluates and stores a `subset_sf` object. 
+#' * `sm_indirect()` finds the subset_id of a given `subset_sf` object stored
+#' in a `segmetric` object.
+#' * `sm_segmetric()` returns the `segmetric` object that stores a given
+#' `subset` object (either a `ref_sf`, a `seg_sf`, or a `subset_sf`).
+#' * `sm_get()` retrieves a `subset_sf` object stored in a `segmetric` object.
+#' * `sm_inset()` operator equivalent to inner join but returns only objects 
+#' from `x`, or its corresponding row in `y` if parameter `return_index` 
+#' is `TRUE`.
 #' 
 #' @param s         Either a `ref_sf`, a `seg_sf`, or a `subset_sf` object
 #' (extension of `sf` class).
@@ -22,16 +26,17 @@
 #' @param expr      A valid piece of code in R inside curly braces. This 
 #' code is evaluated to generate a subset, which must be provided in the 
 #' last line.
-#' @param inset     A `subset_sf` object (an extension of `sf` class).
 #' @param x         Either a `ref_sf`, a `seg_sf`, or a `subset_sf` object
 #' (extension of `sf` class).
 #' @param y         A `subset_sf` object.
+#' @param return_index A `logical` value indicating if the corresponding rows
+#' in `y` should be returned instead of actual corresponding values of `x`.
 #' 
 NULL
 
 #' @rdname subset_handling_functions
-.subset_check <- function(s, allowed_types = c("ref_sf", "seg_sf", 
-                                               "subset_sf")) {
+.subset_check <- function(s, 
+                          allowed_types = c("ref_sf", "seg_sf", "subset_sf")) {
     
     stopifnot(all(allowed_types %in% c("ref_sf", "seg_sf", "subset_sf")))
     
@@ -71,24 +76,36 @@ NULL
     stopifnot("seg_id" %in% names(s))
 }
 
-
 #' @rdname subset_handling_functions
 #' @export
 sm_list <- function(m) {
     
+    .segmetric_check(m)
     ls(.segmetric_env(m))
 }
 
 #' @rdname subset_handling_functions
 #' @export
-sm_eval <- function(m, subset_id, expr = NULL) {
+sm_exists <- function(m, subset_id) {
     
-    if (exists(subset_id, envir = .segmetric_env(m), inherits = FALSE))
+    .segmetric_check(m)
+    exists(subset_id, envir = .segmetric_env(m), inherits = FALSE)
+}
+
+#' @rdname subset_handling_functions
+#' @export
+sm_subset <- function(m, subset_id, expr = NULL) {
+    # m checked
+    
+    if (sm_exists(m, subset_id = subset_id))
         return(sm_get(m, subset_id = subset_id))
     
+    stopifnot(!missing(expr))
     stopifnot(is.character(subset_id))
     
-    class(expr) <- c("subset_sf", class(expr))
+    class(expr) <- c(subset_id, "subset_sf", class(expr))
+    
+    attr(expr, "segmetric") <- m
     
     .subset_check(expr, allowed_types = "subset_sf")
     
@@ -98,6 +115,25 @@ sm_eval <- function(m, subset_id, expr = NULL) {
            inherits = FALSE)
     
     expr
+}
+
+#' @rdname subset_handling_functions
+#' @export
+sm_indirect <- function(s) {
+    
+    .subset_check(s)
+    stopifnot(sm_exists(attr(s, "segmetric"), subset_id = class(s)[[1]]))
+    class(s)[[1]]
+}
+
+#' @rdname subset_handling_functions
+#' @export
+sm_segmetric <- function(s) {
+    
+    .subset_check(s)
+    m <- attr(s, "segmetric")
+    .segmetric_check(m)
+    m
 }
 
 #' @rdname subset_handling_functions
@@ -112,10 +148,7 @@ sm_get <- function(m, subset_id) {
 sm_ref  <- function(m) {
     # checked
     
-    sm_get(
-        m = m,
-        subset_id = "ref_sf"
-    )
+    sm_get(m, subset_id = "ref_sf")
 }
 
 #' @rdname subset_handling_functions
@@ -123,63 +156,69 @@ sm_ref  <- function(m) {
 sm_seg <- function(m) {
     # checked
     
-    sm_get(
-        m = m, 
-        subset_id = "seg_sf"
-    )
+    sm_get(m, subset_id = "seg_sf")
 }
 
 #' @rdname subset_handling_functions
 #' @export
-sm_id <- function(s, inset = NULL) {
-
-    if (!is.null(inset))
-        .subset_check(inset, allowed_types = "subset_sf")
+sm_inset <- function(x, y, return_index = FALSE) {
     
-    UseMethod("sm_id", s)
+    UseMethod("sm_inset", x)
 }
 
 #' @rdname subset_handling_functions
 #' @export
-sm_id.ref_sf <- function(s, inset = NULL) {
+sm_inset.ref_sf <- function(x, y, return_index = FALSE) {
     
-    .subset_check(s, allowed_types = "ref_sf")
+    .subset_check(x, allowed_types = "ref_sf")
+    .subset_check(y, allowed_types = "subset_sf")
     
-    if (!is.null(inset)) {
-        .subset_check(inset, allowed_types = "subset_sf")
-        return(inset[["ref_id"]][inset[["ref_id"]] %in% s[["ref_id"]]])
-    }
-    s[["ref_id"]]
+    x[["..#"]] <- seq_len(nrow(x))
+    y <- sf::st_drop_geometry(y)["ref_id"]
+    
+    x <- dplyr::inner_join(x, y, by = "ref_id")
+    
+    if (return_index)
+        return(x[["..#"]])
+    
+    x[["..#"]] <- NULL
+    x
 }
 
 #' @rdname subset_handling_functions
 #' @export
-sm_id.seg_sf <- function(s, inset = NULL) {
+sm_inset.seg_sf <- function(x, y, return_index = FALSE) {
     
-    .subset_check(s, allowed_types = "seg_sf")
+    .subset_check(x, allowed_types = "seg_sf")
+    .subset_check(y, allowed_types = "subset_sf")
     
-    if (!is.null(inset)) {
-        .subset_check(inset, allowed_types = "subset_sf")
-        return(inset[["seg_id"]][inset[["seg_id"]] %in% s[["seg_id"]]])
-    }
+    x[["..#"]] <- seq_len(nrow(x))
+    y <- sf::st_drop_geometry(y)["seg_id"]
     
-    s[["seg_id"]]
+    x <- dplyr::inner_join(x, y, by = "seg_id")
+    
+    if (return_index)
+        return(x[["..#"]])
+    
+    x[["..#"]] <- NULL
+    x
 }
 
 #' @rdname subset_handling_functions
 #' @export
-sm_id.subset_sf <- function(s, inset = NULL) {
+sm_inset.subset_sf <- function(x, y, return_index = FALSE) {
     
-    .subset_check(s, allowed_types = "subset_sf")
+    .subset_check(x, allowed_types = "subset_sf")
+    .subset_check(y, allowed_types = "subset_sf")
     
-    id <- paste(s[["ref_id"]], s[["seg_id"]], sep = ";")
+    x[["..#"]] <- seq_len(nrow(x))
+    y <- sf::st_drop_geometry(y)[c("ref_id", "seg_id")]
     
-    if (!is.null(inset)) {
-        .subset_check(inset, allowed_types = "subset_sf")
-        inset_id <- sm_id(inset)
-        return(inset_id[inset_id %in% id])
-    }
-
-    id
+    x <- dplyr::inner_join(x, y, by = c("ref_id", "seg_id"))
+    
+    if (return_index)
+        return(x[["..#"]])
+    
+    x[["..#"]] <- NULL
+    x
 }
-

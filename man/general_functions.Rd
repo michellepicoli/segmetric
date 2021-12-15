@@ -4,29 +4,26 @@
 \alias{general_functions}
 \alias{sm_area}
 \alias{sm_centroid}
-\alias{sm_intersections}
-\alias{sm_union}
-\alias{rbind_distinct}
-\alias{sm_norm_left}
-\alias{sm_norm_frac}
-\alias{norm_diff}
+\alias{sm_intersection}
+\alias{sm_subset_union}
+\alias{sm_rbind}
+\alias{.norm_left}
+\alias{.norm_right}
 \title{General functions}
 \usage{
 sm_area(s, order = NULL)
 
 sm_centroid(s)
 
-sm_intersections(s1, s2, touches = TRUE)
+sm_intersection(s1, s2, touches = TRUE)
 
-sm_union(s1, s2, order)
+sm_subset_union(s)
 
-rbind_distinct(...)
+sm_rbind(...)
 
-sm_norm_left(x, y)
+.norm_left(x, y)
 
-sm_norm_frac(x, y)
-
-norm_diff(x, y)
+.norm_right(x, y)
 }
 \arguments{
 \item{s}{A \code{sf} object. Either a reference, a segmentation, or a subset.}
@@ -52,10 +49,10 @@ These functions manipulate segmetric objects.
 \itemize{
 \item \code{sm_area()} Return a vector of areas, one for each polygon.
 \item \code{sm_centroid()} Return the centroids of the given polygons.
-\item \code{sm_intersections()} Return the intersection of the given simple features.
-\item \code{sm_union()} Return the unio of the given simple features.
-\item \code{rbind_distinct()} Return the merge of unique simple features.
-\item \code{sm_norm_left()} Return the normalized value by x.
-\item \code{sm_norm_frac()} Return the normalized value by y.
+\item \code{sm_intersection()} Return the intersection of the given simple features.
+\item \code{sm_subset_union()} Return the unio of the given simple features.
+\item \code{sm_rbind()} Return the merge of unique simple features.
+\item \code{.norm_left()} Return the normalized value by x.
+\item \code{.norm_right()} Return the normalized value by y.
 }
 }

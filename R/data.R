@@ -76,14 +76,33 @@ NULL
 #' `seg_sf`: a dataset containing segments generated from 
 #' PlanetScope image, level 3B, acquired on Feb 18, 2020, with 3.7-meter
 #' resolution (Planet Team, 2017), using 'multiresolution segmentation' 
-#' method (Baatz and Schape, 2000).
+#' method (Baatz and Schape, 2000). 
 #' 
-#' Algorithm parameters:
+#' The data was post-processed on using spectral difference algorithm on Band 3.
+#' 
+#' The polygons were simplified using Douglas-Peucker algorithm in QGIS. 
+#' 
+#' Self-intersections were removed using SAGA's Polygon Self-Intersection.
+#' 
+#' Segmentation parameters:
 #' \itemize{
 #'   \item{`scale parameter`: 500}
 #'   \item{`shape`: 0.9}
 #'   \item{`compactness`: 0.1}
 #' }
+#' 
+#' Spectral difference parameters:
+#' \itemize{
+#'   \item{`spectral difference`: 20}
+#' }
+#' 
+#' Simplification parameter:
+#' \itemize{
+#'   \item{`distance`: 10-meters}
+#' }
+#' 
+#' Only polygons intersecting reference data and with
+#' area-perimeter ratio above threshold 25 were selected.
 #' 
 #' @format 
 #' `seg_sf`: a dataset with 259 features.
