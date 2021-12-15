@@ -4,7 +4,7 @@ p05 <- p00 + 5
 
 source("segmetric_util.R")
 
-
+#---- Geometry tests ----
 
 test_that("empty intersection works", {
 
@@ -218,7 +218,7 @@ test_that("one vertex and one polygon work", {
     expect_true(!sm_is_empty(sm_compute(data, "Fitness")))
 })
 
-
+#---- Value tests ----
 
 test_that("normal use works", {
 
@@ -324,6 +324,7 @@ test_that("normal use works", {
         test_F_measure(test_precision(x_prime),
                        test_recall(y_prime)) == sm_compute(data, "F_measure")
     )
+    expect_true(all(test_E(x_prime) == sm_compute(data, "E")$E))
 
 })
 
@@ -435,7 +436,7 @@ test_that("perfect fit works", {
         test_F_measure(test_precision(x_prime),
                        test_recall(y_prime)) == sm_compute(data, "F_measure")
     )
-
+    expect_true(all(test_E(x_prime) == sm_compute(data, "E")$E))
 })
 
 
@@ -523,6 +524,7 @@ test_that("two segments inside works", {
         test_F_measure(test_precision(x_prime),
                        test_recall(y_prime)) ==
             sm_compute(data, "F_measure")$F_measure)
+    expect_true(all(test_E(x_prime) == sm_compute(data, "E")$E))
 })
 
 
@@ -608,5 +610,5 @@ test_that("grid works", {
     expect_true(
         test_F_measure(test_precision(x_prime),
                        test_recall(y_prime)) == sm_compute(data, "F_measure"))
-
+    expect_true(all(test_E(x_prime) == sm_compute(data, "E")$E))
 })

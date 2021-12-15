@@ -253,7 +253,7 @@ M <- function(m) {
 #' 
 #' 
 #' @details
-#' `"E"` refers to Evaluation measure. Its values range from 0 (optimal) to 50 
+#' `"E"` refers to Evaluation measure. Its values range from 0 (optimal) to 100 
 #' (Carleer et al., 2005).
 E <- function(m) {
     # TODO: check formula in Carleer et al. (2005)
