@@ -68,3 +68,4 @@ sm_clear(m)
 \seealso{
 \code{sm_compute()}
 }
+\keyword{internal}
