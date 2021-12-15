@@ -4,18 +4,20 @@
 #' 
 #' @description 
 #' These functions manipulate segmetric objects.
-#' * `sm_area()` ...
-#' * `sm_centroid()` ...
-#' * `sm_intersection()` ...
-#' * `sm_subset_union()` ...
-#' * `sm_rbind()` ...
-#' * `norm_left()` ...
-#' * `norm_frac()` ...
-#' * `norm_diff()` ...
+#' * `sm_area()` Return a vector of areas, one for each polygon.
+#' * `sm_centroid()` Return the centroids of the given polygons.
+#' * `sm_intersection()` Return the intersection of the given simple features.
+#' * `sm_subset_union()` Return the unio of the given simple features.
+#' * `sm_rbind()` Return the merge of unique simple features.
+#' * `.norm_left()` Return the normalized value by x.
+#' * `.norm_right()` Return the normalized value by y.
 #' @param s       A `sf` object. Either a reference, a segmentation, or a subset.
 #' @param s1      A `sf` object. Either a reference, a segmentation, or a subset.
 #' @param s2      A `sf` object. Either a reference, a segmentation, or a subset.
-#' @param order   A `sf` object of type subset`sf`.
+#' @param order   A `sf` object of type subset`sf`. This argument is equivalent 
+#' to left join. The return of the function are ordered according to the object 
+#' passed to this parameter.
+#' 
 #' @param touches A logical. Is the border part of the intersection?
 #' @param x       A numerator of a fraction.
 #' @param y       A denominator of a fraction.
@@ -130,13 +132,11 @@ sm_rbind <- function(...) {
 }
 
 #' @rdname general_functions
-#' @export
-sm_norm_left <- function(x, y) {
+.norm_left <- function(x, y) {
     (x - y) / x
 }
 
 #' @rdname general_functions
-#' @export
-sm_norm_frac <- function(x, y) {
+.norm_right <- function(x, y) {
     1 - x / y
 }

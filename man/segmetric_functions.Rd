@@ -2,12 +2,18 @@
 % Please edit documentation in R/metric.R
 \name{segmetric_functions}
 \alias{segmetric_functions}
+\alias{.segmetric_check}
+\alias{.segmetric_env}
 \alias{sm_read}
 \alias{sm_clear}
 \alias{summary.segmetric}
 \alias{sm_is_empty}
 \title{General functions}
 \usage{
+.segmetric_check(m)
+
+.segmetric_env(m)
+
 sm_read(ref_sf, seg_sf)
 
 sm_clear(m)
@@ -17,17 +23,15 @@ sm_clear(m)
 sm_is_empty(m)
 }
 \arguments{
+\item{m}{A \code{segmetric} object.}
+
 \item{ref_sf}{A \code{sf} object. The reference polygons.}
 
 \item{seg_sf}{A \code{sf} object. The segmentation polygons.}
 
-\item{m}{A \code{segmetric} object.}
-
 \item{object}{A \code{segmetric} object.}
 
 \item{...}{Additional parameters (Not implemented).}
-
-\item{metric_id}{A character. The name of a metric.}
 }
 \description{
 These functions manipulate \code{segmetric} objects.

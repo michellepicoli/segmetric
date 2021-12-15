@@ -13,7 +13,6 @@
 #' 
 #' @param m A `segmetric` object.
 #' @param object A `segmetric` object.
-#' @param metric_id A character. The name of a metric.
 #' @param ref_sf A `sf` object. The reference polygons.
 #' @param seg_sf A `sf` object. The segmentation polygons.
 #' @param ...    Additional parameters (Not implemented).
@@ -43,13 +42,7 @@
 NULL
 
 
-#' @title Internal function
-#' 
-#' @description
-#' This function check if a segmetric object is valid.
-#' 
-#' @keywords internal
-#' 
+#' @rdname segmetric_functions 
 .segmetric_check <- function(m) {
     
     stopifnot(inherits(m, "segmetric"))
@@ -60,13 +53,7 @@ NULL
     }
 }
 
-#' @title Internal function
-#' 
-#' @description
-#' This function returns the segmetric environment. 
-#' 
-#' @keywords internal
-#' 
+#' @rdname segmetric_functions 
 .segmetric_env <- function(m) {
     
     attr(m, which = ".env", exact = TRUE)

@@ -28,55 +28,57 @@
 \usage{
 sm_compute(m, metric_id, ...)
 
-sm_compute(m, metric_id = "OS1")
+OS1(m)
 
-sm_compute(m, metric_id = "US1")
+US1(m)
 
-sm_compute(m, metric_id = "OS1")
+OS2(m)
 
-sm_compute(m, metric_id = "OS1")
+US2(m)
 
-sm_compute(m, metric_id = "OS1")
+OS3(m)
 
-sm_compute(m, metric_id = "OS1")
+US3(m)
 
-sm_compute(m, metric_id = "OS1")
+AFI(m)
 
-sm_compute(m, metric_id = "OS1")
+QR(m)
 
-sm_compute(m, metric_id = "OS1")
+D_index(m)
 
-sm_compute(m, metric_id = "OS1")
+precision(m)
 
-sm_compute(m, metric_id = "OS1")
+recall(m)
 
-sm_compute(m, metric_id = "OS1")
+UMerging(m)
 
-sm_compute(m, metric_id = "OS1")
+OMerging(m)
 
-sm_compute(m, metric_id = "OS1")
+M(m)
 
-sm_compute(m, metric_id = "OS1")
+E(m)
 
-sm_compute(m, metric_id = "OS1")
+RAsub(m)
 
-sm_compute(m, metric_id = "OS1")
+RAsuper(m)
 
-sm_compute(m, metric_id = "OS1")
+PI(m)
 
-sm_compute(m, metric_id = "OS1")
+Fitness(m)
 
-sm_compute(m, metric_id = "OS1")
+ED3(m)
 
-sm_compute(m, metric_id = "F_measure", alpha = 0.5)
+F_measure(m, alpha = 0.5)
 }
 \arguments{
-\item{m}{A \code{segmetric} object.}
+\item{m}{A \code{segmetric}object.}
 
 \item{metric_id}{A character value with the name of a metric to be computed.}
 
 \item{...}{Any additional argument to compute
 a metric (see details).}
+
+\item{alpha}{Numeric value ranging from 0 to 1. See Details.}
 }
 \description{
 \code{sm_compute()} is used to compute a given metric (\code{metric_id} parameter)
@@ -87,51 +89,70 @@ A list with all supported metrics can be obtained
 by \code{sm_list_metrics()} (see details for more information).
 }
 \details{
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"OS1"} refers to Oversegmentation. Its values range from 0 (optimal) to 1
+(Clinton et al., 2010).
 
-\code{"US1"} refers to Under-segmentation. Values range .....
-(Costa et al., 2010)
+\code{"US1"} refers to Undersegmentation. Its values range from 0 (optimal) to 1
+(Clinton et al., 2010).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"OS2"} refers to Oversegmentation. Its values range from 0 (optimal) to 1
+(Persello and Bruzzone, 2010).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"US2"} refers to Undersegmentation. Its values range 0 (optimal) to 1
+(Persello and Bruzzone, 2010).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"OS3"} refers to Oversegmentation. Its values range from 0 (optimal) to 1
+(Yang et al., 2014).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"US3"} refers to Undersegmentation. Its values range from 0 (optimal) to 1
+(Yang et al., 2014).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"AFI"} refers to Area Fit Index. Its optimal value is 0 (Lucieer and Stein,
+2002; Clinton et al., 2010).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"QR"} refers to Quality rate. Its values range from 0 (optimal) to 1
+(Weidner, 2008; Clinton et al., 2010).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"D_index"} refers to Index D. Its values range from 0 (optimal) to 1
+(Levine and Nazif, 1982; Clinton et al., 2010).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"precision"} refers to Precision. Its values range from 0 to 1 (optimal)
+(Van Rijsbergen, 1979; Zhang et al., 2015).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"recall"} refers to Recall. Its values range from 0 to 1 (optimal) (Van
+Rijsbergen, 1979; Zhang et al., 2015).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"UMerging"} refers to Undermerging. Its values range from 0 (optimal) to 0.5
+(Levine and Nazif, 1982; Clinton et al., 2010).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"OMerging"} refers to Overmerging. Its values range from 0 (optimal) to 0.5
+(Levine and Nazif, 1982; Clinton et al., 2010).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"M"} refers to Match. Its values range from 0 to 1 (optimal) (Janssen and
+Molenaar, 1995; Feitosa et al., 2010).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"E"} refers to Evaluation measure. Its values range from 0 (optimal) to 50
+(Carleer et al., 2005).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"RAsub"} refers to Relative area. Its values range from 0 to 1 (optimal)
+(Müller et al., 2007; Clinton et al., 2010).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"RAsuper"} refers to Relative area. Its values range from 0 to 1 (optimal)
+(Müller et al., 2007; Clinton et al., 2010).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"PI"} refers to Purity Index. Its values range from 0 to 1 (optimal) (van
+Coillie et al., 2008).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"Fitness"} refers to Fitness function. Its optimal value is 0 (Costa et al.,
+2008).
 
-\code{OS1}: refers to Over-segmentation. Values range .....
+\code{"ED3"} refers to Euclidean Distance. Its values range from 0 (optimal) to 1
+(Yang et al., 2014).
 
-\code{"F_measure"}: refers to F-measure metric (Van Rijsbergen, 1979;
-Zhang et al., 2015). Values range from 0 to 1 (optimal). It takes the
+\code{"F_measure"} refers to F-measure metric. Its values range from 0 to 1
+(optimal) (Van Rijsbergen, 1979; Zhang et al., 2015). It takes the
 optional weight argument \code{alpha}, which ranges from \code{0.0} to \code{1.0}
-(default is \code{0.5}).
+(the default is \code{0.5}).
 }
 \examples{
 # load sample datasets

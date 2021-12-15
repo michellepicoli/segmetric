@@ -7,8 +7,8 @@
 \alias{sm_intersection}
 \alias{sm_subset_union}
 \alias{sm_rbind}
-\alias{sm_norm_left}
-\alias{sm_norm_frac}
+\alias{.norm_left}
+\alias{.norm_right}
 \title{General functions}
 \usage{
 sm_area(s, order = NULL)
@@ -21,14 +21,16 @@ sm_subset_union(s)
 
 sm_rbind(...)
 
-sm_norm_left(x, y)
+.norm_left(x, y)
 
-sm_norm_frac(x, y)
+.norm_right(x, y)
 }
 \arguments{
 \item{s}{A \code{sf} object. Either a reference, a segmentation, or a subset.}
 
-\item{order}{A \code{sf} object of type subset\code{sf}.}
+\item{order}{A \code{sf} object of type subset\code{sf}. This argument is equivalent
+to left join. The return of the function are ordered according to the object
+passed to this parameter.}
 
 \item{s1}{A \code{sf} object. Either a reference, a segmentation, or a subset.}
 
@@ -45,13 +47,12 @@ sm_norm_frac(x, y)
 \description{
 These functions manipulate segmetric objects.
 \itemize{
-\item \code{sm_area()} ...
-\item \code{sm_centroid()} ...
-\item \code{sm_intersection()} ...
-\item \code{sm_subset_union()} ...
-\item \code{sm_rbind()} ...
-\item \code{norm_left()} ...
-\item \code{norm_frac()} ...
-\item \code{norm_diff()} ...
+\item \code{sm_area()} Return a vector of areas, one for each polygon.
+\item \code{sm_centroid()} Return the centroids of the given polygons.
+\item \code{sm_intersection()} Return the intersection of the given simple features.
+\item \code{sm_subset_union()} Return the unio of the given simple features.
+\item \code{sm_rbind()} Return the merge of unique simple features.
+\item \code{.norm_left()} Return the normalized value by x.
+\item \code{.norm_right()} Return the normalized value by y.
 }
 }
