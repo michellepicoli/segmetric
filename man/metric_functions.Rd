@@ -28,47 +28,47 @@
 \usage{
 sm_compute(m, metric_id, ...)
 
-sm_compute(m, metric_id = "OS1")
+OS1(m)
 
-sm_compute(m, metric_id = "US1")
+US1(m)
 
-sm_compute(m, metric_id = "OS2")
+OS2(m)
 
-sm_compute(m, metric_id = "US2")
+US2(m)
 
-sm_compute(m, metric_id = "OS3")
+OS3(m)
 
-sm_compute(m, metric_id = "US3")
+US3(m)
 
-sm_compute(m, metric_id = "AFI")
+AFI(m)
 
-sm_compute(m, metric_id = "QR")
+QR(m)
 
-sm_compute(m, metric_id = "D_index")
+D_index(m)
 
-sm_compute(m, metric_id = "precision")
+precision(m)
 
-sm_compute(m, metric_id = "recall")
+recall(m)
 
-sm_compute(m, metric_id = "UMerging")
+UMerging(m)
 
-sm_compute(m, metric_id = "OMerging")
+OMerging(m)
 
-sm_compute(m, metric_id = "M")
+M(m)
 
-sm_compute(m, metric_id = "E")
+E(m)
 
-sm_compute(m, metric_id = "RAsub")
+RAsub(m)
 
-sm_compute(m, metric_id = "RAsuper")
+RAsuper(m)
 
-sm_compute(m, metric_id = "PI")
+PI(m)
 
-sm_compute(m, metric_id = "Fitness")
+Fitness(m)
 
-sm_compute(m, metric_id = "ED3")
+ED3(m)
 
-sm_compute(m, metric_id = "F_measure", alpha = 0.5)
+F_measure(m, alpha = 0.5)
 }
 \arguments{
 \item{m}{A \code{segmetric}object.}
@@ -77,6 +77,8 @@ sm_compute(m, metric_id = "F_measure", alpha = 0.5)
 
 \item{...}{Any additional argument to compute
 a metric (see details).}
+
+\item{alpha}{Numeric value ranging from 0 to 1. See Details.}
 }
 \description{
 \code{sm_compute()} is used to compute a given metric (\code{metric_id} parameter)

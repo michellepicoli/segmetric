@@ -65,7 +65,6 @@ sm_compute <- function(m, metric_id, ...) {
 
 #' @param m         A `segmetric`object.
 #' 
-#' @usage sm_compute(m, metric_id = "OS1")
 #' 
 #' @details
 #' `"OS1"` refers to Oversegmentation. Its values range from 0 (optimal) to 1
@@ -79,7 +78,6 @@ OS1 <- function(m) {
 #' 
 #' @aliases US1
 #' 
-#' @usage sm_compute(m, metric_id = "US1")
 #' 
 #' @details
 #' `"US1"` refers to Undersegmentation. Its values range from 0 (optimal) to 1 
@@ -93,7 +91,6 @@ US1 <- function(m) {
 #' 
 #' @aliases OS2
 #' 
-#' @usage sm_compute(m, metric_id = "OS2")
 #' 
 #' @details
 #' `"OS2"` refers to Oversegmentation. Its values range from 0 (optimal) to 1 
@@ -107,7 +104,6 @@ OS2 <- function(m) {
 #' 
 #' @aliases US2
 #' 
-#' @usage sm_compute(m, metric_id = "US2")
 #' 
 #' @details
 #' `"US2"` refers to Undersegmentation. Its values range 0 (optimal) to 1 
@@ -121,7 +117,6 @@ US2 <- function(m) {
 #' 
 #' @aliases OS3
 #' 
-#' @usage sm_compute(m, metric_id = "OS3")
 #' 
 #' @details
 #' `"OS3"` refers to Oversegmentation. Its values range from 0 (optimal) to 1 
@@ -135,7 +130,6 @@ OS3 <- function(m) {
 #' 
 #' @aliases US3
 #' 
-#' @usage sm_compute(m, metric_id = "US3")
 #' 
 #' @details
 #' `"US3"` refers to Undersegmentation. Its values range from 0 (optimal) to 1 
@@ -149,7 +143,6 @@ US3 <- function(m) {
 #' 
 #' @aliases AFI
 #' 
-#' @usage sm_compute(m, metric_id = "AFI")
 #' 
 #' @details
 #' `"AFI"` refers to Area Fit Index. Its optimal value is 0 (Lucieer and Stein, 
@@ -163,7 +156,6 @@ AFI <- function(m) {
 #' 
 #' @aliases QR
 #' 
-#' @usage sm_compute(m, metric_id = "QR")
 #' 
 #' @details
 #' `"QR"` refers to Quality rate. Its values range from 0 (optimal) to 1 
@@ -179,7 +171,6 @@ QR <- function(m) {
 #' 
 #' @aliases D_index
 #' 
-#' @usage sm_compute(m, metric_id = "D_index")
 #' 
 #' @details
 #' `"D_index"` refers to Index D. Its values range from 0 (optimal) to 1 
@@ -196,7 +187,6 @@ D_index <- function(m) {
 #' 
 #' @aliases precision
 #' 
-#' @usage sm_compute(m, metric_id = "precision")
 #' 
 #' @details
 #' `"precision"` refers to Precision. Its values range from 0 to 1 (optimal) 
@@ -209,7 +199,6 @@ precision <- function(m) {
 #' 
 #' @aliases recall
 #' 
-#' @usage sm_compute(m, metric_id = "recall")
 #' 
 #' @details
 #' `"recall"` refers to Recall. Its values range from 0 to 1 (optimal) (Van 
@@ -222,7 +211,6 @@ recall <- function(m) {
 #' 
 #' @aliases UMerging
 #' 
-#' @usage sm_compute(m, metric_id = "UMerging")
 #' 
 #' @details
 #' `"UMerging"` refers to Undermerging. Its values range from 0 (optimal) to 0.5 
@@ -235,7 +223,6 @@ UMerging <- function(m) {
 #' 
 #' @aliases OMerging
 #' 
-#' @usage sm_compute(m, metric_id = "OMerging")
 #' 
 #' @details
 #' `"OMerging"` refers to Overmerging. Its values range from 0 (optimal) to 0.5 
@@ -250,7 +237,6 @@ OMerging <- function(m) {
 #' 
 #' @aliases M
 #' 
-#' @usage sm_compute(m, metric_id = "M")
 #' 
 #' @details
 #' `"M"` refers to Match. Its values range from 0 to 1 (optimal) (Janssen and 
@@ -265,7 +251,6 @@ M <- function(m) {
 #' 
 #' @aliases E
 #' 
-#' @usage sm_compute(m, metric_id = "E")
 #' 
 #' @details
 #' `"E"` refers to Evaluation measure. Its values range from 0 (optimal) to 50 
@@ -280,7 +265,6 @@ E <- function(m) {
 #' 
 #' @aliases RAsub
 #' 
-#' @usage sm_compute(m, metric_id = "RAsub")
 #' 
 #' @details
 #' `"RAsub"` refers to Relative area. Its values range from 0 to 1 (optimal) 
@@ -293,7 +277,6 @@ RAsub <- function(m) {
 #' 
 #' @aliases RAsuper
 #' 
-#' @usage sm_compute(m, metric_id = "RAsuper")
 #' 
 #' @details
 #' `"RAsuper"` refers to Relative area. Its values range from 0 to 1 (optimal) 
@@ -306,7 +289,6 @@ RAsuper <- function(m) {
 #' 
 #' @aliases PI
 #' 
-#' @usage sm_compute(m, metric_id = "PI")
 #' 
 #' @details
 #' `"PI"` refers to Purity Index. Its values range from 0 to 1 (optimal) (van 
@@ -322,7 +304,6 @@ PI <- function(m) {
 #' 
 #' @aliases Fitness
 #' 
-#' @usage sm_compute(m, metric_id = "Fitness")
 #' 
 #' @details
 #' `"Fitness"` refers to Fitness function. Its optimal value is 0 (Costa et al., 
@@ -338,7 +319,6 @@ Fitness <- function(m) {
 #' 
 #' @aliases ED3
 #' 
-#' @usage sm_compute(m, metric_id = "ED3")
 #' 
 #' @details
 #' `"ED3"` refers to Euclidean Distance. Its values range from 0 (optimal) to 1 
@@ -354,7 +334,7 @@ ED3 <- function(m) {
 #' 
 #' @aliases F_measure
 #' 
-#' @usage sm_compute(m, metric_id = "F_measure", alpha = 0.5)
+#' @param alpha Numeric value ranging from 0 to 1. See Details.
 #' 
 #' @details
 #' `"F_measure"` refers to F-measure metric. Its values range from 0 to 1 
