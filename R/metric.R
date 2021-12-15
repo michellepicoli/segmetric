@@ -42,7 +42,8 @@
 NULL
 
 
-#' @rdname segmetric_functions 
+#' @rdname segmetric_functions
+#' @keywords internal
 .segmetric_check <- function(m) {
     
     stopifnot(inherits(m, "segmetric"))
@@ -54,6 +55,7 @@ NULL
 }
 
 #' @rdname segmetric_functions 
+#' @keywords internal
 .segmetric_env <- function(m) {
     
     attr(m, which = ".env", exact = TRUE)

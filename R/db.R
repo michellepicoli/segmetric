@@ -46,20 +46,25 @@
 NULL
 
 #' @rdname db_functions 
+#' @keywords internal
 .db_list <- function() {
     ls(.db_env)
 }
 
 #' @rdname db_functions 
+#' @keywords internal
 .db_set <- function(key, value) {
     assign(key, value, envir = .db_env)
 }
 
+#' @rdname db_functions 
+#' @keywords internal
 .db_del <- function(key) {
     rm(list = key, envir = .db_env)
 }
 
 #' @rdname db_functions 
+#' @keywords internal
 .db_get <- function(key) {
     stopifnot(is.character(key))
     key <- key[[1]]

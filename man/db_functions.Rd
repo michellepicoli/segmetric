@@ -4,6 +4,7 @@
 \alias{db_functions}
 \alias{.db_list}
 \alias{.db_set}
+\alias{.db_del}
 \alias{.db_get}
 \alias{sm_list_metrics}
 \alias{sm_new_metric}
@@ -15,6 +16,8 @@
 .db_list()
 
 .db_set(key, value)
+
+.db_del(key)
 
 .db_get(key)
 
@@ -77,3 +80,4 @@ sm_desc_metric("Example")
 sm_list_metrics()
 
 }
+\keyword{internal}
