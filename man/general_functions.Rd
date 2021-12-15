@@ -31,7 +31,9 @@ norm_diff(x, y)
 \arguments{
 \item{s}{A \code{sf} object. Either a reference, a segmentation, or a subset.}
 
-\item{order}{A \code{sf} object of type subset\code{sf}.}
+\item{order}{A \code{sf} object of type subset\code{sf}. This argument is equivalent
+to left join. The return of the function are ordered according to the object
+passed to this parameter.}
 
 \item{s1}{A \code{sf} object. Either a reference, a segmentation, or a subset.}
 
@@ -48,13 +50,12 @@ norm_diff(x, y)
 \description{
 These functions manipulate segmetric objects.
 \itemize{
-\item \code{sm_area()} ...
-\item \code{sm_centroid()} ...
-\item \code{sm_intersections()} ...
-\item \code{sm_union()} ...
-\item \code{rbind_distinct()} ...
-\item \code{norm_left()} ...
-\item \code{norm_frac()} ...
-\item \code{norm_diff()} ...
+\item \code{sm_area()} Return a vector of areas, one for each polygon.
+\item \code{sm_centroid()} Return the centroids of the given polygons.
+\item \code{sm_intersections()} Return the intersection of the given simple features.
+\item \code{sm_union()} Return the unio of the given simple features.
+\item \code{rbind_distinct()} Return the merge of unique simple features.
+\item \code{sm_norm_left()} Return the normalized value by x.
+\item \code{sm_norm_frac()} Return the normalized value by y.
 }
 }

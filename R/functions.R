@@ -4,18 +4,20 @@
 #' 
 #' @description 
 #' These functions manipulate segmetric objects.
-#' * `sm_area()` ...
-#' * `sm_centroid()` ...
-#' * `sm_intersections()` ...
-#' * `sm_union()` ...
-#' * `rbind_distinct()` ...
-#' * `norm_left()` ...
-#' * `norm_frac()` ...
-#' * `norm_diff()` ...
+#' * `sm_area()` Return a vector of areas, one for each polygon.
+#' * `sm_centroid()` Return the centroids of the given polygons.
+#' * `sm_intersections()` Return the intersection of the given simple features.
+#' * `sm_union()` Return the unio of the given simple features.
+#' * `rbind_distinct()` Return the merge of unique simple features.
+#' * `sm_norm_left()` Return the normalized value by x.
+#' * `sm_norm_frac()` Return the normalized value by y.
 #' @param s       A `sf` object. Either a reference, a segmentation, or a subset.
 #' @param s1      A `sf` object. Either a reference, a segmentation, or a subset.
 #' @param s2      A `sf` object. Either a reference, a segmentation, or a subset.
-#' @param order   A `sf` object of type subset`sf`.
+#' @param order   A `sf` object of type subset`sf`. This argument is equivalent 
+#' to left join. The return of the function are ordered according to the object 
+#' passed to this parameter.
+#' 
 #' @param touches A logical. Is the border part of the intersection?
 #' @param x       A numerator of a fraction.
 #' @param y       A denominator of a fraction.
