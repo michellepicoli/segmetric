@@ -5,18 +5,18 @@
 #' Bahia state, Brazil
 #' 
 
-# load data
-data("ref_sf", package = "segmetric")
-data("seg_sf", package = "segmetric")
-
-# open data and create a segmetric object
-m <- sm_read(ref_sf, seg_sf)
-
 # list all supported metrics
 sm_list_metrics()
 
 # describe a specific metric
 sm_desc_metric("AFI")
+
+# load data
+data("ref_sf", package = "segmetric")
+data("seg_sf", package = "segmetric")
+
+# open data and create a segmetric object
+m <- sm_read(sample_ref_sf, sample_seg_sf)
 
 # compute metrics individually
 sm_compute(m, metric = "AFI") %>% summary()

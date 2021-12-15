@@ -4,29 +4,26 @@
 \alias{general_functions}
 \alias{sm_area}
 \alias{sm_centroid}
-\alias{sm_intersections}
-\alias{sm_union}
-\alias{rbind_distinct}
+\alias{sm_intersection}
+\alias{sm_subset_union}
+\alias{sm_rbind}
 \alias{sm_norm_left}
 \alias{sm_norm_frac}
-\alias{norm_diff}
 \title{General functions}
 \usage{
 sm_area(s, order = NULL)
 
 sm_centroid(s)
 
-sm_intersections(s1, s2, touches = TRUE)
+sm_intersection(s1, s2, touches = TRUE)
 
-sm_union(s1, s2, order)
+sm_subset_union(s)
 
-rbind_distinct(...)
+sm_rbind(...)
 
 sm_norm_left(x, y)
 
 sm_norm_frac(x, y)
-
-norm_diff(x, y)
 }
 \arguments{
 \item{s}{A \code{sf} object. Either a reference, a segmentation, or a subset.}
@@ -50,9 +47,9 @@ These functions manipulate segmetric objects.
 \itemize{
 \item \code{sm_area()} ...
 \item \code{sm_centroid()} ...
-\item \code{sm_intersections()} ...
-\item \code{sm_union()} ...
-\item \code{rbind_distinct()} ...
+\item \code{sm_intersection()} ...
+\item \code{sm_subset_union()} ...
+\item \code{sm_rbind()} ...
 \item \code{norm_left()} ...
 \item \code{norm_frac()} ...
 \item \code{norm_diff()} ...

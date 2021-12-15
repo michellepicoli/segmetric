@@ -169,9 +169,7 @@ AFI <- function(m) {
 #' 
 QR <- function(m) {
     sm_norm_frac(sm_area(sm_ystar(m)), 
-                 sm_area(sm_union(sm_ref(m), 
-                                  sm_seg(m), 
-                                  order = sm_ystar(m))))
+                 sm_area(sm_subset_union(sm_ystar(m))))
 }
 
 #' @rdname metric_functions
