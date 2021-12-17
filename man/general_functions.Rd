@@ -7,8 +7,6 @@
 \alias{sm_intersection}
 \alias{sm_subset_union}
 \alias{sm_rbind}
-\alias{.norm_left}
-\alias{.norm_right}
 \title{General functions}
 \usage{
 sm_area(s, order = NULL)
@@ -20,39 +18,25 @@ sm_intersection(s1, s2, touches = TRUE)
 sm_subset_union(s)
 
 sm_rbind(...)
-
-.norm_left(x, y)
-
-.norm_right(x, y)
 }
 \arguments{
-\item{s}{A \code{sf} object. Either a reference, a segmentation, or a subset.}
+\item{s, s1, s2}{Either a \code{ref_sf}, a \code{seg_sf}, or a \code{subset_sf} object
+(inherits from \code{sf}).}
 
-\item{order}{A \code{sf} object of type subset\code{sf}. This argument is equivalent
-to left join. The return of the function are ordered according to the object
-passed to this parameter.}
-
-\item{s1}{A \code{sf} object. Either a reference, a segmentation, or a subset.}
-
-\item{s2}{A \code{sf} object. Either a reference, a segmentation, or a subset.}
+\item{order}{A \code{subset_sf}. This argument arranges the returned values
+according to the object passed here.}
 
 \item{touches}{A logical. Is the border part of the intersection?}
 
-\item{...}{Set of \code{sf} objects of type subset\code{sf}.}
-
-\item{x}{A numerator of a fraction.}
-
-\item{y}{A denominator of a fraction.}
+\item{...}{Set of \code{sf} objects of type subset \code{sf}.}
 }
 \description{
 These functions manipulate segmetric objects.
 \itemize{
-\item \code{sm_area()} Return a vector of areas, one for each polygon.
-\item \code{sm_centroid()} Return the centroids of the given polygons.
-\item \code{sm_intersection()} Return the intersection of the given simple features.
-\item \code{sm_subset_union()} Return the unio of the given simple features.
-\item \code{sm_rbind()} Return the merge of unique simple features.
-\item \code{.norm_left()} Return the normalized value by x.
-\item \code{.norm_right()} Return the normalized value by y.
+\item \code{sm_area()} returns a vector of areas, one for each polygon.
+\item \code{sm_centroid()} returns the centroids of the given polygons.
+\item \code{sm_intersection()} returns the intersection of the given simple features.
+\item \code{sm_subset_union()} returns the union of the given simple features.
+\item \code{sm_rbind()} returns the merge of unique simple features.
 }
 }

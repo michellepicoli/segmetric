@@ -17,7 +17,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "mipicoli@gmail.com",
            comment = c(ORCID = "0000-0001-9855-2046")))
-Description: What the package does (one paragraph).
+Description: Metrics for assessing segmentation accuracy for geospatial data.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

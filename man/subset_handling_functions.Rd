@@ -2,10 +2,6 @@
 % Please edit documentation in R/subset.R
 \name{subset_handling_functions}
 \alias{subset_handling_functions}
-\alias{.subset_check}
-\alias{.subset_check.ref_sf}
-\alias{.subset_check.seg_sf}
-\alias{.subset_check.subset_sf}
 \alias{sm_list}
 \alias{sm_exists}
 \alias{sm_subset}
@@ -20,14 +16,6 @@
 \alias{sm_inset.subset_sf}
 \title{Subset handling functions}
 \usage{
-.subset_check(s, allowed_types = c("ref_sf", "seg_sf", "subset_sf"))
-
-\method{.subset_check}{ref_sf}(s, ...)
-
-\method{.subset_check}{seg_sf}(s, ...)
-
-\method{.subset_check}{subset_sf}(s, ...)
-
 sm_list(m)
 
 sm_exists(m, subset_id)
@@ -44,46 +32,36 @@ sm_ref(m)
 
 sm_seg(m)
 
-sm_inset(x, y, return_index = FALSE)
+sm_inset(s1, s2, return_index = FALSE)
 
-\method{sm_inset}{ref_sf}(x, y, return_index = FALSE)
+\method{sm_inset}{ref_sf}(s1, s2, return_index = FALSE)
 
-\method{sm_inset}{seg_sf}(x, y, return_index = FALSE)
+\method{sm_inset}{seg_sf}(s1, s2, return_index = FALSE)
 
-\method{sm_inset}{subset_sf}(x, y, return_index = FALSE)
+\method{sm_inset}{subset_sf}(s1, s2, return_index = FALSE)
 }
 \arguments{
-\item{s}{Either a \code{ref_sf}, a \code{seg_sf}, or a \code{subset_sf} object
-(extension of \code{sf} class).}
-
-\item{allowed_types}{A \code{character} vector containing one or more of
-following values: "ref_sf", "seg_sf", "subset_sf".}
-
-\item{...}{Additional parameter (not implemented).}
-
 \item{m}{A \code{segmetric} object.}
 
 \item{subset_id}{A \code{character} value informing a subset name.}
 
 \item{expr}{A valid piece of code in R inside curly braces. This
-code is evaluated to generate a subset, which must be provided in the
-last line.}
+code is evaluated to generate a subset.}
 
-\item{x}{Either a \code{ref_sf}, a \code{seg_sf}, or a \code{subset_sf} object
-(extension of \code{sf} class).}
-
-\item{y}{A \code{subset_sf} object.}
+\item{s, s1, s2}{Either a \code{ref_sf}, a \code{seg_sf}, or a \code{subset_sf} object.}
 
 \item{return_index}{A \code{logical} value indicating if the corresponding rows
-in \code{y} should be returned instead of actual corresponding values of \code{x}.}
+in \code{y} should be returned instead of the actual corresponding values of \code{x}.}
 }
 \description{
-These functions handles \code{subset_sf} objects stored in \code{segmetric} objects.
+These functions handle \code{subset_sf} data (inherited from \code{sf} class) stored in
+\code{segmetric} objects.
 \itemize{
-\item \code{sm_list()} lists subsets already computed.
-\item \code{sm_exists()} verifies if a subset_id exists in a \code{segmetric} object.
+\item \code{sm_list()} lists subsets already computed and stored in a \code{segmetric}
+object.
+\item \code{sm_exists()} verifies if a \code{subset_id} exists in a \code{segmetric} object.
 \item \code{sm_subset()} evaluates and stores a \code{subset_sf} object.
-\item \code{sm_indirect()} finds the subset_id of a given \code{subset_sf} object stored
+\item \code{sm_indirect()} finds the \code{subset_id} of a given \code{subset_sf} object stored
 in a \code{segmetric} object.
 \item \code{sm_segmetric()} returns the \code{segmetric} object that stores a given
 \code{subset} object (either a \code{ref_sf}, a \code{seg_sf}, or a \code{subset_sf}).

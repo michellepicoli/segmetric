@@ -4,24 +4,18 @@
 #' 
 #' @description 
 #' These functions manipulate segmetric objects.
-#' * `sm_area()` Return a vector of areas, one for each polygon.
-#' * `sm_centroid()` Return the centroids of the given polygons.
-#' * `sm_intersection()` Return the intersection of the given simple features.
-#' * `sm_subset_union()` Return the unio of the given simple features.
-#' * `sm_rbind()` Return the merge of unique simple features.
-#' * `.norm_left()` Return the normalized value by x.
-#' * `.norm_right()` Return the normalized value by y.
-#' @param s       A `sf` object. Either a reference, a segmentation, or a subset.
-#' @param s1      A `sf` object. Either a reference, a segmentation, or a subset.
-#' @param s2      A `sf` object. Either a reference, a segmentation, or a subset.
-#' @param order   A `sf` object of type subset`sf`. This argument is equivalent 
-#' to left join. The return of the function are ordered according to the object 
-#' passed to this parameter.
+#' * `sm_area()` returns a vector of areas, one for each polygon.
+#' * `sm_centroid()` returns the centroids of the given polygons.
+#' * `sm_intersection()` returns the intersection of the given simple features.
+#' * `sm_subset_union()` returns the union of the given simple features.
+#' * `sm_rbind()` returns the merge of unique simple features.
 #' 
+#' @param s,s1,s2 Either a `ref_sf`, a `seg_sf`, or a `subset_sf` object 
+#' (inherits from `sf`).
+#' @param order   A `subset_sf`. This argument arranges the returned values 
+#' according to the object passed here.
 #' @param touches A logical. Is the border part of the intersection?
-#' @param x       A numerator of a fraction.
-#' @param y       A denominator of a fraction.
-#' @param ...     Set of `sf` objects of type subset`sf`.
+#' @param ...     Set of `sf` objects of type subset `sf`.
 #' 
 NULL
 
@@ -131,12 +125,10 @@ sm_rbind <- function(...) {
     result
 }
 
-#' @rdname general_functions
 .norm_left <- function(x, y) {
     (x - y) / x
 }
 
-#' @rdname general_functions
 .norm_right <- function(x, y) {
     1 - x / y
 }
