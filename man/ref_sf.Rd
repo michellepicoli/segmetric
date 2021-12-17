@@ -18,7 +18,7 @@ These datasets are objects of class \code{sf} (inherits from \code{tbl_df},
 \code{sample_ref_sf}: a dataset with 5 features.
 }
 \source{
-\url{https://doi.org/10.1016/j.dib.2020.106553}
+\doi{10.1016/j.dib.2020.106553}.
 }
 \usage{
 ref_sf

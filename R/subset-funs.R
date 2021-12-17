@@ -24,9 +24,14 @@
 #' @param m      A `segmetric` object.
 #' 
 #' @references
-#' Clinton, N., Holt, A., Scarborough, J., Yan, L., & Gong, P. (2010). Accuracy Assessment Measures for Object-based Image Segmentation Goodness. Photogrammetric Engineering & Remote Sensing, 76(3), 289–299. <https://doi.org/10.14358/PERS.76.3.289>
+#' Clinton, N., Holt, A., Scarborough, J., Yan, L., & Gong, P. (2010). Accuracy 
+#' Assessment Measures for Object-based Image Segmentation Goodness. 
+#' Photogrammetric Engineering & Remote Sensing, 76(3), 289–299. 
+#' \doi{10.14358/PERS.76.3.289}.
 #' 
-#' Costa, H., Foody, G. M., & Boyd, D. S. (2018). Supervised methods of image segmentation accuracy assessment in land cover mapping. Remote Sensing of Environment, 205(December 2017), 338–351. <https://doi.org/10.1016/j.rse.2017.11.024>
+#' Costa, H., Foody, G. M., & Boyd, D. S. (2018). Supervised methods of image 
+#' segmentation accuracy assessment in land cover mapping. Remote Sensing of 
+#' Environment, 205(December 2017), 338–351. \doi{10.1016/j.rse.2017.11.024}.
 NULL
 
 #' @rdname set_functions
