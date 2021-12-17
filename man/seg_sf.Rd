@@ -23,14 +23,15 @@ seg_sf
 sample_seg_sf
 }
 \description{
-\code{seg_sf}: a dataset containing segments generated from
-PlanetScope image, level 3B, acquired on Feb 18, 2020, with 3.7-meter
-resolution (Planet Team, 2017), using 'multiresolution segmentation'
-method (Baatz and Schape, 2000).
+\code{seg_sf}: a dataset containing segments generated from PlanetScope image,
+level 3B, acquired on Feb 18, 2020, with 3.7-meter resolution (Planet Team,
+2017), using the multiresolution segmentation method (Baatz and Schape,
+2000).
 
-The data was post-processed on using spectral difference algorithm on Band 3.
+The data was post-processed using the spectral difference algorithm on band
+3.
 
-The polygons were simplified using Douglas-Peucker algorithm in QGIS.
+The polygons were simplified using the Douglas-Peucker algorithm in QGIS.
 
 Self-intersections were removed using SAGA's Polygon Self-Intersection.
 
@@ -51,8 +52,8 @@ Simplification parameter:
 \item{\code{distance}: 10-meters}
 }
 
-Only polygons intersecting reference data and with
-area-perimeter ratio above threshold 25 were selected.
+Only those polygons intersecting reference data with an area-perimeter ratio
+above 25 were selected.
 
 \code{sample_seg_sf}: a subset of \code{seg_sf} dataset.
 }
