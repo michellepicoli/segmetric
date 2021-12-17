@@ -37,3 +37,9 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# ctags
+^tags$
+
+# snaps
+^_snaps$
