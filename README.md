@@ -47,7 +47,9 @@ Spatial datasets can be loaded using `sf` objects. To create a
 `segmetric` object, use function `sm_read()`:
 
 ``` r
-# load sample datasets
+library(segmetric)
+
+# load example datasets
 data("sample_ref_sf", package = "segmetric")
 data("sample_seg_sf", package = "segmetric")
 
@@ -61,6 +63,8 @@ Segmentation metrics can be computed by function `sm_compute()`. Use
 ``` r
 # compute AFI metric and summarize it
 sm_compute(m, "AFI") %>% summary()
+#> $AFI
+#> [1] -0.4421184
 ```
 
 Make multiple calls to compute more other metrics:
@@ -74,12 +78,25 @@ m <-
 
 # summarize them
 summary(m)
+#> $OS1
+#> [1] -0.192588
+#> 
+#> $F_measure
+#> [1] 0.8472862
+#> 
+#> $US2
+#> [1] -0.2215805
 ```
 
 To see all supported metrics, type `?metric_functions` or run:
 
 ``` r
+# list all supported metrics
 sm_list_metrics()
+#>  [1] "AFI"       "D_index"   "E"         "ED3"       "F_measure" "Fitness"  
+#>  [7] "M"         "OMerging"  "OS1"       "OS2"       "OS3"       "PI"       
+#> [13] "precision" "QR"        "RAsub"     "RAsuper"   "recall"    "UMerging" 
+#> [19] "US1"       "US2"       "US3"
 ```
 
 ## How to contribute?

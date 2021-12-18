@@ -40,7 +40,7 @@ install.packages("segmetric")
 To install the development version of `segmetric`, run the following
 commands
 
-``` r
+```r
 # load necessary libraries
 library(devtools)
 
@@ -52,8 +52,10 @@ install_github("michellepicoli/segmetric")
 Spatial datasets can be loaded using `sf` objects.
 To create a `segmetric` object, use function `sm_read()`: 
 
-```r
-# load sample datasets
+```{r,results='hide'}
+library(segmetric)
+
+# load example datasets
 data("sample_ref_sf", package = "segmetric")
 data("sample_seg_sf", package = "segmetric")
 
@@ -64,7 +66,7 @@ m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
 Segmentation metrics can be computed by function `sm_compute()`.
 Use `summary()` to obtain an overall metric (mean or weighted mean).
 
-```r
+```{r,results='markup'}
 # compute AFI metric and summarize it
 sm_compute(m, "AFI") %>% summary()
 
@@ -72,7 +74,7 @@ sm_compute(m, "AFI") %>% summary()
 
 Make multiple calls to compute more other metrics:
 
-```r
+```{r,results='markup'}
 # compute OS1, F_measure, and US2 metrics
 m <- 
   sm_compute(m, "OS1") %>%
@@ -85,7 +87,9 @@ summary(m)
 
 To see all supported metrics, type `?metric_functions` or run:
 
-```r
+```{r,results='markup'}
+
+# list all supported metrics
 sm_list_metrics()
 ```
 
