@@ -108,7 +108,9 @@ functions.
 1.  Make a project
     [fork](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo).
 2.  Edit file `R/metric-funs.R` implementing the new metric.
-3.  Make a [Pull
+3.  Register your metric in `.onLoad()` function at `R/segmetric.R` file
+    using `sm_reg_metric()`.
+4.  Make a [Pull
     Request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
     on the branch
     [dev](https://github.com/michellepicoli/segmetric/tree/dev).
