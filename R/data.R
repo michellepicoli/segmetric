@@ -10,7 +10,7 @@
 #'   \item{`geometry`: polygons}
 #' }
 #' 
-#' @source \url{https://doi.org/10.1016/j.dib.2020.106553}
+#' @source \doi{10.1016/j.dib.2020.106553}.
 #' 
 #' @references 
 #' - Oldoni, L.V., Sanches, I.D.A., Picoli, M.C.A., 
