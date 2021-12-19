@@ -29,9 +29,14 @@ sm_group_by(s, by, fn, ...)
 \item{order}{A \code{subset_sf}. This argument arranges the returned values
 according to the object passed here.}
 
-\item{touches}{A logical. Is the border part of the intersection?}
+\item{touches}{A \code{logical}. Is the border part of the intersection?}
 
-\item{...}{Set of \code{sf} objects of type subset \code{sf}.}
+\item{...}{For \code{sm_rbind()}, a set of \code{sf} objects of type subset \code{sf}.
+For \code{sm_group_by()}, extra parameter to pass to \code{fn} function.}
+
+\item{by}{A \code{character} value with the column to group.}
+
+\item{fn}{A \code{function} to apply on each group.}
 }
 \description{
 These functions manipulate segmetric objects.

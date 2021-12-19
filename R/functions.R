@@ -15,8 +15,11 @@
 #' (inherits from `sf`).
 #' @param order   A `subset_sf`. This argument arranges the returned values 
 #' according to the object passed here.
-#' @param touches A logical. Is the border part of the intersection?
-#' @param ...     Set of `sf` objects of type subset `sf`.
+#' @param touches A `logical`. Is the border part of the intersection?
+#' @param by      A `character` value with the column to group.
+#' @param fn      A `function` to apply on each group.
+#' @param ...     For `sm_rbind()`, a set of `sf` objects of type subset `sf`.
+#' For `sm_group_by()`, extra parameter to pass to `fn` function.
 #' 
 NULL
 
