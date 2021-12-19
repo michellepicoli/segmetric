@@ -63,7 +63,7 @@ Plot your data using `plot()` command:
 plot(m)
 ```
 
-<img src="inst/extdata/img/plot-1.png" width="60%" />
+<img src="inst/extdata/img/plot-1.png" width="50%" />
 
 Segmentation metrics can be computed by function `sm_compute()`. Use
 `summary()` to obtain an overall metric (mean or weighted mean).
@@ -71,8 +71,7 @@ Segmentation metrics can be computed by function `sm_compute()`. Use
 ``` r
 # compute AFI metric and summarize it
 sm_compute(m, "AFI") %>% summary()
-#> $AFI
-#> [1] -0.4421184
+#> [1] -0.007097452
 ```
 
 Make multiple calls to compute more other metrics:
@@ -86,14 +85,8 @@ m <-
 
 # summarize them
 summary(m)
-#> $OS1
-#> [1] -0.192588
-#> 
-#> $F_measure
-#> [1] 0.8472862
-#> 
-#> $US2
-#> [1] -0.2215805
+#>        OS1  F_measure        US2 
+#> 0.17341468 0.84728616 0.08617454
 ```
 
 To see all supported metrics, type `?metric_functions` or run:

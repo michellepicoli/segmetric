@@ -65,7 +65,7 @@ m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
 
 Plot your data  using `plot()` command:
 
-```{r plot, echo=TRUE, fig.height=7, fig.width=7, fig.path="inst/extdata/img/", out.width="60%"}
+```{r plot, echo=TRUE, fig.height=7, fig.width=7, fig.path="inst/extdata/img/", out.width="50%"}
 plot(m)
 ```
 
