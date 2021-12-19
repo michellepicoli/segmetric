@@ -10,7 +10,7 @@ sm_compute(m, metric_id, ...)
 \arguments{
 \item{m}{A \code{segmetric} object.}
 
-\item{metric_id}{A character value with the name of a metric to be computed.}
+\item{metric_id}{A \code{character} vector with metrics id to be computed.}
 
 \item{...}{Any additional argument to compute
 a metric (see Details).}
@@ -81,7 +81,10 @@ m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
 # compute AFI metric and summarize it
 sm_compute(m, "AFI") \%>\% summary()
 
-# compute OS1, F_measure, and US2 metrics
+# compute three metrics and summarize them
+sm_compute(m, c("AFI", "OS1", "US2")) \%>\% summary()
+
+# compute OS1, F_measure, and US2 metrics using pipe
 m <- sm_compute(m, "OS1") \%>\%
   sm_compute("F_measure") \%>\%
   sm_compute("US2")

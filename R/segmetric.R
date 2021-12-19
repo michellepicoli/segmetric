@@ -48,7 +48,7 @@ NULL
     
     stopifnot(inherits(m, "segmetric"))
     stopifnot(all(c("ref_sf", "seg_sf") %in% ls(.segmetric_env(m))))
-    if (length(m) > 0) {
+    if (length(m) > 1) {
         stopifnot(!is.null(names(m)))
         stopifnot(names(m) %in% .db_list())
     }
@@ -204,7 +204,10 @@ summary.segmetric <- function(object, ...) {
     
     stopifnot(inherits(object, "segmetric"))
     
-    sapply(object, mean, ...)
+    value <- sapply(object, mean, ...)
+    if (length(object) <= 1)
+        return(unname(value))
+    value
 }
 
 #' @export
