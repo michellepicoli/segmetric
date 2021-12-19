@@ -12,47 +12,47 @@
 #' 
 #' 
 #' @details
-#' "`OS1`" refers to Oversegmentation. Its values range from 0 (optimal) to 1
+#' - "`OS1`" refers to Oversegmentation. Its values range from 0 (optimal) to 1
 #' (Clinton et al., 2010).
-#' "`US1`" refers to Undersegmentation. Its values range from 0 (optimal) to 1 
+#' - "`US1`" refers to Undersegmentation. Its values range from 0 (optimal) to 1 
 #' (Clinton et al., 2010).
-#' "`OS2`" refers to Oversegmentation. Its values range from 0 (optimal) to 1 
+#' - "`OS2`" refers to Oversegmentation. Its values range from 0 (optimal) to 1 
 #' (Persello and Bruzzone, 2010).
-#' "`US2`" refers to Undersegmentation. Its values range from 0 (optimal) to 1 
+#' - "`US2`" refers to Undersegmentation. Its values range from 0 (optimal) to 1 
 #' (Persello and Bruzzone, 2010).
-#' "`OS3`" refers to Oversegmentation. Its values range from 0 (optimal) to 1 
+#' - "`OS3`" refers to Oversegmentation. Its values range from 0 (optimal) to 1 
 #' (Yang et al., 2014).
-#' "`US3`" refers to Undersegmentation. Its values range from 0 (optimal) to 1 
+#' - "`US3`" refers to Undersegmentation. Its values range from 0 (optimal) to 1 
 #' (Yang et al., 2014).
-#' "`AFI`" refers to Area Fit Index. Its optimal value is 0 (Lucieer and Stein, 
+#' - "`AFI`" refers to Area Fit Index. Its optimal value is 0 (Lucieer and Stein, 
 #' 2002; Clinton et al., 2010).
-#' "`QR`" refers to Quality Rate. Its values range from 0 (optimal) to 1 
+#' - "`QR`" refers to Quality Rate. Its values range from 0 (optimal) to 1 
 #' (Weidner, 2008; Clinton et al., 2010).
-#' "`D_index`" refers to Index D. Its values range from 0 (optimal) to 1 
+#' - "`D_index`" refers to Index D. Its values range from 0 (optimal) to 1 
 #' (Levine and Nazif, 1982; Clinton et al., 2010).
-#' "`precision`" refers to Precision. Its values range from 0 to 1 (optimal) 
+#' - "`precision`" refers to Precision. Its values range from 0 to 1 (optimal) 
 #' (Van Rijsbergen, 1979; Zhang et al., 2015).
-#' "`recall`" refers to Recall. Its values range from 0 to 1 (optimal) (Van 
+#' - "`recall`" refers to Recall. Its values range from 0 to 1 (optimal) (Van 
 #' Rijsbergen, 1979; Zhang et al., 2015).
-#' "`UMerging`" refers to Undermerging. Its values range from 0 (optimal) to 0.5 
+#' - "`UMerging`" refers to Undermerging. Its values range from 0 (optimal) to 0.5 
 #' (Levine and Nazif, 1982; Clinton et al., 2010).
-#' "`OMerging`" refers to Overmerging. Its values range from 0 (optimal) to 0.5 
+#' - "`OMerging`" refers to Overmerging. Its values range from 0 (optimal) to 0.5 
 #' (Levine and Nazif, 1982; Clinton et al., 2010).
-#' "`M`" refers to Match. Its values range from 0 to 1 (optimal) (Janssen and 
+#' - "`M`" refers to Match. Its values range from 0 to 1 (optimal) (Janssen and 
 #' Molenaar, 1995; Feitosa et al., 2010).
-#' "`E`" refers to Evaluation Measure. Its values range from 0 (optimal) to 100 
+#' - "`E`" refers to Evaluation Measure. Its values range from 0 (optimal) to 100 
 #' (Carleer et al., 2005).
-#' "`RAsub`" refers to Relative Area. Its values range from 0 to 1 (optimal) 
+#' - "`RAsub`" refers to Relative Area. Its values range from 0 to 1 (optimal) 
 #' (Müller et al., 2007; Clinton et al., 2010).
-#' "`RAsuper`" refers to Relative area. Its values range from 0 to 1 (optimal) 
+#' - "`RAsuper`" refers to Relative area. Its values range from 0 to 1 (optimal) 
 #' (Müller et al., 2007; Clinton et al., 2010).
-#' "`PI`" refers to Purity Index. Its values range from 0 to 1 (optimal) (van 
+#' - "`PI`" refers to Purity Index. Its values range from 0 to 1 (optimal) (van 
 #' Coillie et al., 2008).
-#' "`Fitness`" refers to Fitness Function. Its optimal value is 0 (Costa et al., 
+#' - "`Fitness`" refers to Fitness Function. Its optimal value is 0 (Costa et al., 
 #' 2008).
-#' "`ED3`" refers to Euclidean Distance. Its values range from 0 (optimal) to 1 
+#' - "`ED3`" refers to Euclidean Distance. Its values range from 0 (optimal) to 1 
 #' (Yang et al., 2014).
-#' "`F_measure`" refers to F-measure metric. Its values range from 0 to 1 
+#' - "`F_measure`" refers to F-measure metric. Its values range from 0 to 1 
 #' (optimal) (Van Rijsbergen, 1979; Zhang et al., 2015). It takes the optional 
 #' weight argument `alpha`, ranging from `0.0` to `1.0` (the default is `0.5`).
 #' 
