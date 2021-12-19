@@ -206,10 +206,7 @@ Fitness <- function(m) {
 }
 
 ED3 <- function(m) {
-    sqrt((.norm_right(sm_area(sm_ycd(m)),
-                       sm_area(sm_ref(m), order = sm_ycd(m))) ^ 2 +
-              .norm_right(sm_area(sm_ycd(m)),
-                           sm_area(sm_seg(m), order = sm_ycd(m))) ^ 2) / 2)
+    sqrt(OS3(m) ^ 2 + US3(m) ^ 2) / 2
 }
 
 F_measure <- function(m, alpha = 0.5) {
