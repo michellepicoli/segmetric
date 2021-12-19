@@ -9,5 +9,5 @@
 \item{rhs}{right hand side parameter.}
 }
 \description{
-Imported function from \code{dplyr}.
+Imported function from \code{magrittr}.
 }
