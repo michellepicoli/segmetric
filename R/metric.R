@@ -113,29 +113,89 @@ print.segmetric <- function(x, ...) {
 }
 
 #' @exportS3Method
-plot.segmetric <- function(x, ...) {
+plot.segmetric <- function(x, ..., title = NULL,
+                           background = "#FAFAFA",
+                           plot_centroids = TRUE,
+                           ref_symbol = 2,
+                           seg_symbol = 3,
+                           centroids_color = "#000000",
+                           show_legend = TRUE,
+                           ref_label = "reference",
+                           seg_label = "segment",
+                           centroids_label = "centroid",
+                           ref_color = "#0000B3",
+                           seg_color = "#FFF50A",
+                           fill_alpha = 0.2) {
     
-    ref_sf <- dplyr::transmute(sm_ref(x), type = "reference")
-    seg_sf <- dplyr::transmute(sm_seg(x), type = "segmentation")
+    ref_sf <- sm_ref(x)[-1]
+    ref_sf[["type"]] <- 1
+    seg_sf <- sm_seg(x)[-1]
+    seg_sf[["type"]] <- 2
     
-    plot(sf::st_geometry(ref_sf),
-         border = 'blue',
-         extent = rbind(ref_sf, seg_sf),
-         main = "Reference (blue) versus Segmentation (red) and their centroids")
+    data <- rbind(ref_sf, seg_sf)
     
-    plot(sf::st_geometry(seg_sf),
-         border = 'red',
-         add = TRUE)
+    mod_alpha <- function(x, alpha) {
+        if (alpha < 0) alpha <- 0
+        if (alpha > 1) alpha <- 1
+        alpha <- as.hexmode(round(255 * alpha, 0))
+        gsub("^(#[0-9a-fA-F]{6}).*$", paste0("\\1", alpha), x)
+    }
     
-    plot(sf::st_centroid(sf::st_geometry(ref_sf)), 
-         pch = 1,
-         col = 'blue',
-         add = TRUE)
+    mod_extent <- function(x, factor) {
+        x[[2]] <- x[[2]] - (x[[4]] - x[[2]]) * factor
+        x
+    }
     
-    plot(sf::st_centroid(sf::st_geometry(seg_sf)), 
-         pch = 2,
-         col = 'red',
-         add = TRUE)
+    if (!is.character(title))
+        title <- NULL
+    labels <- c(ref_label, seg_label)
+    fill <- mod_alpha(c(ref_color, seg_color), fill_alpha)
+    border <- c(ref_color, seg_color)
+    symbols <- c(NA, NA)
+    symbols_color <- c(NA, NA)
+    
+    plot(data,
+         main = title,
+         col = fill[data[["type"]]],
+         border = border[data[["type"]]],
+         bg = background,
+         extent = mod_extent(sf::st_bbox(data), 0.2),
+         axes = TRUE,
+         reset = FALSE)
+
+    if (plot_centroids) {
+        
+        labels <- c(labels, paste(labels, centroids_label))
+        fill <- c(fill, NA, NA)
+        border <- c(border, NA, NA)
+        symbols <- c(symbols, ref_symbol, seg_symbol)
+        symbols_color <- c(symbols_color, centroids_color, centroids_color)
+        
+        plot(sf::st_centroid(sf::st_geometry(ref_sf)), 
+             pch = ref_symbol,
+             col = centroids_color,
+             lwd = 1,
+             add = TRUE)
+        
+        plot(sf::st_centroid(sf::st_geometry(seg_sf)), 
+             pch = seg_symbol,
+             col = centroids_color,
+             lwd = 1,
+             add = TRUE)
+    }
+    if (show_legend) {
+        
+        graphics::legend(
+            "bottom", 
+            legend = labels,
+            fill = fill,
+            border = border,
+            pch = symbols,
+            col = symbols_color,
+            ncol = 2,
+            bty = "n",
+            bg = NA)
+    }
 }
 
 #' @exportS3Method
