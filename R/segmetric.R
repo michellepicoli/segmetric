@@ -2,15 +2,18 @@
 #'
 #' @name %>%
 #' 
-#' @importFrom dplyr `%>%`
+#' @importFrom magrittr `%>%`
 #' 
 #' @description
-#' Imported function from `dplyr`.
+#' Imported function from `magrittr`.
 #'
 #' @param lhs left hand side parameter.
 #' @param rhs right hand side parameter.
 #' 
 #' @export
+NULL
+
+#' @importFrom graphics legend
 NULL
 
 # package environment
