@@ -93,7 +93,7 @@ sm_subset <- function(m, subset_id, expr = NULL) {
     stopifnot(!missing(expr))
     stopifnot(is.character(subset_id))
     
-    class(expr) <- c(subset_id, "subset_sf", class(expr))
+    class(expr) <- unique(c(subset_id, "subset_sf", class(expr)))
     
     attr(expr, "segmetric") <- m
     
@@ -163,16 +163,10 @@ sm_inset.ref_sf <- function(s1, s2, return_index = FALSE) {
     .subset_check(s1, allowed_types = "ref_sf")
     .subset_check(s2, allowed_types = "subset_sf")
     
-    s1[["..#"]] <- seq_len(nrow(s1))
-    s2 <- sf::st_drop_geometry(s2)["ref_id"]
-    
-    s1 <- dplyr::inner_join(s1, s2, by = "ref_id")
-    
     if (return_index)
-        return(s1[["..#"]])
+        return(s2[["ref_id"]])
     
-    s1[["..#"]] <- NULL
-    s1
+    s1[s2[["ref_id"]],]
 }
 
 #' @rdname subset_handling_functions
@@ -182,16 +176,10 @@ sm_inset.seg_sf <- function(s1, s2, return_index = FALSE) {
     .subset_check(s1, allowed_types = "seg_sf")
     .subset_check(s2, allowed_types = "subset_sf")
     
-    s1[["..#"]] <- seq_len(nrow(s1))
-    s2 <- sf::st_drop_geometry(s2)["seg_id"]
-    
-    s1 <- dplyr::inner_join(s1, s2, by = "seg_id")
-    
     if (return_index)
-        return(s1[["..#"]])
+        return(s2[["seg_id"]])
     
-    s1[["..#"]] <- NULL
-    s1
+    s1[s2[["seg_id"]],]
 }
 
 #' @rdname subset_handling_functions
@@ -204,11 +192,13 @@ sm_inset.subset_sf <- function(s1, s2, return_index = FALSE) {
     s1[["..#"]] <- seq_len(nrow(s1))
     s2 <- sf::st_drop_geometry(s2)[c("ref_id", "seg_id")]
     
-    s1 <- dplyr::inner_join(s1, s2, by = c("ref_id", "seg_id"))
+    inset <- sf::st_as_sf(merge(s2, s1, by = c("ref_id", "seg_id"), 
+                                sort = FALSE))
     
     if (return_index)
-        return(s1[["..#"]])
+        return(inset[["..#"]])
     
-    s1[["..#"]] <- NULL
-    s1
+    inset[["..#"]] <- NULL
+    class(inset) <- class(s1)
+    inset
 }

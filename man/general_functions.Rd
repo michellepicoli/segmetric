@@ -7,6 +7,7 @@
 \alias{sm_intersection}
 \alias{sm_subset_union}
 \alias{sm_rbind}
+\alias{sm_group_by}
 \title{General functions}
 \usage{
 sm_area(s, order = NULL)
@@ -18,6 +19,8 @@ sm_intersection(s1, s2, touches = TRUE)
 sm_subset_union(s)
 
 sm_rbind(...)
+
+sm_group_by(s, by, fn, ...)
 }
 \arguments{
 \item{s, s1, s2}{Either a \code{ref_sf}, a \code{seg_sf}, or a \code{subset_sf} object
@@ -26,9 +29,14 @@ sm_rbind(...)
 \item{order}{A \code{subset_sf}. This argument arranges the returned values
 according to the object passed here.}
 
-\item{touches}{A logical. Is the border part of the intersection?}
+\item{touches}{A \code{logical}. Is the border part of the intersection?}
 
-\item{...}{Set of \code{sf} objects of type subset \code{sf}.}
+\item{...}{For \code{sm_rbind()}, a set of \code{sf} objects of type subset \code{sf}.
+For \code{sm_group_by()}, extra parameter to pass to \code{fn} function.}
+
+\item{by}{A \code{character} value with the column to group.}
+
+\item{fn}{A \code{function} to apply on each group.}
 }
 \description{
 These functions manipulate segmetric objects.
@@ -38,5 +46,6 @@ These functions manipulate segmetric objects.
 \item \code{sm_intersection()} returns the intersection of the given simple features.
 \item \code{sm_subset_union()} returns the union of the given simple features.
 \item \code{sm_rbind()} returns the merge of unique simple features.
+\item \code{sm_group_by()} apply a function to groups of \code{subset_sf}.
 }
 }

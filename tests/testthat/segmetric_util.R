@@ -3,6 +3,8 @@
 .get_inter <- function(ref_sf, seg_sf) {
     inter_sf <- sf::st_intersection(ref_sf["ref_id"], seg_sf["seg_id"])
     inter_sf["inter_area"] <- sf::st_area(inter_sf)
+    if (inherits(inter_sf[["inter_area"]], "units"))
+        inter_sf[["inter_area"]] <- units::drop_units(inter_sf[["inter_area"]])
     inter_area <- sf::st_set_geometry(inter_sf, NULL)
     return(inter_area)
 }
@@ -10,6 +12,8 @@
 .get_union <- function(ref_sf, seg_sf) {
     union_sf <- sf::st_union(ref_sf["ref_id"], seg_sf["seg_id"])
     union_sf["union_area"] <- sf::st_area(union_sf)
+    if (inherits(union_sf[["union_area"]], "units"))
+        union_sf[["union_area"]] <- units::drop_units(union_sf[["union_area"]])
     union_area <- sf::st_set_geometry(union_sf, NULL)
     return(union_area)
 }
@@ -33,7 +37,11 @@ get_areas <- function(ref_sf, seg_sf) {
         stopifnot("seg_id" %in% colnames(seg_sf))
         
         ref_sf["ref_area"] = sf::st_area(ref_sf)
+        if (inherits(ref_sf[["ref_area"]], "units"))
+            ref_sf[["ref_area"]] <- units::drop_units(ref_sf[["ref_area"]])
         seg_sf["seg_area"] = sf::st_area(seg_sf)
+        if (inherits(seg_sf[["seg_area"]], "units"))
+            seg_sf[["seg_area"]] <- units::drop_units(seg_sf[["seg_area"]])
         ref_area <- sf::st_set_geometry(ref_sf, NULL)
         seg_area <- sf::st_set_geometry(seg_sf, NULL)
         inter_area <- .get_inter(ref_sf, seg_sf)
@@ -223,7 +231,7 @@ test_PI <- function(y_tilde) {
 
 
 test_ED3 <- function(y_cd) {
-    sqrt(y_cd$OS3^2 + y_cd$US3^2) / 2
+    sqrt(test_OS3(y_cd)^2 + test_US3(y_cd)^2) / 2
 }
 
 test_F_measure <- function(precision, recall, alpha = 0.5) {

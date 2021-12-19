@@ -3,23 +3,39 @@
 #' @name set_functions
 #' 
 #' @description 
-#' These functions compute subsets required to calculate segmentation metrics as
-#' described in Clinton et al. (2010) and Costa et al. (2017).
-#' * `sm_ref()`    returns the set of \eqn{n} polygons of reference, represented by \eqn{X = \{x_{i}: i = 1, ....., n\}}
-#' * `sm_seg()`    returns the set of \eqn{m} segmentation polygons, represented by \eqn{Y = \{y_{j}: j = 1, ....., m\}}
-#' * `sm_ytilde()` returns \eqn{\tilde{Y}_{i}}, a subset of \eqn{Y}, where \eqn{\tilde{Y}_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) \neq 0\}}
-#' * `sm_xtilde()` returns \eqn{\tilde{X}_{j}}, a subset of \eqn{X}, where \eqn{\tilde{X}_{j} = \{x_{i}: \rm{area}(y_{j} \cap x_{i}) \neq 0\}}
-#' * `sm_yprime()` returns \eqn{Y'_{i}}, a subset of \eqn{Y}, where \eqn{Y'_{i} = \{y_{j}: max(\rm{area}(x_{i} \cap y_{j}))\}}
-#' * `sm_xprime()` returns \eqn{X'_{j}}, a subset of \eqn{X}, where \eqn{X'_{j} = \{x_{i}: max(\rm{area}(y_{j} \cap x_{i}))\}}
-#' * `sm_ya()`     returns \eqn{Y\!a_{i}}, a subset of \eqn{\tilde{Y}_{i}}, where \eqn{Y\!a_{i} = \{y_{j}: \rm{centroid}(x_{i}) \:\rm{in}\: y_{j}\}}
-#' * `sm_yb()`     returns \eqn{Y\!b_{i}}, a subset of \eqn{\tilde{Y}_{i}}, where \eqn{Y\!b_{i} = \{y_{j}: \rm{centroid}(y_{j}) \:\rm{in}\: x_{i}\}}
-#' * `sm_yc()`     returns \eqn{Y\!c_{i}}, a subset of \eqn{\tilde{Y}_{i}}, where \eqn{Y\!c_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(y_{j}) > 0.5\}}
-#' * `sm_yd()`     returns \eqn{Y\!d_{i}}, a subset of \eqn{\tilde{Y}_{i}}, where \eqn{Y\!d_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(x_{i}) > 0.5\}} 
-#' * `sm_ystar()`  returns \eqn{{Y}^{*}_{i}}, where \eqn{{Y}^{*}_{i} = Y\!a_{i} \cup Y\!b_{i} \cup Y\!c_{i} \cup Y\!c_{i}}  
-#' * `sm_ycd()`    returns \eqn{Y\!cd_{i}}, where \eqn{Y\!cd_{i} = Y\!c_{i} \cup Y\!d_{i}} 
-#' * `sm_ye()`     returns \eqn{Y\!e_{i}}, a subset of \eqn{\tilde{Y}_{i}} , where \eqn{Y\!e_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(y_{j}) = 1\}} 
-#' * `sm_yf()`     returns \eqn{Y\!f_{i}}, a subset of \eqn{\tilde{Y}_{i}} , where \eqn{Y\!f_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(y_{j}) > 0.55\}} 
-#' * `sm_yg()`     returns \eqn{Y\!g_{i}}, a subset of \eqn{\tilde{Y}_{i}} , where \eqn{Y\!g_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(y_{j}) > 0.75\}} 
+#' These functions compute subsets required to calculate segmentation 
+#' metrics as described in Clinton et al. (2010) and Costa et al. (2017).
+#' * `sm_ref()`    returns the set of \eqn{n} polygons of reference, 
+#' represented by \eqn{X = \{x_{i}: i = 1, ....., n\}}
+#' * `sm_seg()`    returns the set of \eqn{m} segmentation polygons, 
+#' represented by \eqn{Y = \{y_{j}: j = 1, ....., m\}}
+#' * `sm_ytilde()` returns \eqn{\tilde{Y}_{i}}, a subset of \eqn{Y}, 
+#' where \eqn{\tilde{Y}_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) \neq 0\}}
+#' * `sm_xtilde()` returns \eqn{\tilde{X}_{j}}, a subset of \eqn{X}, where 
+#' \eqn{\tilde{X}_{j} = \{x_{i}: \rm{area}(y_{j} \cap x_{i}) \neq 0\}}
+#' * `sm_yprime()` returns \eqn{Y'_{i}}, a subset of \eqn{Y}, where 
+#' \eqn{Y'_{i} = \{y_{j}: max(\rm{area}(x_{i} \cap y_{j}))\}}
+#' * `sm_xprime()` returns \eqn{X'_{j}}, a subset of \eqn{X}, where 
+#' \eqn{X'_{j} = \{x_{i}: max(\rm{area}(y_{j} \cap x_{i}))\}}
+#' * `sm_ya()`     returns \eqn{Y\!a_{i}}, a subset of \eqn{\tilde{Y}_{i}}, 
+#' where \eqn{Y\!a_{i} = \{y_{j}: \rm{centroid}(x_{i}) \:\rm{in}\: y_{j}\}}
+#' * `sm_yb()`     returns \eqn{Y\!b_{i}}, a subset of \eqn{\tilde{Y}_{i}}, 
+#' where \eqn{Y\!b_{i} = \{y_{j}: \rm{centroid}(y_{j}) \:\rm{in}\: x_{i}\}}
+#' * `sm_yc()`     returns \eqn{Y\!c_{i}}, a subset of \eqn{\tilde{Y}_{i}}, 
+#' where \eqn{Y\!c_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / 
+#' \rm{area}(y_{j}) > 0.5\}}
+#' * `sm_yd()`     returns \eqn{Y\!d_{i}}, a subset of \eqn{\tilde{Y}_{i}}, 
+#' where \eqn{Y\!d_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(x_{i}) > 0.5\}} 
+#' * `sm_ystar()`  returns \eqn{{Y}^{*}_{i}}, where 
+#' \eqn{{Y}^{*}_{i} = Y\!a_{i} \cup Y\!b_{i} \cup Y\!c_{i} \cup Y\!c_{i}}  
+#' * `sm_ycd()`    returns \eqn{Y\!cd_{i}}, where 
+#' \eqn{Y\!cd_{i} = Y\!c_{i} \cup Y\!d_{i}} 
+#' * `sm_ye()`     returns \eqn{Y\!e_{i}}, a subset of \eqn{\tilde{Y}_{i}}, 
+#' where \eqn{Y\!e_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(y_{j}) = 1\}} 
+#' * `sm_yf()`     returns \eqn{Y\!f_{i}}, a subset of \eqn{\tilde{Y}_{i}}, 
+#' where \eqn{Y\!f_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(y_{j}) > 0.55\}} 
+#' * `sm_yg()`     returns \eqn{Y\!g_{i}}, a subset of \eqn{\tilde{Y}_{i}}, 
+#' where \eqn{Y\!g_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(y_{j}) > 0.75\}} 
 #' 
 #' @param m      A `segmetric` object.
 #' 
@@ -41,7 +57,9 @@ sm_ytilde <- function(m) {
         m = m, 
         subset_id = "Y_tilde", 
         expr = {
-            sm_intersection(s1 = sm_ref(m), s2 = sm_seg(m), touches = FALSE)
+            sm_intersection(sm_ref(m), 
+                            sm_seg(m), 
+                            touches = FALSE)
         }
     )
 }
@@ -71,12 +89,12 @@ sm_yprime <- function(m) {
         m = m, 
         subset_id = "Y_prime", 
         expr = {
-            suppressWarnings(suppressMessages(
-                sm_ytilde(m) %>%
-                    dplyr::group_by(ref_id) %>%
-                    dplyr::slice_max(sf::st_area(geometry)) %>% 
-                    dplyr::ungroup()
-            ))
+            suppressWarnings(suppressMessages({
+                sm_group_by(sm_ytilde(m), by = "ref_id", function(x) {
+                    area <- sm_area(x)
+                    x[which(area == max(area)),]
+                })
+            }))
         }
     )
 }
@@ -93,10 +111,10 @@ sm_xprime <- function(m) {
         subset_id = "X_prime", 
         expr = {
             suppressWarnings(suppressMessages(
-                sm_xtilde(m) %>%
-                    dplyr::group_by(seg_id) %>%
-                    dplyr::slice_max(sf::st_area(geometry)) %>%
-                    dplyr::ungroup()
+                sm_group_by(sm_xtilde(m), by = "seg_id", function(x) {
+                    area <- sm_area(x)
+                    x[which(area == max(area)),]
+                })
             ))
         }
     )

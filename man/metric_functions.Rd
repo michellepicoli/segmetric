@@ -10,7 +10,7 @@ sm_compute(m, metric_id, ...)
 \arguments{
 \item{m}{A \code{segmetric} object.}
 
-\item{metric_id}{A character value with the name of a metric to be computed.}
+\item{metric_id}{A \code{character} vector with metrics id to be computed.}
 
 \item{...}{Any additional argument to compute
 a metric (see Details).}
@@ -24,49 +24,51 @@ A list with all supported metrics can be obtained
 by \code{sm_list_metrics()} (see Details for more information).
 }
 \details{
-"\code{OS1}" refers to Oversegmentation. Its values range from 0 (optimal) to 1
+\itemize{
+\item "\code{OS1}" refers to Oversegmentation. Its values range from 0 (optimal) to 1
 (Clinton et al., 2010).
-"\code{US1}" refers to Undersegmentation. Its values range from 0 (optimal) to 1
+\item "\code{US1}" refers to Undersegmentation. Its values range from 0 (optimal) to 1
 (Clinton et al., 2010).
-"\code{OS2}" refers to Oversegmentation. Its values range from 0 (optimal) to 1
+\item "\code{OS2}" refers to Oversegmentation. Its values range from 0 (optimal) to 1
 (Persello and Bruzzone, 2010).
-"\code{US2}" refers to Undersegmentation. Its values range from 0 (optimal) to 1
+\item "\code{US2}" refers to Undersegmentation. Its values range from 0 (optimal) to 1
 (Persello and Bruzzone, 2010).
-"\code{OS3}" refers to Oversegmentation. Its values range from 0 (optimal) to 1
+\item "\code{OS3}" refers to Oversegmentation. Its values range from 0 (optimal) to 1
 (Yang et al., 2014).
-"\code{US3}" refers to Undersegmentation. Its values range from 0 (optimal) to 1
+\item "\code{US3}" refers to Undersegmentation. Its values range from 0 (optimal) to 1
 (Yang et al., 2014).
-"\code{AFI}" refers to Area Fit Index. Its optimal value is 0 (Lucieer and Stein,
+\item "\code{AFI}" refers to Area Fit Index. Its optimal value is 0 (Lucieer and Stein,
 2002; Clinton et al., 2010).
-"\code{QR}" refers to Quality Rate. Its values range from 0 (optimal) to 1
+\item "\code{QR}" refers to Quality Rate. Its values range from 0 (optimal) to 1
 (Weidner, 2008; Clinton et al., 2010).
-"\code{D_index}" refers to Index D. Its values range from 0 (optimal) to 1
+\item "\code{D_index}" refers to Index D. Its values range from 0 (optimal) to 1
 (Levine and Nazif, 1982; Clinton et al., 2010).
-"\code{precision}" refers to Precision. Its values range from 0 to 1 (optimal)
+\item "\code{precision}" refers to Precision. Its values range from 0 to 1 (optimal)
 (Van Rijsbergen, 1979; Zhang et al., 2015).
-"\code{recall}" refers to Recall. Its values range from 0 to 1 (optimal) (Van
+\item "\code{recall}" refers to Recall. Its values range from 0 to 1 (optimal) (Van
 Rijsbergen, 1979; Zhang et al., 2015).
-"\code{UMerging}" refers to Undermerging. Its values range from 0 (optimal) to 0.5
+\item "\code{UMerging}" refers to Undermerging. Its values range from 0 (optimal) to 0.5
 (Levine and Nazif, 1982; Clinton et al., 2010).
-"\code{OMerging}" refers to Overmerging. Its values range from 0 (optimal) to 0.5
+\item "\code{OMerging}" refers to Overmerging. Its values range from 0 (optimal) to 0.5
 (Levine and Nazif, 1982; Clinton et al., 2010).
-"\code{M}" refers to Match. Its values range from 0 to 1 (optimal) (Janssen and
+\item "\code{M}" refers to Match. Its values range from 0 to 1 (optimal) (Janssen and
 Molenaar, 1995; Feitosa et al., 2010).
-"\code{E}" refers to Evaluation Measure. Its values range from 0 (optimal) to 100
+\item "\code{E}" refers to Evaluation Measure. Its values range from 0 (optimal) to 100
 (Carleer et al., 2005).
-"\code{RAsub}" refers to Relative Area. Its values range from 0 to 1 (optimal)
+\item "\code{RAsub}" refers to Relative Area. Its values range from 0 to 1 (optimal)
 (Müller et al., 2007; Clinton et al., 2010).
-"\code{RAsuper}" refers to Relative area. Its values range from 0 to 1 (optimal)
+\item "\code{RAsuper}" refers to Relative area. Its values range from 0 to 1 (optimal)
 (Müller et al., 2007; Clinton et al., 2010).
-"\code{PI}" refers to Purity Index. Its values range from 0 to 1 (optimal) (van
+\item "\code{PI}" refers to Purity Index. Its values range from 0 to 1 (optimal) (van
 Coillie et al., 2008).
-"\code{Fitness}" refers to Fitness Function. Its optimal value is 0 (Costa et al.,
+\item "\code{Fitness}" refers to Fitness Function. Its optimal value is 0 (Costa et al.,
 2008).
-"\code{ED3}" refers to Euclidean Distance. Its values range from 0 (optimal) to 1
+\item "\code{ED3}" refers to Euclidean Distance. Its values range from 0 (optimal) to 1
 (Yang et al., 2014).
-"\code{F_measure}" refers to F-measure metric. Its values range from 0 to 1
+\item "\code{F_measure}" refers to F-measure metric. Its values range from 0 to 1
 (optimal) (Van Rijsbergen, 1979; Zhang et al., 2015). It takes the optional
 weight argument \code{alpha}, ranging from \code{0.0} to \code{1.0} (the default is \code{0.5}).
+}
 }
 \examples{
 # load sample datasets
@@ -79,7 +81,10 @@ m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
 # compute AFI metric and summarize it
 sm_compute(m, "AFI") \%>\% summary()
 
-# compute OS1, F_measure, and US2 metrics
+# compute three metrics and summarize them
+sm_compute(m, c("AFI", "OS1", "US2")) \%>\% summary()
+
+# compute OS1, F_measure, and US2 metrics using pipe
 m <- sm_compute(m, "OS1") \%>\%
   sm_compute("F_measure") \%>\%
   sm_compute("US2")

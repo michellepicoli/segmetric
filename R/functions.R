@@ -9,13 +9,17 @@
 #' * `sm_intersection()` returns the intersection of the given simple features.
 #' * `sm_subset_union()` returns the union of the given simple features.
 #' * `sm_rbind()` returns the merge of unique simple features.
+#' * `sm_group_by()` apply a function to groups of `subset_sf`.
 #' 
 #' @param s,s1,s2 Either a `ref_sf`, a `seg_sf`, or a `subset_sf` object 
 #' (inherits from `sf`).
 #' @param order   A `subset_sf`. This argument arranges the returned values 
 #' according to the object passed here.
-#' @param touches A logical. Is the border part of the intersection?
-#' @param ...     Set of `sf` objects of type subset `sf`.
+#' @param touches A `logical`. Is the border part of the intersection?
+#' @param by      A `character` value with the column to group.
+#' @param fn      A `function` to apply on each group.
+#' @param ...     For `sm_rbind()`, a set of `sf` objects of type subset `sf`.
+#' For `sm_group_by()`, extra parameter to pass to `fn` function.
 #' 
 NULL
 
@@ -69,7 +73,7 @@ sm_intersection <- function(s1, s2, touches = TRUE) {
         sf::st_intersection(x = s1, y = s2)
     }))
     
-    class(subset_sf) <- c("subset_sf", class(subset_sf))
+    class(subset_sf) <- unique(c("subset_sf", class(subset_sf)))
     
     # filter only polygons
     if (!touches) {
@@ -125,10 +129,24 @@ sm_rbind <- function(...) {
     result
 }
 
+#' @rdname general_functions
+#' @export
+sm_group_by <- function(s, by, fn, ...) {
+    
+    .subset_check(s)
+    
+    if (nrow(s) == 0)
+        return(s)
+    
+    result <- do.call(rbind, args = unname(c(by(s, s[[by]], fn, ...))))
+    class(result) <- class(s)
+    result
+}
+
 .norm_left <- function(x, y) {
     (x - y) / x
 }
 
 .norm_right <- function(x, y) {
-    1 - x / y
+    (y - x) / y
 }
