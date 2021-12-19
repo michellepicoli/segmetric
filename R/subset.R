@@ -163,7 +163,10 @@ sm_inset.ref_sf <- function(s1, s2, return_index = FALSE) {
     .subset_check(s1, allowed_types = "ref_sf")
     .subset_check(s2, allowed_types = "subset_sf")
     
-    .inset(s1, s2, by = "ref_id", return_index = return_index)
+    if (return_index)
+        return(s2[["ref_id"]])
+    
+    s1[s2[["ref_id"]],]
 }
 
 #' @rdname subset_handling_functions
@@ -173,7 +176,10 @@ sm_inset.seg_sf <- function(s1, s2, return_index = FALSE) {
     .subset_check(s1, allowed_types = "seg_sf")
     .subset_check(s2, allowed_types = "subset_sf")
     
-    .inset(s1, s2, by = "seg_id", return_index = return_index)
+    if (return_index)
+        return(s2[["seg_id"]])
+    
+    s1[s2[["seg_id"]],]
 }
 
 #' @rdname subset_handling_functions
@@ -183,15 +189,11 @@ sm_inset.subset_sf <- function(s1, s2, return_index = FALSE) {
     .subset_check(s1, allowed_types = "subset_sf")
     .subset_check(s2, allowed_types = "subset_sf")
     
-    .inset(s1, s2, by = c("ref_id", "seg_id"), return_index = return_index)
-}
-
-.inset <- function(s1, s2, by, return_index) {
-    
     s1[["..#"]] <- seq_len(nrow(s1))
-    s2 <- sf::st_drop_geometry(s2)[by]
+    s2 <- sf::st_drop_geometry(s2)[c("ref_id", "seg_id")]
     
-    inset <- sf::st_as_sf(merge(s2, s1, by = by, sort = FALSE))
+    inset <- sf::st_as_sf(merge(s2, s1, by = c("ref_id", "seg_id"), 
+                                sort = FALSE))
     
     if (return_index)
         return(inset[["..#"]])
