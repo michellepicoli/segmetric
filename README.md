@@ -3,7 +3,7 @@
 
 # segmetric <img src="inst/extdata/img/logo.png" align="right" width="120"/>
 
-Segmentation metrics for geospatial applications (segmetric)
+Segmentation Assessment Metrics (`segmetric`)
 
 <!-- badges: start -->
 
@@ -13,12 +13,12 @@ License](https://img.shields.io/badge/license-MIT-green)](https://github.com/bra
 Cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
 
-`segmetric` is an open source package that provides a set of metrics for
-analysis, and evaluation of geo-spatial segmentation. It includes more
-than 20 metrics used in specialized literature for spatial segmentation
-assessment (Van Rijsbergen, 1979; Levine and Nazif, 1982; Janssen and
-Molenaar, 1995; Lucieer and Stein, 2002; Carleer et al., 2005; Moller et
-al., 2007; van Coillie et al., 2008; Costa et al., 2008; Weidner, 2008;
+The `segmetric` is an open source package that provides a set of metrics
+for analysis and evaluation of geospatial segmentation. It includes more
+than 20 metrics used in literature for spatial segmentation assessment
+(Van Rijsbergen, 1979; Levine and Nazif, 1982; Janssen and Molenaar,
+1995; Lucieer and Stein, 2002; Carleer et al., 2005; Moller et al.,
+2007; van Coillie et al., 2008; Costa et al., 2008; Weidner, 2008;
 Feitosa et al., 2010; Clinton et al. 2010; Persello and Bruzzone, 2010;
 Yang et al., 2014; and Zhang et al., 2015).
 
@@ -56,6 +56,14 @@ data("sample_seg_sf", package = "segmetric")
 # create segmetric object
 m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
 ```
+
+Plot your data using `plot()` command:
+
+``` r
+plot(m)
+```
+
+<img src="inst/extdata/img/plot-1.png" width="60%" />
 
 Segmentation metrics can be computed by function `sm_compute()`. Use
 `summary()` to obtain an overall metric (mean or weighted mean).
@@ -120,6 +128,12 @@ functions.
 A detailed documentation with examples on how to use each function
 inside `segmetric` package can be obtained by typing `?segmetric` in R
 console.
+
+## Acknowledgements
+
+This research was supported by the European Research Council (ERC) under
+the European Union’s Horizon 2020 research and innovation program (Grant
+agreement No 677140 MIDLAND).
 
 ## References
 
