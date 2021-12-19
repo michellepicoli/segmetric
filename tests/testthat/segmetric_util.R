@@ -223,7 +223,7 @@ test_PI <- function(y_tilde) {
 
 
 test_ED3 <- function(y_cd) {
-    sqrt(y_cd$OS3^2 + y_cd$US3^2) / 2
+    sqrt(test_OS3(y_cd)^2 + test_US3(y_cd)^2) / 2
 }
 
 test_F_measure <- function(precision, recall, alpha = 0.5) {
