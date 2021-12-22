@@ -1,5 +1,5 @@
 Package: segmetric
-Title: Segmentation Assessment Metrics
+Title: Metrics for Assessing Segmentation Accuracy for Geospatial Data
 Version: 0.1.0
 Authors@R: 
     c(person(given = "Rolf",
@@ -17,7 +17,12 @@ Authors@R:
            role = c("aut", "cre"),
            email = "mipicoli@gmail.com",
            comment = c(ORCID = "0000-0001-9855-2046")))
-Description: Metrics for assessing segmentation accuracy for geospatial data.
+Description: A system that computes metrics to assess the segmentation 
+    accuracy of geospatial data. These metrics calculate the discrepancy 
+    between segmented and reference objects, and indicate the segmentation 
+    accuracy. For more details on choosing evaluation metrics, we 
+    suggest seeing Costa et al. (2018) <doi:10.1016/j.rse.2017.11.024> and 
+    Jozdani et al. (2020) <doi:10.1016/j.isprsjprs.2020.01.002>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

@@ -6,7 +6,7 @@
 \alias{sample_ref_sf}
 \title{LEM+ dataset}
 \format{
-These datasets are objects of class \code{sf} (inherits from \code{tbl_df},
+These datasets are objects of class \code{sf} (inherited from \code{tbl_df},
 \code{tbl}, \code{data.frame}) with 2 variables:
 \itemize{
 \item{\code{id}: identification}
@@ -18,7 +18,7 @@ These datasets are objects of class \code{sf} (inherits from \code{tbl_df},
 \code{sample_ref_sf}: a dataset with 5 features.
 }
 \source{
-\doi{10.1016/j.dib.2020.106553}.
+Oldoni et al. (2020) \doi{10.1016/j.dib.2020.106553}.
 }
 \usage{
 ref_sf

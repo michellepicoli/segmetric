@@ -3,14 +3,14 @@
 #' @name ref_sf
 #'
 #' @format 
-#' These datasets are objects of class `sf` (inherits from `tbl_df`, 
+#' These datasets are objects of class `sf` (inherited from `tbl_df`, 
 #' `tbl`, `data.frame`) with 2 variables:
 #' \itemize{
 #'   \item{`id`: identification}
 #'   \item{`geometry`: polygons}
 #' }
 #' 
-#' @source \doi{10.1016/j.dib.2020.106553}.
+#' @source Oldoni et al. (2020) \doi{10.1016/j.dib.2020.106553}.
 #' 
 #' @references 
 #' - Oldoni, L.V., Sanches, I.D.A., Picoli, M.C.A., 
@@ -49,7 +49,7 @@ NULL
 #' @name seg_sf
 #' 
 #' @format 
-#' These datasets are objects of class `sf` (inherits from `tbl_df`, 
+#' These datasets are objects of class `sf` (inherited from `tbl_df`, 
 #' `tbl`, `data.frame`) with 2 variables:
 #' \itemize{
 #'   \item{`id`: identification}
@@ -59,14 +59,14 @@ NULL
 #' @references 
 #' - Planet Team, 2017. Planet Application Program 
 #'   Interface: In Space for Life on Earth. San Francisco, 
-#'   CA. https://api.planet.com.
+#'   CA. <https://api.planet.com>
 #'   
 #' - Baatz, M., Schape, A., 2000. Multiresolution 
 #'   segmentation - an optimization approach for high 
 #'   quality multi-scale image segmentation. In: Strobl, J., 
 #'   Blaschke, T., Griesebner, G. (Eds.), Angewandte 
 #'   Geographische Informations-Verarbeitung XII. 
-#'   Wichmann Verlag, Karlsruhe, Germany, pp. 12-23.
+#'   Wichmann Verlag, Karlsruhe, Germany, pp. 12-23. <>
 NULL
 
 

@@ -46,6 +46,19 @@ sm_yg(m)
 \arguments{
 \item{m}{A \code{segmetric} object.}
 }
+\value{
+\itemize{
+\item \code{sm_ref()}: Return an object of class \code{ref_sf} (inherited from \code{sf})
+containing identification (\code{ref_id}) and geometry (\code{geometry}) columns.
+\item \code{sm_seg()}: Return an object of class \code{seg_sf} (inherited from \code{sf})
+containing identification (\code{seg_id}) and geometry (\code{geometry}) columns.
+\item \code{sm_ytilde()}, \code{sm_xtilde()}, \code{sm_yprime()}, \code{sm_xprime()}, \code{sm_ya()},
+\code{sm_yb()}, \code{sm_yc()}, \code{sm_yd()}, \code{sm_ystar()}, \code{sm_ycd()}, \code{sm_ye()},
+\code{sm_yf()}, and \code{sm_yg()}: Return an object of class \code{subset_sf}
+(inherited from \code{sf}) containing identification (\code{ref_id} and \code{seg_id}),
+and geometry (\code{geometry}) columns.
+}
+}
 \description{
 These functions compute subsets required to calculate segmentation
 metrics as described in Clinton et al. (2010) and Costa et al. (2017).

@@ -4,22 +4,28 @@
 #' 
 #' @description 
 #' These functions manipulate segmetric objects.
-#' * `sm_area()` returns a vector of areas, one for each polygon.
-#' * `sm_centroid()` returns the centroids of the given polygons.
-#' * `sm_intersection()` returns the intersection of the given simple features.
-#' * `sm_subset_union()` returns the union of the given simple features.
-#' * `sm_rbind()` returns the merge of unique simple features.
-#' * `sm_group_by()` apply a function to groups of `subset_sf`.
+#' * `sm_area()`: Return a vector of areas, one for each polygon.
+#' * `sm_centroid()`: Return the centroids of the given polygons.
+#' * `sm_intersection()`: Return the intersection of the given simple features.
+#' * `sm_subset_union()`: Return the union of the given simple features.
+#' * `sm_rbind()`: Return the merge of unique simple features.
 #' 
 #' @param s,s1,s2 Either a `ref_sf`, a `seg_sf`, or a `subset_sf` object 
-#' (inherits from `sf`).
+#' (inherited from `sf`).
 #' @param order   A `subset_sf`. This argument arranges the returned values 
 #' according to the object passed here.
 #' @param touches A `logical`. Is the border part of the intersection?
-#' @param by      A `character` value with the column to group.
-#' @param fn      A `function` to apply on each group.
-#' @param ...     For `sm_rbind()`, a set of `sf` objects of type subset `sf`.
-#' For `sm_group_by()`, extra parameter to pass to `fn` function.
+#' @param ...     For `sm_rbind()`, a set of `subset_sf` objects to be
+#' merged.
+#' 
+#' @returns 
+#' * `sm_area()`: Return a `numeric` vector with polygons' area.
+#' * `sm_centroid()`: Return a `subset_sf` object with polygons' centroid.
+#' * `sm_intersection()`: Return a `subset_sf` object with intersection
+#' between polygons.
+#' * `sm_subset_union()`: Return a `subset_sf` object with union
+#' between intersecting polygons.
+#' * `sm_rbind()`: Return a `subset_sf` object with unique features.
 #' 
 NULL
 
@@ -126,20 +132,6 @@ sm_rbind <- function(...) {
     id <- paste(result[["ref_id"]], result[["seg_id"]], sep = ",")
     result <- suppressWarnings(result[match(unique(id), id),])
     
-    result
-}
-
-#' @rdname general_functions
-#' @export
-sm_group_by <- function(s, by, fn, ...) {
-    
-    .subset_check(s)
-    
-    if (nrow(s) == 0)
-        return(s)
-    
-    result <- do.call(rbind, args = unname(c(by(s, s[[by]], fn, ...))))
-    class(result) <- class(s)
     result
 }
 

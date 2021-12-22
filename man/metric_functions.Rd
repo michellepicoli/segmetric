@@ -15,6 +15,9 @@ sm_compute(m, metric_id, ...)
 \item{...}{Any additional argument to compute
 a metric (see Details).}
 }
+\value{
+Return a \code{numeric} vector with computed metric.
+}
 \description{
 The \code{sm_compute()} computes a given metric (\code{metric_id} parameter) from
 segmentation objects. It compares the reference to the segmentation

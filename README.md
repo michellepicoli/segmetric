@@ -100,6 +100,12 @@ sm_list_metrics()
 #> [19] "US1"       "US2"       "US3"
 ```
 
+## Getting Help
+
+A detailed documentation with examples on how to use each function
+inside `segmetric` package can be obtained by typing `?segmetric` in R
+console.
+
 ## How to contribute?
 
 The `segmetric` package was implemented based on an extensible
@@ -115,12 +121,6 @@ functions.
     Request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
     on the branch
     [dev](https://github.com/michellepicoli/segmetric/tree/dev).
-
-## Getting Help
-
-A detailed documentation with examples on how to use each function
-inside `segmetric` package can be obtained by typing `?segmetric` in R
-console.
 
 ## Acknowledgements
 
