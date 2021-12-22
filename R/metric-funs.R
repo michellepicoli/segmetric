@@ -56,6 +56,8 @@
 #' (optimal) (Van Rijsbergen, 1979; Zhang et al., 2015). It takes the optional 
 #' weight argument `alpha`, ranging from `0.0` to `1.0` (the default is `0.5`).
 #' 
+#' @return Return a `numeric` vector with computed metric.
+#' 
 #' @examples 
 #' # load sample datasets
 #' data("sample_ref_sf", package = "segmetric")

@@ -39,6 +39,18 @@
 #' 
 #' @param m      A `segmetric` object.
 #' 
+#' @returns 
+#' * `sm_ref()`: Return an object of class `ref_sf` (inherited from `sf`)
+#' containing identification (`ref_id`) and geometry (`geometry`) columns.
+#' * `sm_seg()`: Return an object of class `seg_sf` (inherited from `sf`)
+#' containing identification (`seg_id`) and geometry (`geometry`) columns.
+#' * `sm_ytilde()`, `sm_xtilde()`, `sm_yprime()`, `sm_xprime()`, `sm_ya()`, 
+#' `sm_yb()`, `sm_yc()`, `sm_yd()`, `sm_ystar()`, `sm_ycd()`, `sm_ye()`,
+#' `sm_yf()`, and `sm_yg()`: Return an object of class `subset_sf` 
+#' (inherited from `sf`) containing identification (`ref_id` and `seg_id`), 
+#' and geometry (`geometry`) columns.
+#' 
+#' 
 #' @references
 #' Clinton, N., Holt, A., Scarborough, J., Yan, L., & Gong, P. (2010). Accuracy 
 #' Assessment Measures for Object-based Image Segmentation Goodness. 

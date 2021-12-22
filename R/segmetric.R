@@ -4,18 +4,24 @@
 #' 
 #' @description 
 #' These functions manipulate `segmetric` objects.
-#' * `sm_read()` Load the reference and segmentation polygons into segmetric.
-#' * `sm_clear()` Remove the already calculated metrics from segmetric.
-#' * `print()` Print a segmetric object.
-#' * `plot()` Plot the reference and segmentation polygons.
-#' * `summary()` Compute a measure of central tendency over the values of a metric.
-#' * `sm_is_empty()` Check if a `segmetric` object is empty.
+#' * `sm_read()`: Load the reference and segmentation polygons into segmetric.
+#' * `sm_clear()`: Remove the already calculated metrics from segmetric.
+#' * `print()`: Print a segmetric object.
+#' * `plot()`: Plot the reference and segmentation polygons.
+#' * `summary()`: Compute a measure of central tendency over the values of a metric.
+#' * `sm_is_empty()`: Check if a `segmetric` object is empty.
 #' 
 #' @param m A `segmetric` object.
 #' @param object A `segmetric` object.
 #' @param ref_sf A `sf` object. The reference polygons.
 #' @param seg_sf A `sf` object. The segmentation polygons.
 #' @param ...    Additional parameters (Not implemented).
+#' 
+#' @returns 
+#' * `sm_read()`, `sm_clear()`: Return a `segmetric` object containing an
+#' empty list and an environment attribute to store the necessary datasets.
+#' * `sm_is_empty()`: Return a `logical` vector indicating if each computed 
+#' metric is empty.
 #' 
 #' @seealso `sm_compute()`
 #' 
@@ -204,7 +210,7 @@ summary.segmetric <- function(object, ...) {
     
     stopifnot(inherits(object, "segmetric"))
     
-    value <- sapply(object, mean, ...)
+    value <- vapply(object, mean, numeric(1), ...)
     if (length(object) <= 1)
         return(unname(value))
     value
@@ -214,7 +220,13 @@ summary.segmetric <- function(object, ...) {
 #' @rdname segmetric_functions
 sm_is_empty <- function(m) {
     
-    return((length(m[[1]]) == 1 && (is.na(m[[1]]) || is.nan(m[[1]]))) || 
-               is.null(m[[1]]) || 
-               length(m[[1]]) == 0)
+    result <- vapply(m, function(x) {
+        is.null(x) || length(x) == 0 || 
+            (length(x) == 1 && (is.nan(x) || is.na(x)))
+    }, logical(1))
+    
+    if (length(result) <= 1)
+        return(unname(result))
+    
+    result
 }

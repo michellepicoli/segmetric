@@ -33,15 +33,23 @@ sm_is_empty(m)
 
 \item{...}{Additional parameters (Not implemented).}
 }
+\value{
+\itemize{
+\item \code{sm_read()}, \code{sm_clear()}: Return a \code{segmetric} object containing an
+empty list and an environment attribute to store the necessary datasets.
+\item \code{sm_is_empty()}: Return a \code{logical} vector indicating if each computed
+metric is empty.
+}
+}
 \description{
 These functions manipulate \code{segmetric} objects.
 \itemize{
-\item \code{sm_read()} Load the reference and segmentation polygons into segmetric.
-\item \code{sm_clear()} Remove the already calculated metrics from segmetric.
-\item \code{print()} Print a segmetric object.
-\item \code{plot()} Plot the reference and segmentation polygons.
-\item \code{summary()} Compute a measure of central tendency over the values of a metric.
-\item \code{sm_is_empty()} Check if a \code{segmetric} object is empty.
+\item \code{sm_read()}: Load the reference and segmentation polygons into segmetric.
+\item \code{sm_clear()}: Remove the already calculated metrics from segmetric.
+\item \code{print()}: Print a segmetric object.
+\item \code{plot()}: Plot the reference and segmentation polygons.
+\item \code{summary()}: Compute a measure of central tendency over the values of a metric.
+\item \code{sm_is_empty()}: Check if a \code{segmetric} object is empty.
 }
 }
 \examples{

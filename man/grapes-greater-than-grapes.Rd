@@ -6,7 +6,10 @@
 \arguments{
 \item{lhs}{left hand side parameter.}
 
-\item{rhs}{right hand side parameter.}
+\item{rhs}{right hand side parameter, usually a function.}
+}
+\value{
+Return any object evaluated by function call \code{rhs(lhs, ...)}.
 }
 \description{
 Imported function from \code{magrittr}.

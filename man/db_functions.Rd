@@ -50,16 +50,27 @@ identification.}
 \item{entry}{A \code{metric_entry} object returned by \code{new_metric()}
 function.}
 }
+\value{
+\itemize{
+\item \code{sm_list_metrics()}: Return \code{character} vector with supported metrics.
+\item \code{sm_new_metric()}: Return a \code{metric_entry} object containing the
+metric function (\code{fn}), name (\code{name}), description (\code{description}), and
+reference (\code{reference}).
+\item \code{sm_reg_metric()}, \code{sm_unreg_metric()}: No return value, called to
+(un)register a metric.
+\item \code{sm_desc_metric()}: No return value, called to print a metric description.
+}
+}
 \description{
 These functions are used to register new metrics in the \code{segmetric}
 database.
 \itemize{
-\item \code{sm_list_metrics()} list all registered metrics.
-\item \code{sm_new_metric()} create a new metric entry to be registered in
+\item \code{sm_list_metrics()}: List all registered metrics.
+\item \code{sm_new_metric()}: Create a new metric entry to be registered in
 the database.
-\item \code{sm_reg_metric()} register a new metric in the database.
-\item \code{sm_unreg_metric()} remove a metric entry from the database.
-\item \code{sm_desc_metric()} describe a metric registered from the database.
+\item \code{sm_reg_metric()}: Register a new metric in the database.
+\item \code{sm_unreg_metric()}: Remove a metric entry from the database.
+\item \code{sm_desc_metric()}: Describe a metric registered from the database.
 }
 }
 \examples{

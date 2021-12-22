@@ -6,12 +6,12 @@
 #' These functions are used to register new metrics in the `segmetric` 
 #' database.
 #' 
-#' * `sm_list_metrics()` list all registered metrics.
-#' * `sm_new_metric()` create a new metric entry to be registered in 
+#' * `sm_list_metrics()`: List all registered metrics.
+#' * `sm_new_metric()`: Create a new metric entry to be registered in 
 #' the database.
-#' * `sm_reg_metric()` register a new metric in the database.
-#' * `sm_unreg_metric()` remove a metric entry from the database.
-#' * `sm_desc_metric()` describe a metric registered from the database.
+#' * `sm_reg_metric()`: Register a new metric in the database.
+#' * `sm_unreg_metric()`: Remove a metric entry from the database.
+#' * `sm_desc_metric()`: Describe a metric registered from the database.
 #' 
 #' @param fn          A `function` that receives a `segmetric` object and 
 #'                    returns the metric values.
@@ -25,6 +25,15 @@
 #'                    identification.
 #' @param entry       A `metric_entry` object returned by `new_metric()` 
 #'                    function.
+#'                    
+#' @returns 
+#' * `sm_list_metrics()`: Return `character` vector with supported metrics.
+#' * `sm_new_metric()`: Return a `metric_entry` object containing the
+#' metric function (`fn`), name (`name`), description (`description`), and 
+#' reference (`reference`).
+#' * `sm_reg_metric()`, `sm_unreg_metric()`: No return value, called to 
+#' (un)register a metric.
+#' * `sm_desc_metric()`: No return value, called to print a metric description.
 #'
 #' @examples 
 #' sm_reg_metric(

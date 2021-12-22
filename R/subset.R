@@ -15,8 +15,9 @@
 #' `subset` object (either a `ref_sf`, a `seg_sf`, or a `subset_sf`).
 #' * `sm_get()` retrieves a `subset_sf` object stored in a `segmetric` object.
 #' * `sm_inset()` operator equivalent to inner join but returns only objects 
-#' from `x`, or its corresponding row in `y` if parameter `return_index` 
+#' from `s1`, or its corresponding row in `s2` if parameter `return_index` 
 #' is `TRUE`.
+#' * `sm_group_by()`: Apply a function to groups of `subset_sf`.
 #' 
 #' @param s,s1,s2       Either a `ref_sf`, a `seg_sf`, or a `subset_sf` object.
 #' @param m             A `segmetric` object.
@@ -24,7 +25,27 @@
 #' @param expr          A valid piece of code in R inside curly braces. This 
 #' code is evaluated to generate a subset.
 #' @param return_index  A `logical` value indicating if the corresponding rows
-#' in `y` should be returned instead of the actual corresponding values of `x`.
+#' in `s1` should be returned instead of the actual corresponding values 
+#' of `s2`.
+#' @param by            A `character` value with the column to group.
+#' @param fn            A `function` to apply on each group.
+#' @param ...           For `sm_group_by()`, extra parameter to pass to 
+#' `fn` function.
+#' 
+#' @returns 
+#' * `sm_list()`: Return `character` vector with all names of subsets stored 
+#' in the `segmetric` object.
+#' * `sm_exists()`: Return `logical` value indicating if a given subset name is
+#' stored in the `segmetric` object.
+#' * `sm_subset()`: Return a `subset_sf` object. 
+#' * `sm_indirect()`: Return the subset name of a given `subset_sf` object 
+#' stored in a `segmetric` object.
+#' * `sm_segmetric()`: Return a `segmetric` object that stores a given
+#' `subset_sf` object.
+#' * `sm_get()`: Return a `subset_sf` object stored in a `segmetric` object.
+#' * `sm_inset()`: Return either a `subset_sf` object or an `integer` vector
+#' with the index of corresponding rows of `s2` object.
+#' * `sm_group_by()`: Return a `subset_sf` object.
 #' 
 NULL
 
@@ -201,4 +222,18 @@ sm_inset.subset_sf <- function(s1, s2, return_index = FALSE) {
     inset[["..#"]] <- NULL
     class(inset) <- class(s1)
     inset
+}
+
+#' @rdname subset_handling_functions
+#' @export
+sm_group_by <- function(s, by, fn, ...) {
+    
+    .subset_check(s)
+    
+    if (nrow(s) == 0)
+        return(s)
+    
+    result <- do.call(rbind, args = unname(c(by(s, s[[by]], fn, ...))))
+    class(result) <- class(s)
+    result
 }

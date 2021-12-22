@@ -8,7 +8,9 @@
 #' Imported function from `magrittr`.
 #'
 #' @param lhs left hand side parameter.
-#' @param rhs right hand side parameter.
+#' @param rhs right hand side parameter, usually a function.
+#' 
+#' @return Return any object evaluated by function call `rhs(lhs, ...)`.
 #' 
 #' @export
 NULL
