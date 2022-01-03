@@ -3,7 +3,8 @@
 #' @name subset_handling_functions
 #' 
 #' @description 
-#' These functions handle `subset_sf` data (inherited from `sf` class) stored in 
+#' These functions are intended to be used in new metric extensions. 
+#' They handle `subset_sf` data (inherited from `sf` class) stored in 
 #' `segmetric` objects.
 #' * `sm_list()` lists subsets already computed and stored in a `segmetric` 
 #' object.
@@ -33,9 +34,9 @@
 #' `fn` function.
 #' 
 #' @returns 
-#' * `sm_list()`: Return `character` vector with all names of subsets stored 
+#' * `sm_list()`: Return a `character` vector with all names of subsets stored 
 #' in the `segmetric` object.
-#' * `sm_exists()`: Return `logical` value indicating if a given subset name is
+#' * `sm_exists()`: Return a `logical` value indicating if a given subset name is
 #' stored in the `segmetric` object.
 #' * `sm_subset()`: Return a `subset_sf` object. 
 #' * `sm_indirect()`: Return the subset name of a given `subset_sf` object 
@@ -47,6 +48,38 @@
 #' with the index of corresponding rows of `s2` object.
 #' * `sm_group_by()`: Return a `subset_sf` object.
 #' 
+#' @examples
+#' # load sample datasets
+#' data("sample_ref_sf", package = "segmetric")
+#' data("sample_seg_sf", package = "segmetric")
+#' 
+#' # create segmetric object
+#' m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
+#' 
+#' # lists only 'ref_sf' and 'seg_sf'
+#' sm_list(m)
+#' 
+#' # computes 'Y_tilde' subset and stores it as 'test_subset' subset id
+#' # sm_ytilde(m) also stores a subset under 'Y_tilde' id
+#' s <- sm_subset(m, "test_subset", sm_ytilde(m))
+#' 
+#' # lists 'ref_sf', 'seg_sf', 'test_subset', and 'Y_tilde'
+#' sm_list(m)
+#' 
+#' # which segmetric object stores `s` subset?
+#' m2 <- sm_segmetric(s)
+#' 
+#' # m is identical to m2
+#' identical(m, m2)
+#' 
+#' # which name `s` subset is stored in `m` segmetric object?
+#' sm_indirect(s)
+#' 
+#' # retrieve 'test_subset' data from `m` object
+#' s2 <- sm_get(m, 'test_subset')
+#' 
+#' # s is identical to s2
+#' identical(s, s2)
 NULL
 
 .subset_check <- function(s, 

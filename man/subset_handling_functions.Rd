@@ -66,9 +66,9 @@ of \code{s2}.}
 }
 \value{
 \itemize{
-\item \code{sm_list()}: Return \code{character} vector with all names of subsets stored
+\item \code{sm_list()}: Return a \code{character} vector with all names of subsets stored
 in the \code{segmetric} object.
-\item \code{sm_exists()}: Return \code{logical} value indicating if a given subset name is
+\item \code{sm_exists()}: Return a \code{logical} value indicating if a given subset name is
 stored in the \code{segmetric} object.
 \item \code{sm_subset()}: Return a \code{subset_sf} object.
 \item \code{sm_indirect()}: Return the subset name of a given \code{subset_sf} object
@@ -82,7 +82,8 @@ with the index of corresponding rows of \code{s2} object.
 }
 }
 \description{
-These functions handle \code{subset_sf} data (inherited from \code{sf} class) stored in
+These functions are intended to be used in new metric extensions.
+They handle \code{subset_sf} data (inherited from \code{sf} class) stored in
 \code{segmetric} objects.
 \itemize{
 \item \code{sm_list()} lists subsets already computed and stored in a \code{segmetric}
@@ -99,4 +100,37 @@ from \code{s1}, or its corresponding row in \code{s2} if parameter \code{return_
 is \code{TRUE}.
 \item \code{sm_group_by()}: Apply a function to groups of \code{subset_sf}.
 }
+}
+\examples{
+# load sample datasets
+data("sample_ref_sf", package = "segmetric")
+data("sample_seg_sf", package = "segmetric")
+
+# create segmetric object
+m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
+
+# lists only 'ref_sf' and 'seg_sf'
+sm_list(m)
+
+# computes 'Y_tilde' subset and stores it as 'test_subset' subset id
+# sm_ytilde(m) also stores a subset under 'Y_tilde' id
+s <- sm_subset(m, "test_subset", sm_ytilde(m))
+
+# lists 'ref_sf', 'seg_sf', 'test_subset', and 'Y_tilde'
+sm_list(m)
+
+# which segmetric object stores `s` subset?
+m2 <- sm_segmetric(s)
+
+# m is identical to m2
+identical(m, m2)
+
+# which name `s` subset is stored in `m` segmetric object?
+sm_indirect(s)
+
+# retrieve 'test_subset' data from `m` object
+s2 <- sm_get(m, 'test_subset')
+
+# s is identical to s2
+identical(s, s2)
 }
