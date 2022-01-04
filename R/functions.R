@@ -4,18 +4,28 @@
 #' 
 #' @description 
 #' These functions manipulate segmetric objects.
-#' * `sm_area()` returns a vector of areas, one for each polygon.
-#' * `sm_centroid()` returns the centroids of the given polygons.
-#' * `sm_intersection()` returns the intersection of the given simple features.
-#' * `sm_subset_union()` returns the union of the given simple features.
-#' * `sm_rbind()` returns the merge of unique simple features.
+#' * `sm_area()`: Return a vector of areas, one for each polygon.
+#' * `sm_centroid()`: Return the centroids of the given polygons.
+#' * `sm_intersection()`: Return the intersection of the given simple features.
+#' * `sm_subset_union()`: Return the union of the given simple features.
+#' * `sm_rbind()`: Return the merge of unique simple features.
 #' 
 #' @param s,s1,s2 Either a `ref_sf`, a `seg_sf`, or a `subset_sf` object 
-#' (inherits from `sf`).
+#' (inherited from `sf`).
 #' @param order   A `subset_sf`. This argument arranges the returned values 
 #' according to the object passed here.
-#' @param touches A logical. Is the border part of the intersection?
-#' @param ...     Set of `sf` objects of type subset `sf`.
+#' @param touches A `logical`. Is the border part of the intersection?
+#' @param ...     For `sm_rbind()`, a set of `subset_sf` objects to be
+#' merged.
+#' 
+#' @returns 
+#' * `sm_area()`: Return a `numeric` vector with polygons' area.
+#' * `sm_centroid()`: Return a `subset_sf` object with polygons' centroid.
+#' * `sm_intersection()`: Return a `subset_sf` object with intersection
+#' between polygons.
+#' * `sm_subset_union()`: Return a `subset_sf` object with union
+#' between intersecting polygons.
+#' * `sm_rbind()`: Return a `subset_sf` object with unique features.
 #' 
 NULL
 
@@ -69,7 +79,7 @@ sm_intersection <- function(s1, s2, touches = TRUE) {
         sf::st_intersection(x = s1, y = s2)
     }))
     
-    class(subset_sf) <- c("subset_sf", class(subset_sf))
+    class(subset_sf) <- unique(c("subset_sf", class(subset_sf)))
     
     # filter only polygons
     if (!touches) {
@@ -130,5 +140,5 @@ sm_rbind <- function(...) {
 }
 
 .norm_right <- function(x, y) {
-    1 - x / y
+    (y - x) / y
 }

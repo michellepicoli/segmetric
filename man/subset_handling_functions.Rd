@@ -14,6 +14,7 @@
 \alias{sm_inset.ref_sf}
 \alias{sm_inset.seg_sf}
 \alias{sm_inset.subset_sf}
+\alias{sm_group_by}
 \title{Subset handling functions}
 \usage{
 sm_list(m)
@@ -39,6 +40,8 @@ sm_inset(s1, s2, return_index = FALSE)
 \method{sm_inset}{seg_sf}(s1, s2, return_index = FALSE)
 
 \method{sm_inset}{subset_sf}(s1, s2, return_index = FALSE)
+
+sm_group_by(s, by, fn, ...)
 }
 \arguments{
 \item{m}{A \code{segmetric} object.}
@@ -51,10 +54,36 @@ code is evaluated to generate a subset.}
 \item{s, s1, s2}{Either a \code{ref_sf}, a \code{seg_sf}, or a \code{subset_sf} object.}
 
 \item{return_index}{A \code{logical} value indicating if the corresponding rows
-in \code{y} should be returned instead of the actual corresponding values of \code{x}.}
+in \code{s1} should be returned instead of the actual corresponding values
+of \code{s2}.}
+
+\item{by}{A \code{character} value with the column to group.}
+
+\item{fn}{A \code{function} to apply on each group.}
+
+\item{...}{For \code{sm_group_by()}, extra parameter to pass to
+\code{fn} function.}
+}
+\value{
+\itemize{
+\item \code{sm_list()}: Return a \code{character} vector with all names of subsets stored
+in the \code{segmetric} object.
+\item \code{sm_exists()}: Return a \code{logical} value indicating if a given subset name is
+stored in the \code{segmetric} object.
+\item \code{sm_subset()}: Return a \code{subset_sf} object.
+\item \code{sm_indirect()}: Return the subset name of a given \code{subset_sf} object
+stored in a \code{segmetric} object.
+\item \code{sm_segmetric()}: Return a \code{segmetric} object that stores a given
+\code{subset_sf} object.
+\item \code{sm_get()}: Return a \code{subset_sf} object stored in a \code{segmetric} object.
+\item \code{sm_inset()}: Return either a \code{subset_sf} object or an \code{integer} vector
+with the index of corresponding rows of \code{s2} object.
+\item \code{sm_group_by()}: Return a \code{subset_sf} object.
+}
 }
 \description{
-These functions handle \code{subset_sf} data (inherited from \code{sf} class) stored in
+These functions are intended to be used in new metric extensions.
+They handle \code{subset_sf} data (inherited from \code{sf} class) stored in
 \code{segmetric} objects.
 \itemize{
 \item \code{sm_list()} lists subsets already computed and stored in a \code{segmetric}
@@ -67,7 +96,41 @@ in a \code{segmetric} object.
 \code{subset} object (either a \code{ref_sf}, a \code{seg_sf}, or a \code{subset_sf}).
 \item \code{sm_get()} retrieves a \code{subset_sf} object stored in a \code{segmetric} object.
 \item \code{sm_inset()} operator equivalent to inner join but returns only objects
-from \code{x}, or its corresponding row in \code{y} if parameter \code{return_index}
+from \code{s1}, or its corresponding row in \code{s2} if parameter \code{return_index}
 is \code{TRUE}.
+\item \code{sm_group_by()}: Apply a function to groups of \code{subset_sf}.
 }
+}
+\examples{
+# load sample datasets
+data("sample_ref_sf", package = "segmetric")
+data("sample_seg_sf", package = "segmetric")
+
+# create segmetric object
+m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
+
+# lists only 'ref_sf' and 'seg_sf'
+sm_list(m)
+
+# computes 'Y_tilde' subset and stores it as 'test_subset' subset id
+# sm_ytilde(m) also stores a subset under 'Y_tilde' id
+s <- sm_subset(m, "test_subset", sm_ytilde(m))
+
+# lists 'ref_sf', 'seg_sf', 'test_subset', and 'Y_tilde'
+sm_list(m)
+
+# which segmetric object stores `s` subset?
+m2 <- sm_segmetric(s)
+
+# m is identical to m2
+identical(m, m2)
+
+# which name `s` subset is stored in `m` segmetric object?
+sm_indirect(s)
+
+# retrieve 'test_subset' data from `m` object
+s2 <- sm_get(m, 'test_subset')
+
+# s is identical to s2
+identical(s, s2)
 }

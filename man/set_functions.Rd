@@ -46,25 +46,54 @@ sm_yg(m)
 \arguments{
 \item{m}{A \code{segmetric} object.}
 }
-\description{
-These functions compute subsets required to calculate segmentation metrics as
-described in Clinton et al. (2010) and Costa et al. (2017).
+\value{
 \itemize{
-\item \code{sm_ref()}    returns the set of \eqn{n} polygons of reference, represented by \eqn{X = \{x_{i}: i = 1, ....., n\}}
-\item \code{sm_seg()}    returns the set of \eqn{m} segmentation polygons, represented by \eqn{Y = \{y_{j}: j = 1, ....., m\}}
-\item \code{sm_ytilde()} returns \eqn{\tilde{Y}_{i}}, a subset of \eqn{Y}, where \eqn{\tilde{Y}_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) \neq 0\}}
-\item \code{sm_xtilde()} returns \eqn{\tilde{X}_{j}}, a subset of \eqn{X}, where \eqn{\tilde{X}_{j} = \{x_{i}: \rm{area}(y_{j} \cap x_{i}) \neq 0\}}
-\item \code{sm_yprime()} returns \eqn{Y'_{i}}, a subset of \eqn{Y}, where \eqn{Y'_{i} = \{y_{j}: max(\rm{area}(x_{i} \cap y_{j}))\}}
-\item \code{sm_xprime()} returns \eqn{X'_{j}}, a subset of \eqn{X}, where \eqn{X'_{j} = \{x_{i}: max(\rm{area}(y_{j} \cap x_{i}))\}}
-\item \code{sm_ya()}     returns \eqn{Y\!a_{i}}, a subset of \eqn{\tilde{Y}_{i}}, where \eqn{Y\!a_{i} = \{y_{j}: \rm{centroid}(x_{i}) \:\rm{in}\: y_{j}\}}
-\item \code{sm_yb()}     returns \eqn{Y\!b_{i}}, a subset of \eqn{\tilde{Y}_{i}}, where \eqn{Y\!b_{i} = \{y_{j}: \rm{centroid}(y_{j}) \:\rm{in}\: x_{i}\}}
-\item \code{sm_yc()}     returns \eqn{Y\!c_{i}}, a subset of \eqn{\tilde{Y}_{i}}, where \eqn{Y\!c_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(y_{j}) > 0.5\}}
-\item \code{sm_yd()}     returns \eqn{Y\!d_{i}}, a subset of \eqn{\tilde{Y}_{i}}, where \eqn{Y\!d_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(x_{i}) > 0.5\}}
-\item \code{sm_ystar()}  returns \eqn{{Y}^{*}_{i}}, where \eqn{{Y}^{*}_{i} = Y\!a_{i} \cup Y\!b_{i} \cup Y\!c_{i} \cup Y\!c_{i}}
-\item \code{sm_ycd()}    returns \eqn{Y\!cd_{i}}, where \eqn{Y\!cd_{i} = Y\!c_{i} \cup Y\!d_{i}}
-\item \code{sm_ye()}     returns \eqn{Y\!e_{i}}, a subset of \eqn{\tilde{Y}_{i}} , where \eqn{Y\!e_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(y_{j}) = 1\}}
-\item \code{sm_yf()}     returns \eqn{Y\!f_{i}}, a subset of \eqn{\tilde{Y}_{i}} , where \eqn{Y\!f_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(y_{j}) > 0.55\}}
-\item \code{sm_yg()}     returns \eqn{Y\!g_{i}}, a subset of \eqn{\tilde{Y}_{i}} , where \eqn{Y\!g_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(y_{j}) > 0.75\}}
+\item \code{sm_ref()}: Return an object of class \code{ref_sf} (inherited from \code{sf})
+containing identification (\code{ref_id}) and geometry (\code{geometry}) columns.
+\item \code{sm_seg()}: Return an object of class \code{seg_sf} (inherited from \code{sf})
+containing identification (\code{seg_id}) and geometry (\code{geometry}) columns.
+\item \code{sm_ytilde()}, \code{sm_xtilde()}, \code{sm_yprime()}, \code{sm_xprime()}, \code{sm_ya()},
+\code{sm_yb()}, \code{sm_yc()}, \code{sm_yd()}, \code{sm_ystar()}, \code{sm_ycd()}, \code{sm_ye()},
+\code{sm_yf()}, and \code{sm_yg()}: Return an object of class \code{subset_sf}
+(inherited from \code{sf}) containing identification (\code{ref_id} and \code{seg_id}),
+and geometry (\code{geometry}) columns.
+}
+}
+\description{
+These functions compute subsets required to calculate segmentation
+metrics as described in Clinton et al. (2010) and Costa et al. (2017).
+\itemize{
+\item \code{sm_ref()}    returns the set of \eqn{n} polygons of reference,
+represented by \eqn{X = \{x_{i}: i = 1, ....., n\}}
+\item \code{sm_seg()}    returns the set of \eqn{m} segmentation polygons,
+represented by \eqn{Y = \{y_{j}: j = 1, ....., m\}}
+\item \code{sm_ytilde()} returns \eqn{\tilde{Y}_{i}}, a subset of \eqn{Y},
+where \eqn{\tilde{Y}_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) \neq 0\}}
+\item \code{sm_xtilde()} returns \eqn{\tilde{X}_{j}}, a subset of \eqn{X}, where
+\eqn{\tilde{X}_{j} = \{x_{i}: \rm{area}(y_{j} \cap x_{i}) \neq 0\}}
+\item \code{sm_yprime()} returns \eqn{Y'_{i}}, a subset of \eqn{Y}, where
+\eqn{Y'_{i} = \{y_{j}: max(\rm{area}(x_{i} \cap y_{j}))\}}
+\item \code{sm_xprime()} returns \eqn{X'_{j}}, a subset of \eqn{X}, where
+\eqn{X'_{j} = \{x_{i}: max(\rm{area}(y_{j} \cap x_{i}))\}}
+\item \code{sm_ya()}     returns \eqn{Y\!a_{i}}, a subset of \eqn{\tilde{Y}_{i}},
+where \eqn{Y\!a_{i} = \{y_{j}: \rm{centroid}(x_{i}) \:\rm{in}\: y_{j}\}}
+\item \code{sm_yb()}     returns \eqn{Y\!b_{i}}, a subset of \eqn{\tilde{Y}_{i}},
+where \eqn{Y\!b_{i} = \{y_{j}: \rm{centroid}(y_{j}) \:\rm{in}\: x_{i}\}}
+\item \code{sm_yc()}     returns \eqn{Y\!c_{i}}, a subset of \eqn{\tilde{Y}_{i}},
+where \eqn{Y\!c_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / 
+\rm{area}(y_{j}) > 0.5\}}
+\item \code{sm_yd()}     returns \eqn{Y\!d_{i}}, a subset of \eqn{\tilde{Y}_{i}},
+where \eqn{Y\!d_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(x_{i}) > 0.5\}}
+\item \code{sm_ystar()}  returns \eqn{{Y}^{*}_{i}}, where
+\eqn{{Y}^{*}_{i} = Y\!a_{i} \cup Y\!b_{i} \cup Y\!c_{i} \cup Y\!c_{i}}
+\item \code{sm_ycd()}    returns \eqn{Y\!cd_{i}}, where
+\eqn{Y\!cd_{i} = Y\!c_{i} \cup Y\!d_{i}}
+\item \code{sm_ye()}     returns \eqn{Y\!e_{i}}, a subset of \eqn{\tilde{Y}_{i}},
+where \eqn{Y\!e_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(y_{j}) = 1\}}
+\item \code{sm_yf()}     returns \eqn{Y\!f_{i}}, a subset of \eqn{\tilde{Y}_{i}},
+where \eqn{Y\!f_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(y_{j}) > 0.55\}}
+\item \code{sm_yg()}     returns \eqn{Y\!g_{i}}, a subset of \eqn{\tilde{Y}_{i}},
+where \eqn{Y\!g_{i} = \{y_{j}: \rm{area}(x_{i} \cap y_{j}) / \rm{area}(y_{j}) > 0.75\}}
 }
 }
 \references{

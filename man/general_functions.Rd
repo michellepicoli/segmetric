@@ -21,22 +21,34 @@ sm_rbind(...)
 }
 \arguments{
 \item{s, s1, s2}{Either a \code{ref_sf}, a \code{seg_sf}, or a \code{subset_sf} object
-(inherits from \code{sf}).}
+(inherited from \code{sf}).}
 
 \item{order}{A \code{subset_sf}. This argument arranges the returned values
 according to the object passed here.}
 
-\item{touches}{A logical. Is the border part of the intersection?}
+\item{touches}{A \code{logical}. Is the border part of the intersection?}
 
-\item{...}{Set of \code{sf} objects of type subset \code{sf}.}
+\item{...}{For \code{sm_rbind()}, a set of \code{subset_sf} objects to be
+merged.}
+}
+\value{
+\itemize{
+\item \code{sm_area()}: Return a \code{numeric} vector with polygons' area.
+\item \code{sm_centroid()}: Return a \code{subset_sf} object with polygons' centroid.
+\item \code{sm_intersection()}: Return a \code{subset_sf} object with intersection
+between polygons.
+\item \code{sm_subset_union()}: Return a \code{subset_sf} object with union
+between intersecting polygons.
+\item \code{sm_rbind()}: Return a \code{subset_sf} object with unique features.
+}
 }
 \description{
 These functions manipulate segmetric objects.
 \itemize{
-\item \code{sm_area()} returns a vector of areas, one for each polygon.
-\item \code{sm_centroid()} returns the centroids of the given polygons.
-\item \code{sm_intersection()} returns the intersection of the given simple features.
-\item \code{sm_subset_union()} returns the union of the given simple features.
-\item \code{sm_rbind()} returns the merge of unique simple features.
+\item \code{sm_area()}: Return a vector of areas, one for each polygon.
+\item \code{sm_centroid()}: Return the centroids of the given polygons.
+\item \code{sm_intersection()}: Return the intersection of the given simple features.
+\item \code{sm_subset_union()}: Return the union of the given simple features.
+\item \code{sm_rbind()}: Return the merge of unique simple features.
 }
 }

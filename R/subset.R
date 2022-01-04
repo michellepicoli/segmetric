@@ -3,7 +3,8 @@
 #' @name subset_handling_functions
 #' 
 #' @description 
-#' These functions handle `subset_sf` data (inherited from `sf` class) stored in 
+#' These functions are intended to be used in new metric extensions. 
+#' They handle `subset_sf` data (inherited from `sf` class) stored in 
 #' `segmetric` objects.
 #' * `sm_list()` lists subsets already computed and stored in a `segmetric` 
 #' object.
@@ -15,8 +16,9 @@
 #' `subset` object (either a `ref_sf`, a `seg_sf`, or a `subset_sf`).
 #' * `sm_get()` retrieves a `subset_sf` object stored in a `segmetric` object.
 #' * `sm_inset()` operator equivalent to inner join but returns only objects 
-#' from `x`, or its corresponding row in `y` if parameter `return_index` 
+#' from `s1`, or its corresponding row in `s2` if parameter `return_index` 
 #' is `TRUE`.
+#' * `sm_group_by()`: Apply a function to groups of `subset_sf`.
 #' 
 #' @param s,s1,s2       Either a `ref_sf`, a `seg_sf`, or a `subset_sf` object.
 #' @param m             A `segmetric` object.
@@ -24,8 +26,60 @@
 #' @param expr          A valid piece of code in R inside curly braces. This 
 #' code is evaluated to generate a subset.
 #' @param return_index  A `logical` value indicating if the corresponding rows
-#' in `y` should be returned instead of the actual corresponding values of `x`.
+#' in `s1` should be returned instead of the actual corresponding values 
+#' of `s2`.
+#' @param by            A `character` value with the column to group.
+#' @param fn            A `function` to apply on each group.
+#' @param ...           For `sm_group_by()`, extra parameter to pass to 
+#' `fn` function.
 #' 
+#' @returns 
+#' * `sm_list()`: Return a `character` vector with all names of subsets stored 
+#' in the `segmetric` object.
+#' * `sm_exists()`: Return a `logical` value indicating if a given subset name is
+#' stored in the `segmetric` object.
+#' * `sm_subset()`: Return a `subset_sf` object. 
+#' * `sm_indirect()`: Return the subset name of a given `subset_sf` object 
+#' stored in a `segmetric` object.
+#' * `sm_segmetric()`: Return a `segmetric` object that stores a given
+#' `subset_sf` object.
+#' * `sm_get()`: Return a `subset_sf` object stored in a `segmetric` object.
+#' * `sm_inset()`: Return either a `subset_sf` object or an `integer` vector
+#' with the index of corresponding rows of `s2` object.
+#' * `sm_group_by()`: Return a `subset_sf` object.
+#' 
+#' @examples
+#' # load sample datasets
+#' data("sample_ref_sf", package = "segmetric")
+#' data("sample_seg_sf", package = "segmetric")
+#' 
+#' # create segmetric object
+#' m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
+#' 
+#' # lists only 'ref_sf' and 'seg_sf'
+#' sm_list(m)
+#' 
+#' # computes 'Y_tilde' subset and stores it as 'test_subset' subset id
+#' # sm_ytilde(m) also stores a subset under 'Y_tilde' id
+#' s <- sm_subset(m, "test_subset", sm_ytilde(m))
+#' 
+#' # lists 'ref_sf', 'seg_sf', 'test_subset', and 'Y_tilde'
+#' sm_list(m)
+#' 
+#' # which segmetric object stores `s` subset?
+#' m2 <- sm_segmetric(s)
+#' 
+#' # m is identical to m2
+#' identical(m, m2)
+#' 
+#' # which name `s` subset is stored in `m` segmetric object?
+#' sm_indirect(s)
+#' 
+#' # retrieve 'test_subset' data from `m` object
+#' s2 <- sm_get(m, 'test_subset')
+#' 
+#' # s is identical to s2
+#' identical(s, s2)
 NULL
 
 .subset_check <- function(s, 
@@ -93,7 +147,7 @@ sm_subset <- function(m, subset_id, expr = NULL) {
     stopifnot(!missing(expr))
     stopifnot(is.character(subset_id))
     
-    class(expr) <- c(subset_id, "subset_sf", class(expr))
+    class(expr) <- unique(c(subset_id, "subset_sf", class(expr)))
     
     attr(expr, "segmetric") <- m
     
@@ -163,16 +217,10 @@ sm_inset.ref_sf <- function(s1, s2, return_index = FALSE) {
     .subset_check(s1, allowed_types = "ref_sf")
     .subset_check(s2, allowed_types = "subset_sf")
     
-    s1[["..#"]] <- seq_len(nrow(s1))
-    s2 <- sf::st_drop_geometry(s2)["ref_id"]
-    
-    s1 <- dplyr::inner_join(s1, s2, by = "ref_id")
-    
     if (return_index)
-        return(s1[["..#"]])
+        return(s2[["ref_id"]])
     
-    s1[["..#"]] <- NULL
-    s1
+    s1[s2[["ref_id"]],]
 }
 
 #' @rdname subset_handling_functions
@@ -182,16 +230,10 @@ sm_inset.seg_sf <- function(s1, s2, return_index = FALSE) {
     .subset_check(s1, allowed_types = "seg_sf")
     .subset_check(s2, allowed_types = "subset_sf")
     
-    s1[["..#"]] <- seq_len(nrow(s1))
-    s2 <- sf::st_drop_geometry(s2)["seg_id"]
-    
-    s1 <- dplyr::inner_join(s1, s2, by = "seg_id")
-    
     if (return_index)
-        return(s1[["..#"]])
+        return(s2[["seg_id"]])
     
-    s1[["..#"]] <- NULL
-    s1
+    s1[s2[["seg_id"]],]
 }
 
 #' @rdname subset_handling_functions
@@ -204,11 +246,27 @@ sm_inset.subset_sf <- function(s1, s2, return_index = FALSE) {
     s1[["..#"]] <- seq_len(nrow(s1))
     s2 <- sf::st_drop_geometry(s2)[c("ref_id", "seg_id")]
     
-    s1 <- dplyr::inner_join(s1, s2, by = c("ref_id", "seg_id"))
+    inset <- sf::st_as_sf(merge(s2, s1, by = c("ref_id", "seg_id"), 
+                                sort = FALSE))
     
     if (return_index)
-        return(s1[["..#"]])
+        return(inset[["..#"]])
     
-    s1[["..#"]] <- NULL
-    s1
+    inset[["..#"]] <- NULL
+    class(inset) <- class(s1)
+    inset
+}
+
+#' @rdname subset_handling_functions
+#' @export
+sm_group_by <- function(s, by, fn, ...) {
+    
+    .subset_check(s)
+    
+    if (nrow(s) == 0)
+        return(s)
+    
+    result <- do.call(rbind, args = unname(c(by(s, s[[by]], fn, ...))))
+    class(result) <- class(s)
+    result
 }
