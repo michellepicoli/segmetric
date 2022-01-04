@@ -7,6 +7,8 @@ Segmentation Assessment Metrics (`segmetric`)
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/segmetric)](https://cran.r-project.org/package=segmetric)
 [![Software
 License](https://img.shields.io/badge/license-MIT-green)](https://github.com/brazil-data-cube/rstac/blob/master/LICENSE)
 [![Software Life
