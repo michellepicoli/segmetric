@@ -22,7 +22,7 @@ Segmentation Assessment Metrics (`segmetric`)
 
 [![CRAN status](https://www.r-pkg.org/badges/version/segmetric)](https://cran.r-project.org/package=segmetric)
 [![Software
-License](https://img.shields.io/badge/license-MIT-green)](https://github.com/michellepicoli/segmetric/blob/master/LICENSE)
+License](https://img.shields.io/badge/license-MIT-green)](https://github.com/michellepicoli/segmetric/blob/main/LICENSE)
 [![Software Life
 Cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
