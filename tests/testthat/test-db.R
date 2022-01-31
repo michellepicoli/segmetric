@@ -598,10 +598,8 @@ test_that("test metric is between 0 and 1", {
               unlist(sm_compute(data, "US3")) <= 1))
     )
 
-
     expect_true(
-        all(c(unlist(sm_compute(data, "AFI")) >= 0,
-              unlist(sm_compute(data, "AFI")) <= 1))
+        all(unlist(sm_compute(data, "AFI")) <= 1)
     )
 
     expect_true(
