@@ -544,6 +544,8 @@ test_that("real test values", {
     expect_equal(test_E(x_prime), unlist(sm_compute(data, "E"), use.names = FALSE), tolerance = 2e-05)
 })
 
+tolerance <- .Machine$double.eps^0.5
+
 test_that("test metric is between 0 and 0.5", {
 
     data("sample_ref_sf", package = "segmetric")
@@ -551,13 +553,13 @@ test_that("test metric is between 0 and 0.5", {
     data <- sm_read(sample_ref_sf, sample_seg_sf)
 
     expect_true(
-        all(c(unlist(sm_compute(data, "OMerging")) >= 0,
-              unlist(sm_compute(data, "OMerging")) <= 0.5))
+        all(c(unlist(sm_compute(data, "OMerging")) >= 0 - tolerance,
+              unlist(sm_compute(data, "OMerging")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "UMerging")) >= 0,
-              unlist(sm_compute(data, "UMerging")) <= 0.5))
+        all(c(unlist(sm_compute(data, "UMerging")) >= 0 - tolerance,
+              unlist(sm_compute(data, "UMerging")) <= 1 + tolerance))
     )
 
 })
@@ -569,96 +571,100 @@ test_that("test metric is between 0 and 1", {
     data <- sm_read(sample_ref_sf, sample_seg_sf)
 
     expect_true(
-        all(c(unlist(sm_compute(data, "OS1")) >= 0,
-              unlist(sm_compute(data, "OS1")) <= 1))
+        all(c(unlist(sm_compute(data, "OS1")) >= 0 - tolerance,
+              unlist(sm_compute(data, "OS1")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "US1")) >= 0,
-              unlist(sm_compute(data, "US1")) <= 1))
+        all(c(unlist(sm_compute(data, "US1")) >= 0 - tolerance,
+              unlist(sm_compute(data, "US1")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "OS2")) >= 0,
-              unlist(sm_compute(data, "OS2")) <= 1))
+        all(c(unlist(sm_compute(data, "OS2")) >= 0 - tolerance,
+              unlist(sm_compute(data, "OS2")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "US2")) >= 0,
-              unlist(sm_compute(data, "US2")) <= 1))
+        all(c(unlist(sm_compute(data, "US2")) >= 0 - tolerance,
+              unlist(sm_compute(data, "US2")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "OS3")) >= 0,
-              unlist(sm_compute(data, "OS3")) <= 1))
+        all(c(unlist(sm_compute(data, "OS3")) >= 0 - tolerance,
+              unlist(sm_compute(data, "OS3")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "US3")) >= 0,
-              unlist(sm_compute(data, "US3")) <= 1))
+        all(c(unlist(sm_compute(data, "US3")) >= 0 - tolerance,
+              unlist(sm_compute(data, "US3")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(unlist(sm_compute(data, "AFI")) <= 1)
+        all(unlist(sm_compute(data, "AFI")) <= 1 + tolerance)
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "precision")) >= 0,
-              unlist(sm_compute(data, "precision")) <= 1))
+        all(c(unlist(sm_compute(data, "precision")) >= 0 - tolerance,
+              unlist(sm_compute(data, "precision")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "recall")) >= 0,
-              unlist(sm_compute(data, "recall")) <= 1))
+        all(c(unlist(sm_compute(data, "recall")) >= 0 - tolerance,
+              unlist(sm_compute(data, "recall")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "M")) >= 0,
-              unlist(sm_compute(data, "M")) <= 1))
+        all(c(unlist(sm_compute(data, "M")) >= 0 - tolerance,
+              unlist(sm_compute(data, "M")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "RAsub")) >= 0,
-              unlist(sm_compute(data, "RAsub")) <= 1))
+        all(c(unlist(sm_compute(data, "RAsub")) >= 0 - tolerance,
+              unlist(sm_compute(data, "RAsub")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "RAsuper")) >= 0,
-              unlist(sm_compute(data, "RAsuper")) <= 1))
+        all(c(unlist(sm_compute(data, "RAsuper")) >= 0 - tolerance,
+              unlist(sm_compute(data, "RAsuper")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "PI")) >= 0,
-              unlist(sm_compute(data, "PI")) <= 1))
+        all(c(unlist(sm_compute(data, "PI")) >= 0 - tolerance,
+              unlist(sm_compute(data, "PI")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "ED3")) >= 0,
-              unlist(sm_compute(data, "ED3")) <= 1))
+        all(c(unlist(sm_compute(data, "ED3")) >= 0 - tolerance,
+              unlist(sm_compute(data, "ED3")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "F_measure")) >= 0,
-              unlist(sm_compute(data, "F_measure")) <= 1))
+        all(c(unlist(sm_compute(data, "F_measure")) >= 0 - tolerance,
+              unlist(sm_compute(data, "F_measure")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "QR")) >= 0,
-              unlist(sm_compute(data, "QR")) <= 1))
+        all(c(unlist(sm_compute(data, "QR")) >= 0 - tolerance,
+              unlist(sm_compute(data, "QR")) <= 1 + tolerance))
     )
 
     expect_true(
-        all(c(unlist(sm_compute(data, "D_index")) >= 0,
-              unlist(sm_compute(data, "D_index")) <= 1))
+        all(c(unlist(sm_compute(data, "D_index")) >= 0 - tolerance,
+              unlist(sm_compute(data, "D_index")) <= 1 + tolerance))
     )
 
 })
 
 test_that("test metric is between 0 and 50", {
 
+    data("sample_ref_sf", package = "segmetric")
+    data("sample_seg_sf", package = "segmetric")
+    data <- sm_read(sample_ref_sf, sample_seg_sf)
+
     expect_true(
-        all(c(unlist(sm_compute(data, "E")) >= 0,
-              unlist(sm_compute(data, "E")) <= 50))
+        all(c(unlist(sm_compute(data, "E")) >= 0 - tolerance,
+              unlist(sm_compute(data, "E")) <= 50 + tolerance))
     )
 
 })
