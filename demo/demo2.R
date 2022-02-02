@@ -12,11 +12,11 @@ sm_list_metrics()
 sm_desc_metric("AFI")
 
 # load data
-data("ref_sf", package = "segmetric")
-data("seg_sf", package = "segmetric")
+data("sample_ref_sf", package = "segmetric")
+data("sample_seg_sf", package = "segmetric")
 
 # open data and create a segmetric object
-m <- sm_read(sample_ref_sf, sample_seg_sf)
+m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
 
 # compute metrics individually
 sm_compute(m, metric = "AFI") %>% summary()

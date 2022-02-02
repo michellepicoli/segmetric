@@ -21,10 +21,10 @@ sm_list_metrics()
 
 # load datasets
 data("ref_sf", package = "segmetric")
-data("seg_sf", package = "segmetric")
+data("seg500_sf", package = "segmetric")
 
 # create segmetric object
-m <- sm_read(ref_sf = ref_sf, seg_sf = seg_sf)
+m <- sm_read(ref_sf = ref_sf, seg_sf = seg500_sf)
 
 # compute a metric
 sm_compute(m, metric = "Example")
