@@ -4,23 +4,56 @@
 #' Study area: Luis Eduardo Magalhaes municipality, 
 #' Bahia state, Brazil
 #' 
+library(segmetric)
 
 # list all supported metrics
 sm_list_metrics()
 
-# describe a specific metric
-sm_desc_metric("AFI")
-
 # load data
-data("sample_ref_sf", package = "segmetric")
-data("sample_seg_sf", package = "segmetric")
+data("ref_sf", package = "segmetric")
+data("seg100_sf", package = "segmetric")
+data("seg500_sf", package = "segmetric")
+data("seg800_sf", package = "segmetric")
 
 # open data and create a segmetric object
-m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
+m100 <- sm_read(ref_sf = ref_sf, seg_sf = seg100_sf)
+m500 <- sm_read(ref_sf = ref_sf, seg_sf = seg500_sf)
+m800 <- sm_read(ref_sf = ref_sf, seg_sf = seg800_sf)
+
 
 # compute metrics individually
-sm_compute(m, metric = "AFI") %>% summary()
-sm_compute(m, metric = "OS3") %>% summary()
+sm_compute(m100, metric_id = "AFI") %>% 
+    plot.segmetric(plot_centroids = FALSE, 
+                   fill_alpha = 0.8)
+
+sm_compute(m100, metric_id = sm_list_metrics()) %>% 
+    plot()
+
+sm_compute(m500, metric_id = sm_list_metrics()) %>% 
+    summary()
+
+sm_compute(m800, metric_id = sm_list_metrics()) %>%
+    summary()
+
+# dplyr::bind_rows(list(
+#     sm_compute(m100, metric_id = sm_list_metrics()) %>% 
+#         summary() %>% tibble::as_tibble_row(),
+#     
+#     sm_compute(m500, metric_id = sm_list_metrics()) %>% 
+#         summary() %>% tibble::as_tibble_row(),
+#     
+#     sm_compute(m800, metric_id = sm_list_metrics()) %>%
+#         summary() %>% tibble::as_tibble_row()
+# )) %>% dplyr::summarise(dplyr::across(dplyr::everything(), sm_optmal))
+    
+# sm_analysis(
+#     sm_compute(m100, metric_id = sm_list_metrics()) %>% 
+#         summary() %>% tibble::as_tibble_row(),
+#     sm_compute(m500, metric_id = sm_list_metrics()) %>% 
+#         summary() %>% tibble::as_tibble_row(),
+#     sm_compute(m800, metric_id = sm_list_metrics()) %>%
+#         summary() %>% tibble::as_tibble_row()
+# )
 
 # compute metrics in sequence
 sm_compute(m, metric_id = "RAsub") %>% 
