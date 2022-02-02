@@ -22,7 +22,8 @@ NULL
 #' @rdname ref_sf
 #' 
 #' @description 
-#' `ref_sf`: a dataset containing field boundaries.
+#' `ref_sf`: a dataset containing field boundaries from Luiz Eduardo Magalhaes
+#' municipality, Brazil.
 #'
 #' @format 
 #' `ref_sf`: a dataset with 195 features.
@@ -73,13 +74,16 @@ NULL
 #' @rdname seg_sf
 #' 
 #' @description
-#' `seg_sf`: a dataset containing segments generated from PlanetScope image, 
-#' level 3B, acquired on Feb 18, 2020, with 3.7-meter resolution (Planet Team, 
-#' 2017), using the multiresolution segmentation method (Baatz and Schape, 
-#' 2000). 
+#' `seg100_sf`,`seg500_sf`,`seg800_sf`: a dataset containing segments generated 
+#' from PlanetScope image, level 3B, acquired on Feb 18, 2020, with 3.7-meter 
+#' resolution (Planet Team, 2017), using the multiresolution segmentation 
+#' method (Baatz and Schape, 2000).
 #' 
-#' The data was post-processed using the spectral difference algorithm on band 
-#' 3.
+#' The data covers the same area of LEM+ dataset:
+#' xmin: -46.37693 ymin: -12.34876 xmax: -46.1578 ymax: -12.13642
+#' 
+#' The data was post-processed using the spectral difference algorithm on 
+#' band 3.
 #' 
 #' The polygons were simplified using the Douglas-Peucker algorithm in QGIS. 
 #' 
@@ -87,7 +91,8 @@ NULL
 #' 
 #' Segmentation parameters:
 #' \itemize{
-#'   \item{`scale parameter`: 500}
+#'   \item{`scale parameter`: 100 (`seg100_sf`), 500 (`seg500_sf`), and 
+#'   800 (`seg800_sf`)}
 #'   \item{`shape`: 0.9}
 #'   \item{`compactness`: 0.1}
 #' }
@@ -106,11 +111,23 @@ NULL
 #' above 25 were selected.
 #' 
 #' @format 
-#' `seg_sf`: a dataset with 259 features.
+#' `seg_sf`: a dataset with 210 features.
 #' 
 #' @examples 
-#' data("seg_sf", package = "segmetric")
-"seg_sf"
+#' data("seg100_sf", package = "segmetric")
+"seg100_sf"
+
+#' @rdname seg_sf
+#' 
+#' @examples 
+#' data("seg500_sf", package = "segmetric")
+"seg500_sf"
+
+#' @rdname seg_sf
+#' 
+#' @examples 
+#' data("seg800_sf", package = "segmetric")
+"seg800_sf"
 
 #' @rdname seg_sf
 #' 
@@ -118,7 +135,8 @@ NULL
 #' `sample_seg_sf`: a subset of `seg_sf` dataset.
 #' 
 #' @format 
-#' `sample_seg_sf`: a dataset with 6 features.
+#' `sample_seg_sf`: a dataset with 6 features extracted from 
+#' `seg500_sf` dataset.
 #' 
 #' @examples 
 #' data("sample_seg_sf", package = "segmetric")
