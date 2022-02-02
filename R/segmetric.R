@@ -75,9 +75,27 @@ sm_read <- function(ref_sf, seg_sf) {
         ref_sf <- sf::read_sf(ref_sf)
     stopifnot(inherits(ref_sf, "sf"))
     
+    if (any(!sf::st_is_valid(ref_sf))) {
+        
+        stop(paste(
+            "reference dataset has invalid geometries.",
+            "Please, fix the dataset using sf::st_make_valid().",
+            sep = "\n"
+        ), call. = FALSE)
+    }
+    
     if (is.character(seg_sf))
         seg_sf <- sf::read_sf(seg_sf)
     stopifnot(inherits(seg_sf, "sf"))
+    
+    if (any(!sf::st_is_valid(seg_sf))) {
+        
+        stop(paste(
+            "segmentation dataset has invalid geometries.",
+            "Please, fix the dataset using sf::st_make_valid().",
+            sep = "\n"
+        ), call. = FALSE)
+    }
     
     stopifnot(sf::st_crs(ref_sf) == sf::st_crs(seg_sf))
     
