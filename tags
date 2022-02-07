@@ -1,0 +1,375 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+.db_del	R/db.R	/^.db_del <- function(key) {$/;"	f
+.db_env	R/zzz.R	/^.db_env <- new.env()$/;"	g
+.db_get	R/db.R	/^.db_get <- function(key) {$/;"	f
+.db_list	R/db.R	/^.db_list <- function() {$/;"	f
+.db_registry	R/db.R	/^.db_registry <- function() {$/;"	f
+.db_set	R/db.R	/^.db_set <- function(key, value) {$/;"	f
+.env	R/segmetric.R	/^    .env <- environment()$/;"	v
+.get_inter	tests/testthat/segmetric_util.R	/^.get_inter <- function(ref_sf, seg_sf) {$/;"	f
+.get_union	tests/testthat/segmetric_util.R	/^.get_union <- function(ref_sf, seg_sf) {$/;"	f
+.intersect_point_polygon	tests/testthat/segmetric_util.R	/^.intersect_point_polygon <- function(x, point_sf, polygon_sf, $/;"	f
+.keep_all	tests/testthat/segmetric_util.R	/^                        .keep_all = TRUE) %>% $/;"	v
+.norm_left	R/functions.R	/^.norm_left <- function(x, y) {$/;"	f
+.norm_right	R/functions.R	/^.norm_right <- function(x, y) {$/;"	f
+.onLoad	R/zzz.R	/^.onLoad <- function(libname, pkgname) {$/;"	f
+.segmetric_check	R/segmetric.R	/^.segmetric_check <- function(m) {$/;"	f
+.segmetric_env	R/segmetric.R	/^.segmetric_env <- function(m) {$/;"	f
+.subset_check	R/subset.R	/^.subset_check <- function(s, $/;"	f
+.subset_check.ref_sf	R/subset.R	/^.subset_check.ref_sf <- function(s, ...) {$/;"	f
+.subset_check.seg_sf	R/subset.R	/^.subset_check.seg_sf <- function(s, ...) {$/;"	f
+.subset_check.subset_sf	R/subset.R	/^.subset_check.subset_sf <- function(s, ...) {$/;"	f
+AFI	R/metric-funs.R	/^AFI <- function(m, ...) {$/;"	f
+D_index	R/metric-funs.R	/^D_index <- function(m, ...) {$/;"	f
+E	R/metric-funs.R	/^E <- function(m, ...) {$/;"	f
+ED3	R/metric-funs.R	/^ED3 <- function(m, ...) {$/;"	f
+F_measure	R/metric-funs.R	/^F_measure <- function(m, ..., alpha = 0.5) {$/;"	f
+Fitness	R/metric-funs.R	/^Fitness <- function(m, ...) {$/;"	f
+M	R/metric-funs.R	/^M <- function(m, ...) {$/;"	f
+OMerging	R/metric-funs.R	/^OMerging <- function(m, ...) {$/;"	f
+OS1	R/metric-funs.R	/^OS1 <- function(m, ...) {$/;"	f
+OS1	tests/testthat/segmetric_util.R	/^    OS1 <- test_OS1(y_star)$/;"	v
+OS2	R/metric-funs.R	/^OS2 <- function(m, ...) {$/;"	f
+OS3	R/metric-funs.R	/^OS3 <- function(m, ...) {$/;"	f
+PI	R/metric-funs.R	/^PI <- function(m, ...) {$/;"	f
+QR	R/metric-funs.R	/^QR <- function(m, ...) {$/;"	f
+RAsub	R/metric-funs.R	/^RAsub <- function(m, ...) {$/;"	f
+RAsuper	R/metric-funs.R	/^RAsuper <- function(m, ...) {$/;"	f
+UMerging	R/metric-funs.R	/^UMerging <- function(m, ...) {$/;"	f
+US1	R/metric-funs.R	/^US1 <- function(m, ...) {$/;"	f
+US1	tests/testthat/segmetric_util.R	/^    US1 <- test_US1(y_star)$/;"	v
+US2	R/metric-funs.R	/^US2 <- function(m, ...) {$/;"	f
+US3	R/metric-funs.R	/^US3 <- function(m, ...) {$/;"	f
+allowed_types	R/functions.R	/^        .subset_check(order, allowed_types = "subset_sf")$/;"	v
+allowed_types	R/functions.R	/^    .subset_check(s, allowed_types = c("ref_sf", "seg_sf"))$/;"	v
+allowed_types	R/functions.R	/^    .subset_check(s1, allowed_types = c("ref_sf", "seg_sf"))$/;"	v
+allowed_types	R/functions.R	/^    .subset_check(s2, allowed_types = c("ref_sf", "seg_sf"))$/;"	v
+allowed_types	R/functions.R	/^    for (s in subsets) .subset_check(s, allowed_types = "subset_sf")$/;"	v
+allowed_types	R/subset.R	/^                          allowed_types = c("ref_sf", "seg_sf", "subset_sf")) {$/;"	v
+allowed_types	R/subset.R	/^    .subset_check(expr, allowed_types = "subset_sf")$/;"	v
+allowed_types	R/subset.R	/^    .subset_check(s1, allowed_types = "ref_sf")$/;"	v
+allowed_types	R/subset.R	/^    .subset_check(s1, allowed_types = "seg_sf")$/;"	v
+allowed_types	R/subset.R	/^    .subset_check(s1, allowed_types = "subset_sf")$/;"	v
+allowed_types	R/subset.R	/^    .subset_check(s2, allowed_types = "subset_sf")$/;"	v
+alpha	R/segmetric.R	/^        alpha <- as.hexmode(round(255 * alpha, 0))$/;"	v
+area	R/functions.R	/^        area <- sm_area(subset_sf)$/;"	v
+area	R/functions.R	/^        area <- units::drop_units(area)$/;"	v
+area	R/subset-funs.R	/^                    area <- sm_area(x)$/;"	v
+area_df	tests/testthat/segmetric_util.R	/^        area_df <- merge(area_df, ref_cent_inter,$/;"	v
+area_df	tests/testthat/segmetric_util.R	/^        area_df <- merge(area_df, seg_cent_inter,$/;"	v
+area_df	tests/testthat/test-db.R	/^    area_df <- get_areas(sm_ref(data), sm_seg(data))$/;"	v
+args	R/functions.R	/^                do.call(rbind, args = lapply(seq_len(nrow(s)), function(i) {$/;"	v
+args	R/metric-funs.R	/^                                      args = c(list(m = m), parameters))$/;"	v
+args	R/metric-funs.R	/^            result[[i]] <- do.call(f[["fn_subset"]], args = list(m = m))$/;"	v
+background	R/segmetric.R	/^                           background = "#FAFAFA",$/;"	v
+border	R/segmetric.R	/^             border = border[data[["type"]]],$/;"	v
+border	R/segmetric.R	/^            border <- c(border, NA, NA)$/;"	v
+border	R/segmetric.R	/^    border <- c(ref_color, seg_color)$/;"	v
+breaks	R/segmetric.R	/^                           breaks = "jenks",$/;"	v
+by	tests/testthat/segmetric_util.R	/^                      by = c("ref_id", "seg_id"),$/;"	v
+by.x	tests/testthat/segmetric_util.R	/^                         by.x = c("ref_id", "seg_id"),$/;"	v
+by.x	tests/testthat/segmetric_util.R	/^                         by.x = c("seg_id", "ref_id"),$/;"	v
+centroids_color	R/segmetric.R	/^                           centroids_color = "#000000",$/;"	v
+class	R/db.R	/^        class = c("metric_entry", $/;"	v
+class	R/segmetric.R	/^              class = c("segmetric"))$/;"	v
+col	R/segmetric.R	/^                col = symbols_color,$/;"	v
+data	R/segmetric.R	/^        data <- rbind(ref_sf, seg_sf)$/;"	v
+data	tests/testthat/test-db.R	/^    data <- sm_read(ref, seg)$/;"	v
+data	tests/testthat/test-db.R	/^    data <- sm_read(ref_sf, seg_sf)$/;"	v
+data	tests/testthat/test-db.R	/^    data <- sm_read(sample_ref_sf, sample_seg_sf)$/;"	v
+description	R/db.R	/^            description  = "Optimal value: 0",$/;"	v
+description	R/db.R	/^            description  = "Values from 0 (optimal) to 0.5",$/;"	v
+description	R/db.R	/^            description  = "Values from 0 (optimal) to 1",$/;"	v
+description	R/db.R	/^            description  = "Values from 0 (optimal) to 50",$/;"	v
+description	R/db.R	/^            description  = "Values from 0 to 1 (optimal)",$/;"	v
+description	R/db.R	/^#'         description = paste("Values range from A to B.",$/;"	v
+description	demo/demo1.R	/^        description = paste("Values range from A to B.",$/;"	v
+entry	R/db.R	/^        entry = sm_new_metric($/;"	v
+entry	R/db.R	/^#'     entry = sm_new_metric($/;"	v
+entry	demo/demo1.R	/^    entry = sm_new_metric($/;"	v
+envir	R/db.R	/^    assign(key, value, envir = .db_env)$/;"	v
+envir	R/db.R	/^    get(key, envir = .db_env, inherits = FALSE)$/;"	v
+envir	R/db.R	/^    rm(list = key, envir = .db_env)$/;"	v
+envir	R/segmetric.R	/^    rm(list = subsets, envir = .segmetric_env(m), inherits = FALSE)$/;"	v
+envir	R/subset.R	/^           envir = .segmetric_env(m), $/;"	v
+envir	R/subset.R	/^    exists(subset_id, envir = .segmetric_env(m), inherits = FALSE)$/;"	v
+envir	R/subset.R	/^    get(subset_id, envir = .segmetric_env(m), inherits = FALSE)$/;"	v
+extent	R/segmetric.R	/^             extent = mod_extent(sf::st_bbox(data), 0.2),$/;"	v
+f	R/metric-funs.R	/^        f <- .db_get(key = metric_id[[i]])$/;"	v
+f	R/metric-funs.R	/^        f <- .db_get(key = metrics[[i]])$/;"	v
+fill	R/segmetric.R	/^            fill <- c(fill, NA, NA)$/;"	v
+fill	R/segmetric.R	/^    fill <- mod_alpha(c(ref_color, seg_color), fill_alpha)$/;"	v
+fn	R/db.R	/^            fn           = D_index,$/;"	v
+fn	R/db.R	/^            fn           = F_measure,$/;"	v
+fn	R/db.R	/^            fn           = Fitness,$/;"	v
+fn	R/db.R	/^            fn           = RAsuper,$/;"	v
+fn	demo/demo1.R	/^        fn = function(m) {$/;"	f
+fn_subset	R/db.R	/^            fn_subset    = sm_xprime,$/;"	v
+fn_subset	R/db.R	/^            fn_subset    = sm_yprime,$/;"	v
+fn_subset	R/db.R	/^            fn_subset    = sm_ystar,$/;"	v
+geometry	R/segmetric.R	/^                  geometry = sf::st_geometry(ref_sf),$/;"	v
+geometry	R/segmetric.R	/^                  geometry = sf::st_geometry(seg_sf),$/;"	v
+get_areas	tests/testthat/segmetric_util.R	/^get_areas <- function(ref_sf, seg_sf) {$/;"	f
+i	R/subset-funs.R	/^#' represented by \\eqn{X = \\{x_{i}: i = 1, ....., n\\}}$/;"	v
+id	R/functions.R	/^    id <- paste(result[["ref_id"]], result[["seg_id"]], sep = ",")$/;"	v
+inset	R/subset.R	/^    inset <- sf::st_as_sf(merge(s2, s1, by = c("ref_id", "seg_id"), $/;"	v
+inter	tests/testthat/segmetric_util.R	/^    inter <- as.vector(inter)$/;"	v
+inter	tests/testthat/segmetric_util.R	/^    inter <- sf::st_intersects(my_point, polygon_sf, sparse = FALSE)$/;"	v
+inter_area	tests/testthat/segmetric_util.R	/^    inter_area <- sf::st_set_geometry(inter_sf, NULL)$/;"	v
+inter_sf	tests/testthat/segmetric_util.R	/^    inter_sf <- sf::st_intersection(ref_sf["ref_id"], seg_sf["seg_id"])$/;"	v
+j	R/subset-funs.R	/^#' represented by \\eqn{Y = \\{y_{j}: j = 1, ....., m\\}}$/;"	v
+key	R/db.R	/^    key <- key[[1]]$/;"	v
+labels	R/segmetric.R	/^            labels <- c(labels, paste(labels, centroids_label))$/;"	v
+labels	R/segmetric.R	/^    labels <- c(ref_label, seg_label)$/;"	v
+layers	R/segmetric.R	/^                           layers = c("ref_sf", "seg_sf"),$/;"	v
+m	R/functions.R	/^    m <- sm_segmetric(s)$/;"	v
+m	R/metric-funs.R	/^#' m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)$/;"	v
+m	R/segmetric.R	/^#' m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)$/;"	v
+m	R/subset.R	/^    m <- attr(s, "segmetric")$/;"	v
+m	R/subset.R	/^#' m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)$/;"	v
+m	demo/demo1.R	/^m <- sm_read(ref_sf = ref_sf, seg_sf = seg500_sf)$/;"	g
+m100	demo/demo2.R	/^m100 <- sm_read(ref_sf = ref_sf, seg_sf = seg100_sf)$/;"	g
+m2	R/subset.R	/^#' m2 <- sm_segmetric(s)$/;"	v
+m500	demo/demo2.R	/^m500 <- sm_read(ref_sf = ref_sf, seg_sf = seg500_sf)$/;"	g
+m800	demo/demo2.R	/^m800 <- sm_read(ref_sf = ref_sf, seg_sf = seg800_sf)$/;"	g
+metric	demo/demo1.R	/^sm_compute(m, metric = "Example")$/;"	v
+metric_id	R/db.R	/^        metric_id = "D_index",$/;"	v
+metric_id	R/db.R	/^        metric_id = "F_measure",$/;"	v
+metric_id	R/db.R	/^        metric_id = "Fitness",$/;"	v
+metric_id	R/db.R	/^        metric_id = "RAsub",$/;"	v
+metric_id	R/db.R	/^        metric_id = "RAsuper",$/;"	v
+metric_id	R/db.R	/^#'     metric_id = "Example",$/;"	v
+metric_id	demo/demo1.R	/^    metric_id = "Example",$/;"	v
+metric_id	demo/demo2.R	/^#     sm_compute(m100, metric_id = sm_list_metrics()) %>% $/;"	v
+metric_id	demo/demo2.R	/^#     sm_compute(m500, metric_id = sm_list_metrics()) %>% $/;"	v
+metric_id	demo/demo2.R	/^#     sm_compute(m800, metric_id = sm_list_metrics()) %>%$/;"	v
+metric_id	demo/demo2.R	/^sm_compute(m, metric_id = "RAsub") %>% $/;"	v
+metric_id	demo/demo2.R	/^sm_compute(m100, metric_id = "AFI") %>% $/;"	v
+metric_id	demo/demo2.R	/^sm_compute(m100, metric_id = sm_list_metrics()) %>% $/;"	v
+metric_id	demo/demo2.R	/^sm_compute(m500, metric_id = sm_list_metrics()) %>% $/;"	v
+metric_id	demo/demo2.R	/^sm_compute(m800, metric_id = sm_list_metrics()) %>%$/;"	v
+metrics	R/metric-funs.R	/^        metrics <- names(m)$/;"	v
+metrics	R/metric-funs.R	/^    metrics <- names(m)$/;"	v
+mod_alpha	R/segmetric.R	/^    mod_alpha <- function(x, alpha) {$/;"	f
+mod_extent	R/segmetric.R	/^    mod_extent <- function(x, factor) {$/;"	f
+name	R/db.R	/^            name         = "Area fit index",$/;"	v
+name	R/db.R	/^            name         = "Evaluation measure",$/;"	v
+name	R/db.R	/^            name         = "F-measure",$/;"	v
+name	R/db.R	/^            name         = "Fitness function",$/;"	v
+name	R/db.R	/^            name         = "Match",$/;"	v
+name	R/db.R	/^            name         = "OverSegmentation",$/;"	v
+name	R/db.R	/^            name         = "Purity Index",$/;"	v
+name	R/db.R	/^            name         = "Relative area",$/;"	v
+name	R/db.R	/^            name         = "overMerging",$/;"	v
+nbreaks	R/segmetric.R	/^                nbreaks = nbreaks,$/;"	v
+order	R/metric-funs.R	/^                         sm_area(sm_seg(m), order = sm_ystar(m))) ^ 2) \/ 2)$/;"	v
+order	R/metric-funs.R	/^                       sum(sm_area(sm_ref(m), order = sm_yprime(m))))))$/;"	v
+order	R/metric-funs.R	/^                       sum(sm_area(sm_seg(m), order = sm_xprime(m))))) + $/;"	v
+order	R/metric-funs.R	/^                     sm_area(sm_ref(m), order = sm_ystar(m))) ^ 2 +$/;"	v
+order	R/metric-funs.R	/^                 sm_area(sm_ref(m), order = sm_ycd(m)))$/;"	v
+order	R/metric-funs.R	/^                 sm_area(sm_ref(m), order = sm_yprime(m)))$/;"	v
+order	R/metric-funs.R	/^                 sm_area(sm_ref(m), order = sm_ystar(m)))$/;"	v
+order	R/metric-funs.R	/^                 sm_area(sm_seg(m), order = sm_ycd(m)))$/;"	v
+order	R/metric-funs.R	/^                 sm_area(sm_seg(m), order = sm_yprime(m)))$/;"	v
+order	R/metric-funs.R	/^                 sm_area(sm_seg(m), order = sm_ystar(m)))$/;"	v
+order	R/metric-funs.R	/^         sm_area(sm_ref(m), order = sm_xprime(m)) -$/;"	v
+order	R/metric-funs.R	/^        sm_area(sm_ref(m), order = sm_ystar(m))$/;"	v
+order	R/metric-funs.R	/^        sm_area(sm_seg(m), order = sm_xprime(m))$/;"	v
+order	R/metric-funs.R	/^        sqrt(sm_area(sm_ref(m), order = sm_yprime(m)) *$/;"	v
+order	R/metric-funs.R	/^    (sm_area(sm_seg(m), order = sm_xprime(m)) +$/;"	v
+order	R/metric-funs.R	/^    (sm_area(sm_seg(m), order = sm_ystar(m)) - sm_area(sm_ystar(m))) \/$/;"	v
+order	R/metric-funs.R	/^    .norm_left(sm_area(sm_ref(m), order = sm_yprime(m)),$/;"	v
+order	R/metric-funs.R	/^    .norm_left(sm_area(sm_ref(m), order = sm_ystar(m)), sm_area(sm_ystar(m)))$/;"	v
+order	R/metric-funs.R	/^    .norm_left(sm_area(sm_seg(m), order = sm_xprime(m)),$/;"	v
+order	R/metric-funs.R	/^    sum(sm_area(sm_xprime(m))) \/ sum(sm_area(sm_seg(m), order = sm_xprime(m)))$/;"	v
+order	R/metric-funs.R	/^    sum(sm_area(sm_yprime(m))) \/ sum(sm_area(sm_ref(m), order = sm_yprime(m)))$/;"	v
+order	R/subset-funs.R	/^                Y[sm_area(Y) \/ sm_area(sm_ref(m), order = Y) > 0.5,]$/;"	v
+order	R/subset-funs.R	/^                Y[sm_area(Y) \/ sm_area(sm_seg(m), order = Y) == 0.55,]$/;"	v
+order	R/subset-funs.R	/^                Y[sm_area(Y) \/ sm_area(sm_seg(m), order = Y) == 0.75,]$/;"	v
+order	R/subset-funs.R	/^                Y[sm_area(Y) \/ sm_area(sm_seg(m), order = Y) == 1,]$/;"	v
+order	R/subset-funs.R	/^                Y[sm_area(Y) \/ sm_area(sm_seg(m), order = Y) > 0.5,]$/;"	v
+p00	tests/testthat/test-db.R	/^    p00 <- sf::st_polygon(list(rbind(c(0,0), c(1,0), c(1,1), c(0,1), c(0,0))))$/;"	v
+package	R/data.R	/^#' data("ref_sf", package = "segmetric")$/;"	v
+package	R/data.R	/^#' data("sample_ref_sf", package = "segmetric")$/;"	v
+package	R/data.R	/^#' data("sample_seg_sf", package = "segmetric")$/;"	v
+package	R/data.R	/^#' data("seg100_sf", package = "segmetric")$/;"	v
+package	R/data.R	/^#' data("seg500_sf", package = "segmetric")$/;"	v
+package	R/data.R	/^#' data("seg800_sf", package = "segmetric")$/;"	v
+package	R/metric-funs.R	/^#' data("sample_ref_sf", package = "segmetric")$/;"	v
+package	R/metric-funs.R	/^#' data("sample_seg_sf", package = "segmetric")$/;"	v
+package	R/segmetric.R	/^#' data("sample_ref_sf", package = "segmetric")$/;"	v
+package	R/segmetric.R	/^#' data("sample_seg_sf", package = "segmetric")$/;"	v
+package	R/subset.R	/^#' data("sample_ref_sf", package = "segmetric")$/;"	v
+package	R/subset.R	/^#' data("sample_seg_sf", package = "segmetric")$/;"	v
+package	demo/demo1.R	/^data("ref_sf", package = "segmetric")$/;"	v
+package	demo/demo1.R	/^data("seg500_sf", package = "segmetric")$/;"	v
+package	demo/demo2.R	/^data("ref_sf", package = "segmetric")$/;"	v
+package	demo/demo2.R	/^data("seg100_sf", package = "segmetric")$/;"	v
+package	demo/demo2.R	/^data("seg500_sf", package = "segmetric")$/;"	v
+package	demo/demo2.R	/^data("seg800_sf", package = "segmetric")$/;"	v
+package	tests/testthat/test-db.R	/^    data("sample_ref_sf", package = "segmetric")$/;"	v
+package	tests/testthat/test-db.R	/^    data("sample_seg_sf", package = "segmetric")$/;"	v
+palette	R/segmetric.R	/^                           palette = hcl.colors(nbreaks)) {$/;"	v
+parameters	R/metric-funs.R	/^    parameters <- list(...)$/;"	v
+pch	R/segmetric.R	/^                 pch = ref_symbol,$/;"	v
+pch	R/segmetric.R	/^                 pch = seg_symbol,$/;"	v
+pch	R/segmetric.R	/^                pch = symbols,$/;"	v
+plot.segmetric	R/segmetric.R	/^plot.segmetric <- function(x, ..., title = NULL,$/;"	f
+point_sf	tests/testthat/segmetric_util.R	/^                                 point_sf   = ref_cent,$/;"	v
+point_sf	tests/testthat/segmetric_util.R	/^                                 point_sf   = seg_cent,$/;"	v
+polygon_ids	tests/testthat/segmetric_util.R	/^                      polygon_ids = polygon_sf[[polygon_id]],$/;"	v
+precision	R/metric-funs.R	/^precision <- function(m, ...) {$/;"	f
+print.segmetric	R/segmetric.R	/^print.segmetric <- function(x, ...) {$/;"	f
+recall	R/metric-funs.R	/^recall <- function(m, ...) {$/;"	f
+ref	tests/testthat/test-db.R	/^    ref <- sf::st_sf(geometry = sf::st_sfc(p05))$/;"	v
+ref_area	tests/testthat/segmetric_util.R	/^        ref_area <- sf::st_set_geometry(ref_sf, NULL)$/;"	v
+ref_cent	tests/testthat/segmetric_util.R	/^        ref_cent <- sf::st_centroid(ref_sf)$/;"	v
+ref_cent_inter	tests/testthat/segmetric_util.R	/^        ref_cent_inter <- lapply(seq_len(nrow(ref_cent)), $/;"	v
+ref_color	R/segmetric.R	/^                           ref_color = "#0000B3",$/;"	v
+ref_sf	R/segmetric.R	/^        ref_sf <- sf::read_sf(ref_sf)$/;"	v
+ref_sf	R/segmetric.R	/^    ref_sf <- sm_ref(x)[-1]$/;"	v
+ref_sf	tests/testthat/test-db.R	/^    ref_sf <- sf::st_sf(geometry = sf::st_sfc(p05 * 1))$/;"	v
+ref_sf	tests/testthat/test-db.R	/^    ref_sf <- sf::st_sf(geometry = sf::st_sfc(p05 * 10))$/;"	v
+ref_sf	tests/testthat/test-db.R	/^    ref_sf <- sf::st_sf(geometry = sf::st_sfc(p05))$/;"	v
+reference	R/db.R	/^             reference = reference),$/;"	v
+reference	R/db.R	/^            reference    = "Carleer et al. (2005)"$/;"	v
+reference	R/db.R	/^            reference    = "Levine and Nazif (1982) and Clinton et al. (2010)"$/;"	v
+reference	R/db.R	/^            reference    = "M\\u00f6ller et al. (2007) and Clinton et al. (2010)"$/;"	v
+reference	R/db.R	/^            reference    = "Persello and Bruzzone (2010)"$/;"	v
+reference	R/db.R	/^            reference    = "Van Rijsbergen (1979) and Zhang et al. (2015)"$/;"	v
+reference	R/db.R	/^            reference    = "Weidner (2008) and Clinton et al. (2010)"$/;"	v
+reference	R/db.R	/^            reference    = "Yang et al. (2014)"$/;"	v
+reference	R/db.R	/^#'         reference = "Author (Year)"$/;"	v
+reference	demo/demo1.R	/^        reference = "Author (Year)"$/;"	v
+res	tests/testthat/segmetric_util.R	/^    res <- data.frame(point_id = my_point[[point_id]],$/;"	v
+result	R/segmetric.R	/^    result <- vapply(m, function(x) {$/;"	v
+return_index	R/subset.R	/^sm_inset <- function(s1, s2, return_index = FALSE) {$/;"	v
+return_index	R/subset.R	/^sm_inset.ref_sf <- function(s1, s2, return_index = FALSE) {$/;"	v
+return_index	R/subset.R	/^sm_inset.seg_sf <- function(s1, s2, return_index = FALSE) {$/;"	v
+return_index	R/subset.R	/^sm_inset.subset_sf <- function(s1, s2, return_index = FALSE) {$/;"	v
+s	R/subset.R	/^#' s <- sm_subset(m, "test_subset", sm_ytilde(m))$/;"	v
+s2	R/subset-funs.R	/^                                            s2 = sm_ref(m),$/;"	v
+s2	R/subset-funs.R	/^                                            s2 = sm_seg(m),$/;"	v
+s2	R/subset.R	/^    s2 <- sf::st_drop_geometry(s2)[c("ref_id", "seg_id")]$/;"	v
+s2	R/subset.R	/^#' s2 <- sm_get(m, 'test_subset')$/;"	v
+s_lst	R/segmetric.R	/^        s_lst <- sm_metric_subset(x)$/;"	v
+seg	tests/testthat/test-db.R	/^    seg <- sf::st_sf(geometry = sf::st_sfc(p05 + c(-0.5, -0.5),$/;"	v
+seg_area	tests/testthat/segmetric_util.R	/^        seg_area <- sf::st_set_geometry(seg_sf, NULL)$/;"	v
+seg_cent	tests/testthat/segmetric_util.R	/^        seg_cent <- sf::st_centroid(seg_sf)$/;"	v
+seg_cent_inter	tests/testthat/segmetric_util.R	/^        seg_cent_inter <- lapply(seq_len(nrow(seg_cent)), $/;"	v
+seg_color	R/segmetric.R	/^                           seg_color = "#FFF50A",$/;"	v
+seg_label	R/segmetric.R	/^                           seg_label = "segment",$/;"	v
+seg_sf	R/segmetric.R	/^        seg_sf <- sf::read_sf(seg_sf)$/;"	v
+seg_sf	R/segmetric.R	/^    seg_sf <- sm_seg(x)[-1]$/;"	v
+seg_sf	demo/demo1.R	/^m <- sm_read(ref_sf = ref_sf, seg_sf = seg500_sf)$/;"	v
+seg_sf	demo/demo2.R	/^m100 <- sm_read(ref_sf = ref_sf, seg_sf = seg100_sf)$/;"	v
+seg_sf	demo/demo2.R	/^m500 <- sm_read(ref_sf = ref_sf, seg_sf = seg500_sf)$/;"	v
+seg_sf	demo/demo2.R	/^m800 <- sm_read(ref_sf = ref_sf, seg_sf = seg800_sf)$/;"	v
+seg_sf	tests/testthat/test-db.R	/^    seg_sf <- sf::st_sf(geometry = sf::st_sfc(p00 + 51,$/;"	v
+seg_sf	tests/testthat/test-db.R	/^    seg_sf <- sf::st_sf(geometry = sf::st_sfc(p05 + 0.9,$/;"	v
+seg_sf	tests/testthat/test-db.R	/^    seg_sf <- sf::st_sf(geometry = sf::st_sfc(p05 + 1))$/;"	v
+seg_sf	tests/testthat/test-db.R	/^    seg_sf <- sf::st_sf(geometry = sf::st_sfc(p05 + 1,$/;"	v
+seg_sf	tests/testthat/test-db.R	/^    seg_sf <- sf::st_sf(geometry = sf::st_sfc(p05 + 1.01))$/;"	v
+seg_sf	tests/testthat/test-db.R	/^    seg_sf <- sf::st_sf(geometry = sf::st_sfc(p05 + c(0, 1)))$/;"	v
+seg_sf	tests/testthat/test-db.R	/^    seg_sf <- sf::st_sf(geometry = sf::st_sfc(p05))$/;"	v
+sf_column_name	R/segmetric.R	/^                  sf_column_name = "geometry")$/;"	v
+sm_area	R/functions.R	/^sm_area <- function(s, order = NULL) {$/;"	f
+sm_centroid	R/functions.R	/^sm_centroid <- function(s) {$/;"	f
+sm_clear	R/segmetric.R	/^sm_clear <- function(m) {$/;"	f
+sm_compute	R/metric-funs.R	/^sm_compute <- function(m, metric_id, ...) {$/;"	f
+sm_desc_metric	R/db.R	/^sm_desc_metric <- function(metric_id) {$/;"	f
+sm_exists	R/subset.R	/^sm_exists <- function(m, subset_id) {$/;"	f
+sm_get	R/subset.R	/^sm_get <- function(m, subset_id) {$/;"	f
+sm_group_by	R/subset.R	/^sm_group_by <- function(s, by, fn, ...) {$/;"	f
+sm_indirect	R/subset.R	/^sm_indirect <- function(s) {$/;"	f
+sm_inset	R/subset.R	/^sm_inset <- function(s1, s2, return_index = FALSE) {$/;"	f
+sm_inset.ref_sf	R/subset.R	/^sm_inset.ref_sf <- function(s1, s2, return_index = FALSE) {$/;"	f
+sm_inset.seg_sf	R/subset.R	/^sm_inset.seg_sf <- function(s1, s2, return_index = FALSE) {$/;"	f
+sm_inset.subset_sf	R/subset.R	/^sm_inset.subset_sf <- function(s1, s2, return_index = FALSE) {$/;"	f
+sm_intersection	R/functions.R	/^sm_intersection <- function(s1, s2, touches = TRUE) {$/;"	f
+sm_is_empty	R/segmetric.R	/^sm_is_empty <- function(m) {$/;"	f
+sm_list	R/subset.R	/^sm_list <- function(m) {$/;"	f
+sm_list_metrics	R/db.R	/^sm_list_metrics <- function() {$/;"	f
+sm_metric_subset	R/metric-funs.R	/^sm_metric_subset <- function(m) {$/;"	f
+sm_new_metric	R/db.R	/^sm_new_metric <- function(fn,$/;"	f
+sm_rbind	R/functions.R	/^sm_rbind <- function(...) {$/;"	f
+sm_read	R/segmetric.R	/^sm_read <- function(ref_sf, seg_sf) {$/;"	f
+sm_ref	R/subset.R	/^sm_ref  <- function(m) {$/;"	f
+sm_reg_metric	R/db.R	/^sm_reg_metric <- function(metric_id, entry) {$/;"	f
+sm_seg	R/subset.R	/^sm_seg <- function(m) {$/;"	f
+sm_segmetric	R/subset.R	/^sm_segmetric <- function(s) {$/;"	f
+sm_subset	R/subset.R	/^sm_subset <- function(m, subset_id, expr = NULL) {$/;"	f
+sm_subset_union	R/functions.R	/^sm_subset_union <- function(s) {$/;"	f
+sm_unreg_metric	R/db.R	/^sm_unreg_metric <- function(metric_id) {$/;"	f
+sm_xprime	R/subset-funs.R	/^sm_xprime <- function(m) {$/;"	f
+sm_xtilde	R/subset-funs.R	/^sm_xtilde <- function(m) {$/;"	f
+sm_ya	R/subset-funs.R	/^sm_ya <- function(m) {$/;"	f
+sm_yb	R/subset-funs.R	/^sm_yb <- function(m) {$/;"	f
+sm_yc	R/subset-funs.R	/^sm_yc <- function(m) {$/;"	f
+sm_ycd	R/subset-funs.R	/^sm_ycd <- function(m) {$/;"	f
+sm_yd	R/subset-funs.R	/^sm_yd <- function(m) {$/;"	f
+sm_ye	R/subset-funs.R	/^sm_ye <- function(m) {$/;"	f
+sm_yf	R/subset-funs.R	/^sm_yf <- function(m) {$/;"	f
+sm_yg	R/subset-funs.R	/^sm_yg <- function(m) {$/;"	f
+sm_yprime	R/subset-funs.R	/^sm_yprime <- function(m) {$/;"	f
+sm_ystar	R/subset-funs.R	/^sm_ystar <- function(m) {$/;"	f
+sm_ytilde	R/subset-funs.R	/^sm_ytilde <- function(m) {$/;"	f
+subset_id	R/functions.R	/^        subset_id = paste(sm_indirect(s), "union", sep = "_"),$/;"	v
+subset_id	R/subset-funs.R	/^        subset_id = "X_tilde", $/;"	v
+subset_id	R/subset-funs.R	/^        subset_id = "Y_tilde", $/;"	v
+subset_id	R/subset.R	/^    sm_get(m, subset_id = "ref_sf")$/;"	v
+subset_id	R/subset.R	/^    sm_get(m, subset_id = "seg_sf")$/;"	v
+subset_id	R/subset.R	/^    stopifnot(sm_exists(attr(s, "segmetric"), subset_id = class(s)[[1]]))$/;"	v
+subsets	R/functions.R	/^    subsets <- list(...)$/;"	v
+subsets	R/segmetric.R	/^    subsets <- sm_list(m)$/;"	v
+summary.segmetric	R/segmetric.R	/^summary.segmetric <- function(object, ...) {$/;"	f
+symbols	R/segmetric.R	/^    symbols <- c(NA, NA)$/;"	v
+symbols_color	R/segmetric.R	/^    symbols_color <- c(NA, NA)$/;"	v
+test_AFI	tests/testthat/segmetric_util.R	/^test_AFI <- function(y_prime) {$/;"	f
+test_D_index	tests/testthat/segmetric_util.R	/^test_D_index <- function(y_star) {$/;"	f
+test_E	tests/testthat/segmetric_util.R	/^test_E <- function(x_prime) {$/;"	f
+test_ED3	tests/testthat/segmetric_util.R	/^test_ED3 <- function(y_cd) {$/;"	f
+test_F_measure	tests/testthat/segmetric_util.R	/^test_F_measure <- function(precision, recall, alpha = 0.5) {$/;"	f
+test_M	tests/testthat/segmetric_util.R	/^test_M <- function(y_prime) {$/;"	f
+test_OS1	tests/testthat/segmetric_util.R	/^test_OS1 <- function(y_star) {$/;"	f
+test_OS2	tests/testthat/segmetric_util.R	/^test_OS2 <- function(y_prime) {$/;"	f
+test_OS3	tests/testthat/segmetric_util.R	/^test_OS3 <- function(y_cd) {$/;"	f
+test_PI	tests/testthat/segmetric_util.R	/^test_PI <- function(y_tilde) {$/;"	f
+test_QR	tests/testthat/segmetric_util.R	/^test_QR <- function(y_star) {$/;"	f
+test_RAsub	tests/testthat/segmetric_util.R	/^test_RAsub <- function(y_tilde) {$/;"	f
+test_RAsuper	tests/testthat/segmetric_util.R	/^test_RAsuper <- function(y_tilde) {$/;"	f
+test_US1	tests/testthat/segmetric_util.R	/^test_US1 <- function(y_star) {$/;"	f
+test_US2	tests/testthat/segmetric_util.R	/^test_US2 <- function(y_prime) {$/;"	f
+test_US3	tests/testthat/segmetric_util.R	/^test_US3 <- function(y_cd) {$/;"	f
+test_overMerging	tests/testthat/segmetric_util.R	/^test_overMerging <- function(y_star) {$/;"	f
+test_precision	tests/testthat/segmetric_util.R	/^test_precision <- function(x_prime) {$/;"	f
+test_recall	tests/testthat/segmetric_util.R	/^test_recall <- function(y_prime) {$/;"	f
+test_underMerging	tests/testthat/segmetric_util.R	/^test_underMerging <- function(y_star) {$/;"	f
+test_x_prime	tests/testthat/segmetric_util.R	/^test_x_prime <- function(area_df) {$/;"	f
+test_y_a	tests/testthat/segmetric_util.R	/^test_y_a <- function(area_df) {$/;"	f
+test_y_b	tests/testthat/segmetric_util.R	/^test_y_b <- function(area_df) {$/;"	f
+test_y_c	tests/testthat/segmetric_util.R	/^test_y_c <- function(area_df) {$/;"	f
+test_y_d	tests/testthat/segmetric_util.R	/^test_y_d <- function(area_df) {$/;"	f
+test_y_prime	tests/testthat/segmetric_util.R	/^test_y_prime <- function(area_df) {$/;"	f
+test_y_star	tests/testthat/segmetric_util.R	/^test_y_star <- function(area_df) {$/;"	f
+test_y_tilde	tests/testthat/segmetric_util.R	/^test_y_tilde <- function(area_df) {$/;"	f
+union_area	tests/testthat/segmetric_util.R	/^        union_area <- .get_union(ref_sf, seg_sf)$/;"	v
+union_area	tests/testthat/segmetric_util.R	/^    union_area <- sf::st_set_geometry(union_sf, NULL)$/;"	v
+union_sf	tests/testthat/segmetric_util.R	/^    union_sf <- sf::st_union(ref_sf["ref_id"], seg_sf["seg_id"])$/;"	v
+use.names	tests/testthat/test-db.R	/^    expect_equal(test_E(x_prime), unlist(sm_compute(data, "E"), use.names = FALSE), tolerance = 2e-05)$/;"	v
+use.names	tests/testthat/test-db.R	/^    expect_equal(test_precision(x_prime), unlist(sm_compute(data, "precision"), use.names = FALSE), tolerance = 2e-08)$/;"	v
+use.names	tests/testthat/test-db.R	/^    expect_equal(test_recall(y_prime), unlist(sm_compute(data, "recall"), use.names = FALSE), tolerance = 2e-08)$/;"	v
+value	R/segmetric.R	/^    value <- vapply(object, mean, numeric(1), ...)$/;"	v
+which	R/segmetric.R	/^    attr(m, which = ".env", exact = TRUE)$/;"	v
+x	R/db.R	/^    x <- .db_get(metric_id)$/;"	v
+x_prime	tests/testthat/test-db.R	/^    x_prime <- test_x_prime(area_df)$/;"	v
+y	R/functions.R	/^                                     y = sm_inset(sm_seg(m), s[i,]))$/;"	v
+y_cd	tests/testthat/test-db.R	/^    y_cd <- dplyr::bind_rows(dplyr::as_tibble(test_y_c(area_df)),$/;"	v
+y_prime	tests/testthat/test-db.R	/^    y_prime <- test_y_prime(area_df)$/;"	v
+y_star	tests/testthat/test-db.R	/^    y_star  <- test_y_star(area_df)$/;"	v
+y_tilde	tests/testthat/test-db.R	/^    y_tilde <- test_y_tilde(area_df)$/;"	v

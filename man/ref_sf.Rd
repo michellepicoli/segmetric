@@ -26,7 +26,8 @@ ref_sf
 sample_ref_sf
 }
 \description{
-\code{ref_sf}: a dataset containing field boundaries.
+\code{ref_sf}: a dataset containing field boundaries from Luiz Eduardo Magalhaes
+municipality, Brazil.
 
 \code{sample_ref_sf}: a subset of \code{ref_sf} dataset.
 }

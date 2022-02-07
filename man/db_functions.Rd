@@ -23,7 +23,13 @@
 
 sm_list_metrics()
 
-sm_new_metric(fn, name = "", description = "", reference = "")
+sm_new_metric(
+  fn,
+  fn_subset = NULL,
+  name = "",
+  description = "",
+  reference = ""
+)
 
 sm_reg_metric(metric_id, entry)
 
