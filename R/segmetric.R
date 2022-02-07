@@ -150,7 +150,9 @@ plot.segmetric <- function(x, ..., title = NULL,
                            ref_color = "#0000B3",
                            seg_color = "#FFF50A",
                            fill_alpha = 0.2,
-                           layers = c("ref_sf", "seg_sf")) {
+                           layers = c("ref_sf", "seg_sf"),
+                           breaks = "jenks"
+                           ) {
 
     ref_sf <- sm_ref(x)[-1]
     ref_sf[["type"]] <- 1
@@ -164,7 +166,7 @@ plot.segmetric <- function(x, ..., title = NULL,
     } else if ("seg_sf" %in% layers) {
         data <- seg_sf
     } else {
-        stop("Invalid layers specification")
+        stop("Invalid layers")
     }
 
     mod_alpha <- function(x, alpha) {
@@ -187,47 +189,59 @@ plot.segmetric <- function(x, ..., title = NULL,
     symbols <- c(NA, NA)
     symbols_color <- c(NA, NA)
 
-    plot(data,
-         main = title,
-         col = fill[data[["type"]]],
-         border = border[data[["type"]]],
-         bg = background,
-         extent = mod_extent(sf::st_bbox(data), 0.2),
-         axes = TRUE,
-         reset = FALSE)
+    if (all(sm_is_empty(x))) {
+        plot(data,
+             main = title,
+             col = fill[data[["type"]]],
+             border = border[data[["type"]]],
+             bg = background,
+             extent = mod_extent(sf::st_bbox(data), 0.2),
+             axes = TRUE,
+             reset = FALSE)
 
-    if (plot_centroids) {
+        if (plot_centroids) {
+            labels <- c(labels, paste(labels, centroids_label))
+            fill <- c(fill, NA, NA)
+            border <- c(border, NA, NA)
+            symbols <- c(symbols, ref_symbol, seg_symbol)
+            symbols_color <- c(symbols_color, centroids_color, centroids_color)
+            plot(sf::st_centroid(sf::st_geometry(ref_sf)),
+                 pch = ref_symbol,
+                 col = centroids_color,
+                 lwd = 1,
+                 add = TRUE)
+            plot(sf::st_centroid(sf::st_geometry(seg_sf)),
+                 pch = seg_symbol,
+                 col = centroids_color,
+                 lwd = 1,
+                 add = TRUE)
+        }
 
-        labels <- c(labels, paste(labels, centroids_label))
-        fill <- c(fill, NA, NA)
-        border <- c(border, NA, NA)
-        symbols <- c(symbols, ref_symbol, seg_symbol)
-        symbols_color <- c(symbols_color, centroids_color, centroids_color)
-
-        plot(sf::st_centroid(sf::st_geometry(ref_sf)),
-             pch = ref_symbol,
-             col = centroids_color,
-             lwd = 1,
-             add = TRUE)
-
-        plot(sf::st_centroid(sf::st_geometry(seg_sf)),
-             pch = seg_symbol,
-             col = centroids_color,
-             lwd = 1,
-             add = TRUE)
-    }
-    if (show_legend) {
-
-        graphics::legend(
-            "bottom",
-            legend = labels,
-            fill = fill,
-            border = border,
-            pch = symbols,
-            col = symbols_color,
-            ncol = 2,
-            bty = "n",
-            bg = NA)
+        if (show_legend) {
+            graphics::legend(
+                "bottom",
+                legend = labels,
+                fill = fill,
+                border = border,
+                pch = symbols,
+                col = symbols_color,
+                ncol = 2,
+                bty = "n",
+                bg = NA)
+        }
+    } else {
+        s_lst <- sm_metric_subset(x)
+        for (m_name in names(s_lst)) {
+            nbreaks <- min(10, nrow(s_lst[[m_name]]))
+            nbreaks <- max(nbreaks, ceiling(log2(nrow(s_lst[[m_name]]))))
+            plot(
+                s_lst[[m_name]][, m_name],
+                main = paste(.db_get(m_name)[["name"]], m_name, sep = " - "),
+                breaks = quantile(s_lst[[m_name]][[ m_name]],
+                                  probs = seq(0, 1, length.out = nbreaks + 1)),
+                pal = hcl.colors(nbreaks)
+            )
+        }
     }
 }
 

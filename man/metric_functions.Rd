@@ -3,9 +3,12 @@
 \name{metric_functions}
 \alias{metric_functions}
 \alias{sm_compute}
+\alias{sm_metric_subset}
 \title{Metric functions}
 \usage{
 sm_compute(m, metric_id, ...)
+
+sm_metric_subset(m)
 }
 \arguments{
 \item{m}{A \code{segmetric} object.}
@@ -25,6 +28,9 @@ polygons using a metric.
 
 A list with all supported metrics can be obtained
 by \code{sm_list_metrics()} (see Details for more information).
+
+The \code{sm_metric_subset()} returns the subset used to compute the metrics
+in segmetric object.
 }
 \details{
 \itemize{
