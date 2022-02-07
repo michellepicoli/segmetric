@@ -91,7 +91,8 @@ sm_list_metrics <- function() {
 
 #' @export
 #' @rdname db_functions
-sm_new_metric <- function(fn, 
+sm_new_metric <- function(fn,
+                          fn_subset = NULL,
                           name = "", 
                           description = "", 
                           reference = "") {
@@ -103,6 +104,7 @@ sm_new_metric <- function(fn,
     
     structure(
         list(fn = fn,
+             fn_subset = fn_subset,
              name = name,
              description = description,
              reference = reference),
@@ -163,6 +165,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "OS2",
         entry = sm_new_metric(
             fn           = OS2,
+            fn_subset    = sm_yprime,
             name         = "OverSegmentation",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Persello and Bruzzone (2010)"
@@ -172,6 +175,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "OS1",
         entry = sm_new_metric(
             fn           = OS1,
+            fn_subset    = sm_ystar,
             name         = "OverSegmentation",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Clinton et al. (2010)"
@@ -181,6 +185,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "US2",
         entry = sm_new_metric(
             fn           = US2,
+            fn_subset    = sm_yprime,
             name         = "UnderSegmentation",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Persello and Bruzzone (2010)"
@@ -190,6 +195,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "US1",
         entry = sm_new_metric(
             fn           = US1,
+            fn_subset    = sm_ystar,
             name         = "UnderSegmentation",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Clinton et al. (2010)"
@@ -199,6 +205,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "AFI",
         entry = sm_new_metric(
             fn           = AFI,
+            fn_subset    = sm_yprime,
             name         = "Area fit index",
             description  = "Optimal value: 0",
             reference    = "Lucieer and Stein (2002) and Clinton et al. (2010)"
@@ -208,6 +215,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "QR",
         entry = sm_new_metric(
             fn           = QR,
+            fn_subset    = sm_ystar,
             name         = "Quality rate",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Weidner (2008) and Clinton et al. (2010)"
@@ -217,6 +225,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "D_index",
         entry = sm_new_metric(
             fn           = D_index,
+            fn_subset    = sm_ystar,
             name         = "Index D",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Levine and Nazif (1982) and Clinton et al. (2010)"
@@ -226,6 +235,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "precision",
         entry = sm_new_metric(
             fn           = precision,
+            fn_subset    = sm_xprime,
             name         = "Precision",
             description  = "Values from 0 to 1 (optimal)",
             reference    = "Van Rijsbergen (1979) and Zhang et al. (2015)"
@@ -235,6 +245,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "recall",
         entry = sm_new_metric(
             fn           = recall,
+            fn_subset    = sm_yprime,
             name         = "Recall",
             description  = "Values from 0 to 1 (optimal)",
             reference    = "Van Rijsbergen (1979) and Zhang et al. (2015)"
@@ -244,6 +255,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "UMerging",
         entry = sm_new_metric(
             fn           = UMerging,
+            fn_subset    = sm_ystar,
             name         = "underMerging",
             description  = "Values from 0 (optimal) to 0.5",
             reference    = "Levine and Nazif (1982) and Clinton et al. (2010)"
@@ -253,6 +265,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "OMerging",
         entry = sm_new_metric(
             fn           = OMerging,
+            fn_subset    = sm_ystar,
             name         = "overMerging",
             description  = "Values from 0 (optimal) to 0.5",
             reference    = "Levine and Nazif (1982) and Clinton et al. (2010)"
@@ -262,6 +275,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "M",
         entry = sm_new_metric(
             fn           = M,
+            fn_subset    = sm_yprime,
             name         = "Match",
             description  = "Values from 0 to 1 (optimal)",
             reference    = "Janssen and Molenaar (1995) and Feitosa et al. (2010)"
@@ -273,6 +287,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "E",
         entry = sm_new_metric(
             fn           = E,
+            fn_subset    = sm_xprime,
             name         = "Evaluation measure",
             description  = "Values from 0 (optimal) to 50",
             reference    = "Carleer et al. (2005)"
@@ -282,6 +297,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "RAsub",
         entry = sm_new_metric(
             fn           = RAsub,
+            fn_subset    = sm_ytilde,
             name         = "Relative area",
             description  = "Values from 0 to 1 (optimal)",
             reference    = "M\u00f6ller et al. (2007) and Clinton et al. (2010)"
@@ -291,6 +307,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "RAsuper",
         entry = sm_new_metric(
             fn           = RAsuper,
+            fn_subset    = sm_ytilde,
             name         = "Relative area",
             description  = "Values from 0 to 1 (optimal)",
             reference    = "M\u00f6ller et al. (2007) and Clinton et al. (2010)"
@@ -300,6 +317,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "PI",
         entry = sm_new_metric(
             fn           = PI,
+            fn_subset    = sm_ytilde,
             name         = "Purity Index",
             description  = "Values from 0 to 1 (optimal)",
             reference    = "van Coillie et al. (2008)"
@@ -309,6 +327,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "Fitness",
         entry = sm_new_metric(
             fn           = Fitness,
+            fn_subset    = sm_xprime,
             name         = "Fitness function",
             description  = "Optimal value: 0",
             reference    = "Costa et al. (2008)"
@@ -318,6 +337,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "OS3",
         entry = sm_new_metric(
             fn           = OS3,
+            fn_subset    = sm_ycd,
             name         = "OverSegmentation",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Yang et al. (2014)"
@@ -327,6 +347,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "US3",
         entry = sm_new_metric(
             fn           = US3,
+            fn_subset    = sm_ycd,
             name         = "UnderSegmentation",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Yang et al. (2014)"
@@ -336,6 +357,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "ED3",
         entry = sm_new_metric(
             fn           = ED3,
+            fn_subset    = sm_ycd,
             name         = "Euclidean Distance",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Yang et al. (2014)"
@@ -345,6 +367,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "F_measure",
         entry = sm_new_metric(
             fn           = F_measure,
+            fn_subset    = sm_xprime,
             name         = "F-measure",
             description  = "Values from 0 to 1 (optimal)",
             reference    = "Van Rijsbergen (1979) and Zhang et al. (2015)"
