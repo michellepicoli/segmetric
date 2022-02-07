@@ -113,6 +113,31 @@ sm_compute <- function(m, metric_id, ...) {
     m
 }
 
+#' @rdname metric_functions
+#' @description 
+#' 
+#' The `sm_metric_subset()` returns the subset used to compute the metrics
+#' in segmetric object. 
+#' 
+#' @export
+sm_metric_subset <- function(m) {
+    
+    .segmetric_check(m)
+    
+    result <- list()
+    metrics <- names(m)
+    for (i in seq_along(m)) {
+        f <- .db_get(key = metrics[[i]])
+        if (!is.null(f[["fn_subset"]])) {
+            result[[i]] <- do.call(f[["fn_subset"]], args = list(m = m))
+            result[[i]][metrics[[i]]] <- m[[metrics[[i]]]]
+        } else 
+            result[[i]] <- NULL
+    }
+    names(result) <- metrics
+    
+    result
+}
 
 OS1 <- function(m, ...) {
     .norm_right(sm_area(sm_ystar(m)), 
