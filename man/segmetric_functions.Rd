@@ -8,6 +8,7 @@
 \alias{sm_clear}
 \alias{summary.segmetric}
 \alias{sm_is_empty}
+\alias{[.segmetric}
 \title{General functions}
 \usage{
 .segmetric_check(m)
@@ -21,6 +22,8 @@ sm_clear(m)
 \method{summary}{segmetric}(object, ...)
 
 sm_is_empty(m)
+
+\method{[}{segmetric}(x, i)
 }
 \arguments{
 \item{m}{A \code{segmetric} object.}
