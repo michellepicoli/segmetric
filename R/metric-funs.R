@@ -120,9 +120,12 @@ sm_compute <- function(m, metric_id, ...) {
 #' in segmetric object. 
 #' 
 #' @export
-sm_metric_subset <- function(m) {
+sm_metric_subset <- function(m, metric_id = NULL) {
     
     .segmetric_check(m)
+   
+    if (!is.null(metric_id))
+        m <- m[metric_id]
     
     result <- list()
     metrics <- names(m)

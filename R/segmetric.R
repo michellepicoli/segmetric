@@ -151,7 +151,7 @@ plot.segmetric <- function(x, ..., title = NULL,
                            seg_color = "#FFF50A",
                            fill_alpha = 0.2,
                            layers = c("ref_sf", "seg_sf"),
-                           breaks = "jenks"
+                           metric_id = NULL
                            ) {
 
     ref_sf <- sm_ref(x)[-1]
@@ -230,7 +230,7 @@ plot.segmetric <- function(x, ..., title = NULL,
                 bg = NA)
         }
     } else {
-        s_lst <- sm_metric_subset(x)
+        s_lst <- sm_metric_subset(x, metric_id = metric_id)
         for (m_name in names(s_lst)) {
             nbreaks <- min(10, nrow(s_lst[[m_name]]))
             nbreaks <- max(nbreaks, ceiling(log2(nrow(s_lst[[m_name]]))))
@@ -270,4 +270,17 @@ sm_is_empty <- function(m) {
         return(unname(result))
 
     result
+}
+
+
+#' @export
+#' @rdname segmetric_functions
+`[.segmetric` <- function(x, i) {
+    .segmetric_check(x)
+    stopifnot(all(i %in% names(x)))
+    structure(
+        c(x)[i], 
+        .env = .segmetric_env(x), 
+        class = c("segmetric")
+    ) 
 }

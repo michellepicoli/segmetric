@@ -8,7 +8,7 @@
 \usage{
 sm_compute(m, metric_id, ...)
 
-sm_metric_subset(m)
+sm_metric_subset(m, metric_id = NULL)
 }
 \arguments{
 \item{m}{A \code{segmetric} object.}
