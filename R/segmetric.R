@@ -144,29 +144,27 @@ print.segmetric <- function(x, ...) {
 plot.segmetric <- function(x, type = "base", ...,
                            title = NULL,
                            background = "#FAFAFA",
-                           plot_centroids = TRUE,
-                           ref_symbol = 2,
-                           seg_symbol = 3,
-                           centroids_color = "#000000",
                            show_legend = TRUE,
+                           ref_color = "#FF0000",
+                           ref_fill = "#FFFFFF00",
                            ref_label = "reference",
+                           ref_size = 3,
+                           ref_symbol = 2,
+                           seg_color = "#000000",
+                           seg_fill = "#FFFFFF00",
                            seg_label = "segment",
+                           seg_size = 1,
+                           seg_symbol = 3,
+                           plot_centroids = TRUE,
+                           centroids_color = "#000000",
                            centroids_label = "centroid",
-                           ref_color = "#0000B3",
-                           seg_color = "#FFF50A",
-                           subset_color = "#F0E417",
-                           fill_alpha = 0.2,
+                           subset_color = "#00000000",
+                           subset_fill = "#F0E4167F",
                            layers = c("ref_sf", "seg_sf"),
                            metric_id = NULL,
                            subset_id = NULL,
                            extent = NULL) {
 
-    mod_alpha <- function(x, alpha) {
-        if (alpha < 0) alpha <- 0
-        if (alpha > 1) alpha <- 1
-        alpha <- as.hexmode(round(255 * alpha, 0))
-        gsub("^(#[0-9a-fA-F]{6}).*$", paste0("\\1", alpha), x)
-    }
 
     mod_extent <- function(x, factor) {
         x[[2]] <- x[[2]] - (x[[4]] - x[[2]]) * factor
@@ -195,10 +193,11 @@ plot.segmetric <- function(x, type = "base", ...,
             data <- rbind(ref_sf, seg_sf)
 
             labels <- c(ref_label, seg_label)
-            fill <- mod_alpha(c(ref_color, seg_color), fill_alpha)
+            fill <- c(ref_fill, seg_fill)
             border <- c(ref_color, seg_color)
             symbols <- c(NA, NA)
             symbols_color <- c(NA, NA)
+            size <- c(ref_size, seg_size)
 
         } else if ("ref_sf" %in% layers) {
 
@@ -207,10 +206,11 @@ plot.segmetric <- function(x, type = "base", ...,
             data <- ref_sf
 
             labels <- c(ref_label)
-            fill <- mod_alpha(ref_color, fill_alpha)
+            fill <- ref_fill
             border <- c(ref_color)
             symbols <- c(NA)
             symbols_color <- c(NA)
+            size <- ref_size
 
         } else if ("seg_sf" %in% layers) {
 
@@ -219,10 +219,11 @@ plot.segmetric <- function(x, type = "base", ...,
             data <- seg_sf
 
             labels <- c(seg_label)
-            fill <- mod_alpha(seg_color, fill_alpha)
+            fill <- seg_fill
             border <- c(seg_color)
             symbols <- c(NA)
             symbols_color <- c(NA)
+            size <- seg_size
 
         } else {
             stop("Invalid layers parameter")
@@ -236,6 +237,7 @@ plot.segmetric <- function(x, type = "base", ...,
              main = title,
              col = fill[data[["type"]]],
              border = border[data[["type"]]],
+             lwd = size[data[["type"]]],
              bg = background,
              extent = extent,
              axes = TRUE,
@@ -251,7 +253,8 @@ plot.segmetric <- function(x, type = "base", ...,
                 fill <- c(fill, NA, NA)
                 border <- c(border, NA, NA)
                 symbols <- c(symbols, ref_symbol, seg_symbol)
-                symbols_color <- c(symbols_color, centroids_color, centroids_color)
+                symbols_color <- c(symbols_color, centroids_color,
+                                   centroids_color)
 
             } else if ("ref_sf" %in% layers) {
 
@@ -293,14 +296,14 @@ plot.segmetric <- function(x, type = "base", ...,
             data <- sm_subset(x, subset_id = subset_id)
 
             labels <- c(labels, subset_id)
-            fill <- c(fill, mod_alpha(subset_color, fill_alpha))
+            fill <- c(fill, subset_fill)
             border <- c(border, subset_color)
             symbols <- c(symbols, NA)
             symbols_color <- c(symbols_color, NA)
 
             plot(sf::st_geometry(data),
-                 col    = subset_color,
-                 border = NA,
+                 col    = subset_fill,
+                 border = subset_color,
                  add    = TRUE)
         }
 
@@ -313,8 +316,8 @@ plot.segmetric <- function(x, type = "base", ...,
                 pch = symbols,
                 col = symbols_color,
                 ncol = 2,
-                bty = "n",
-                bg = NA)
+                bty = "o",
+                bg = "#FFFFFF")
         }
 
     } else if (type == "choropleth") {
