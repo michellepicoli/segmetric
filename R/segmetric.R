@@ -144,7 +144,7 @@ print.segmetric <- function(x, ...) {
 plot.segmetric <- function(x, type = "base", ...,
                            title = NULL,
                            background = "#FAFAFA",
-                           show_legend = TRUE,
+                           plot_legend = TRUE,
                            ref_color = "#FF0000",
                            ref_fill = "#FFFFFF00",
                            ref_label = "reference",
@@ -163,7 +163,8 @@ plot.segmetric <- function(x, type = "base", ...,
                            layers = c("ref_sf", "seg_sf"),
                            metric_id = NULL,
                            subset_id = NULL,
-                           extent = NULL) {
+                           extent = NULL,
+                           plot_axes = TRUE) {
 
 
     mod_extent <- function(x, factor) {
@@ -171,7 +172,7 @@ plot.segmetric <- function(x, type = "base", ...,
         x
     }
 
-    if (type %in% c("base", "subset")) {
+    if (type == "base") {
 
         if (!is.character(title))
             title <- NULL
@@ -240,7 +241,7 @@ plot.segmetric <- function(x, type = "base", ...,
              lwd = size[data[["type"]]],
              bg = background,
              extent = extent,
-             axes = TRUE,
+             axes = plot_axes,
              reset = FALSE)
 
         # plot centroids
@@ -285,29 +286,9 @@ plot.segmetric <- function(x, type = "base", ...,
                  col = centroids_color,
                  lwd = 1,
                  add = TRUE)
-
         }
-
-        if (type == "subset") {
-
-            if (!sm_exists(x, subset_id = subset_id))
-                stop(paste0("subset '", subset_id, "' not found"))
-
-            data <- sm_subset(x, subset_id = subset_id)
-
-            labels <- c(labels, subset_id)
-            fill <- c(fill, subset_fill)
-            border <- c(border, subset_color)
-            symbols <- c(symbols, NA)
-            symbols_color <- c(symbols_color, NA)
-
-            plot(sf::st_geometry(data),
-                 col    = subset_fill,
-                 border = subset_color,
-                 add    = TRUE)
-        }
-
-        if (show_legend) {
+        
+        if (plot_legend) {
             graphics::legend(
                 "bottom",
                 legend = labels,
@@ -319,8 +300,203 @@ plot.segmetric <- function(x, type = "base", ...,
                 bty = "o",
                 bg = "#FFFFFF")
         }
+        
+    } else if (type == "subset") {
+        
+        if (!sm_exists(x, subset_id = subset_id))
+            stop(paste0("subset '", subset_id, "' not found"))
+        
+        subset <- sm_subset(x, subset_id = subset_id)
+        
+        if (!is.character(title))
+            title <- NULL
+        
+        # prepare format parameters
+        labels <- c()
+        fill <- c()
+        border <- c()
+        symbols <- c()
+        symbols_color <- c()
+        
+        # prepare data layers
+        if (all(c("ref_sf", "seg_sf") %in% layers)) {
+           
+            ref_sf <- sm_ref(x)[-1]
+            ref_sf[["type"]] <- 1
+            
+            seg_sf <- sm_seg(x)[-1]
+            seg_sf[["type"]] <- 2
+            data <- rbind(ref_sf, seg_sf)
+            
+            labels <- c(ref_label, seg_label)
+            fill <- c(NA, NA)
+            border <- c(ref_color, seg_color)
+            symbols <- c(NA, NA)
+            symbols_color <- c(NA, NA)
+            size <- c(ref_size, seg_size)
+            
+        } else if ("ref_sf" %in% layers) {
 
+            ref_sf <- sm_ref(x)[-1]
+            ref_sf[["type"]] <- 1
+            data <- ref_sf
+
+            labels <- c(ref_label)
+            fill <- NA
+            border <- c(ref_color)
+            symbols <- c(NA)
+            symbols_color <- c(NA)
+            size <- ref_size
+
+        } else if ("seg_sf" %in% layers) {
+
+            seg_sf <- sm_seg(x)[-1]
+            seg_sf[["type"]] <- 1
+            data <- seg_sf
+
+            labels <- c(seg_label)
+            fill <- NA
+            border <- c(seg_color)
+            symbols <- c(NA)
+            symbols_color <- c(NA)
+            size <- seg_size
+
+        } else {
+            stop("Invalid layers parameter")
+        }
+
+        if (is.null(extent))
+            extent <- mod_extent(sf::st_bbox(data), 0.2)
+
+        # main plot
+        plot(data,
+             main = title,
+             col = fill[data[["type"]]],
+             border = border[data[["type"]]],
+             lwd = size[data[["type"]]],
+             bg = background,
+             extent = extent,
+             axes = plot_axes,
+             reset = FALSE)
+
+        # prepare plot of the subset
+        if (colnames(subset)[2] == "ref_id") {
+
+            ref_sf <- sm_ref(x)[-1]
+            ref_sf[["type"]] <- length(fill) + 1
+            rows <- unique(sm_inset(sm_ref(x), subset, return_index = TRUE))
+            ref_sf <- ref_sf[rows, ]
+            data <- ref_sf
+
+            labels <- c(labels, paste("selected", ref_label))
+            fill <- c(fill, ref_fill)
+            border <- c(border, ref_color)
+            symbols <- c(symbols, NA)
+            symbols_color <- c(symbols_color, NA)
+            size <- c(size, ref_size)
+
+        } else if (colnames(subset)[2] == "seg_id") {
+
+            seg_sf <- sm_seg(x)[-1]
+            seg_sf[["type"]] <- length(fill) + 1 
+            rows <- unique(sm_inset(sm_seg(x), subset, return_index = TRUE))
+            seg_sf <- seg_sf[rows, ]
+            data <- seg_sf
+
+            labels <- c(labels, paste("selected", seg_label))
+            fill <- c(fill, seg_fill)
+            border <- c(border, seg_color)
+            symbols <- c(symbols, NA)
+            symbols_color <- c(symbols_color, NA)
+            size <- c(size, seg_size)
+
+        } else {
+            stop("Invalid subset value")
+        }
+
+        # Plot of the subset.
+        plot(data,
+             add = TRUE, 
+             main = title,
+             col = fill[data[["type"]]],
+             border = border[data[["type"]]],
+             lwd = size[data[["type"]]]
+        )             
+        
+        # plot centroids
+        if (plot_centroids) {
+
+            # prepare data layers
+            if (all(c("ref_sf", "seg_sf") %in% layers)) {
+
+                labels <- c(labels, paste(labels, centroids_label))
+                fill <- c(fill, NA, NA)
+                border <- c(border, NA, NA)
+                symbols <- c(symbols, ref_symbol, seg_symbol)
+                symbols_color <- c(symbols_color, centroids_color,
+                                   centroids_color)
+
+            } else if ("ref_sf" %in% layers) {
+
+                labels <- c(labels, paste(labels, centroids_label))
+                fill <- c(fill, NA)
+                border <- c(border, NA)
+                symbols <- c(symbols, ref_symbol)
+                symbols_color <- c(symbols_color, centroids_color)
+
+            } else if ("seg_sf" %in% layers) {
+
+                labels <- c(labels, paste(labels, centroids_label))
+                fill <- c(fill, NA)
+                border <- c(border, NA)
+                symbols <- c(symbols, seg_symbol)
+                symbols_color <- c(symbols_color, centroids_color)
+
+            }
+
+            plot(sf::st_centroid(sf::st_geometry(ref_sf)),
+                 pch = ref_symbol,
+                 col = centroids_color,
+                 lwd = 1,
+                 add = TRUE)
+
+            plot(sf::st_centroid(sf::st_geometry(seg_sf)),
+                 pch = seg_symbol,
+                 col = centroids_color,
+                 lwd = 1,
+                 add = TRUE)
+        }
+         
+       # Plot intersection
+        data <- sm_subset(x, subset_id = subset_id)
+        plot(sf::st_geometry(data),
+             col    = subset_fill,
+             border = subset_color,
+             add    = TRUE)
+        
+        if (plot_legend) {
+            
+            labels <- c(labels, "intersection")
+            fill <- c(fill, subset_fill)
+            border <- c(border, subset_color)
+            symbols <- c(symbols, NA)
+            symbols_color <- c(symbols_color, NA)
+            
+            graphics::legend(
+                "bottom",
+                legend = labels,
+                fill = fill,
+                border = border,
+                pch = symbols,
+                col = symbols_color,
+                ncol = 2,
+                bty = "o",
+                bg = "#FFFFFF")
+        }
+        
+        
     } else if (type == "choropleth") {
+        
         s_lst <- sm_metric_subset(x, metric_id = metric_id)
         for (m_name in names(s_lst)) {
             nbreaks <- min(10, nrow(s_lst[[m_name]]))
