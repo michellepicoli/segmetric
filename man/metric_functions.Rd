@@ -56,9 +56,9 @@ in segmetric object.
 (Van Rijsbergen, 1979; Zhang et al., 2015).
 \item "\code{recall}" refers to Recall. Its values range from 0 to 1 (optimal) (Van
 Rijsbergen, 1979; Zhang et al., 2015).
-\item "\code{UMerging}" refers to Undermerging. Its values range from 0 (optimal) to 0.5
+\item "\code{UMerging}" refers to Undermerging. Its values range from 0 (optimal) to 1
 (Levine and Nazif, 1982; Clinton et al., 2010).
-\item "\code{OMerging}" refers to Overmerging. Its values range from 0 (optimal) to 0.5
+\item "\code{OMerging}" refers to Overmerging. Its optimal value is 0
 (Levine and Nazif, 1982; Clinton et al., 2010).
 \item "\code{M}" refers to Match. Its values range from 0 to 1 (optimal) (Janssen and
 Molenaar, 1995; Feitosa et al., 2010).

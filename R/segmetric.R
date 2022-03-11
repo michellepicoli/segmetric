@@ -467,7 +467,7 @@ plot.segmetric <- function(x, type = "base", ...,
                  add = TRUE)
         }
          
-       # Plot intersection
+        # Plot intersection
         data <- sm_subset(x, subset_id = subset_id)
         plot(sf::st_geometry(data),
              col    = subset_fill,

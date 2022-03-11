@@ -15,6 +15,7 @@
 #' 
 #' @param fn          A `function` that receives a `segmetric` object and 
 #'                    returns the metric values.
+#' @param fn_subset   A `function` that returns a `subset`.
 #' @param name        A `character` containing the metric name 
 #'                    (Defaults to `""`).
 #' @param description A `character` containing a description of the metric 
@@ -92,7 +93,7 @@ sm_list_metrics <- function() {
 #' @export
 #' @rdname db_functions
 sm_new_metric <- function(fn,
-                          fn_subset = NULL,
+                          fn_subset,
                           name = "", 
                           description = "", 
                           reference = "") {
@@ -120,7 +121,6 @@ sm_reg_metric <- function(metric_id, entry) {
     stopifnot(is.character(metric_id))
     stopifnot(nchar(metric_id) > 0)
     stopifnot(inherits(entry, "metric_entry"))
-    stopifnot(!metric_id %in% .db_list())
     
     .db_set(metric_id, value = entry)
     
