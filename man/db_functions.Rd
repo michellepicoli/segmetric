@@ -23,13 +23,7 @@
 
 sm_list_metrics()
 
-sm_new_metric(
-  fn,
-  fn_subset = NULL,
-  name = "",
-  description = "",
-  reference = ""
-)
+sm_new_metric(fn, fn_subset, name = "", description = "", reference = "")
 
 sm_reg_metric(metric_id, entry)
 
@@ -40,6 +34,8 @@ sm_desc_metric(metric_id)
 \arguments{
 \item{fn}{A \code{function} that receives a \code{segmetric} object and
 returns the metric values.}
+
+\item{fn_subset}{A \code{function} that returns a \code{subset}.}
 
 \item{name}{A \code{character} containing the metric name
 (Defaults to \code{""}).}

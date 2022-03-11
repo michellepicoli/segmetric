@@ -24,6 +24,10 @@ NULL
 #' @description 
 #' `ref_sf`: a dataset containing field boundaries from Luiz Eduardo Magalhaes
 #' municipality, Brazil.
+#' 
+#' The data covers the following extent:
+#' xmin: -46.37683 ymin: -12.34579 xmax: -46.15776 ymax: -12.13663
+#' CRS: EPSG:4326
 #'
 #' @format 
 #' `ref_sf`: a dataset with 195 features.
@@ -74,13 +78,13 @@ NULL
 #' @rdname seg_sf
 #' 
 #' @description
-#' `seg100_sf`,`seg500_sf`,`seg800_sf`: a dataset containing segments generated 
-#' from PlanetScope image, level 3B, acquired on Feb 18, 2020, with 3.7-meter 
-#' resolution (Planet Team, 2017), using the multiresolution segmentation 
-#' method (Baatz and Schape, 2000).
+#' `seg200_sf`,`seg500_sf`,`seg800_sf`,`seg1000_sf`: a dataset containing 
+#' segments generated from PlanetScope image, level 3B, acquired on 
+#' Feb 18, 2020, with 3.7-meter resolution (Planet Team, 2017), using the 
+#' multiresolution segmentation method (Baatz and Schape, 2000).
 #' 
-#' The data covers the same area of LEM+ dataset:
-#' xmin: -46.37693 ymin: -12.34876 xmax: -46.1578 ymax: -12.13642
+#' The data covers the approximately the same area of LEM+ dataset 
+#' (see \link{ref_sf}).
 #' 
 #' The data was post-processed using the spectral difference algorithm on 
 #' band 3.
@@ -91,8 +95,8 @@ NULL
 #' 
 #' Segmentation parameters:
 #' \itemize{
-#'   \item{`scale parameter`: 100 (`seg100_sf`), 500 (`seg500_sf`), and 
-#'   800 (`seg800_sf`)}
+#'   \item{`scale parameter`: 200 (`seg200_sf`), 500 (`seg500_sf`), 
+#'   800 (`seg800_sf`), and 1000 (`seg1000_sf`)}
 #'   \item{`shape`: 0.9}
 #'   \item{`compactness`: 0.1}
 #' }
@@ -111,11 +115,14 @@ NULL
 #' above 25 were selected.
 #' 
 #' @format 
-#' `seg_sf`: a dataset with 210 features.
+#' `seg200_sf`: a dataset with 547 features.
+#' `seg500_sf`: a dataset with 215 features.
+#' `seg800_sf`: a dataset with 169 features.
+#' `seg1000_sf`: a dataset with 158 features.
 #' 
 #' @examples 
-#' data("seg100_sf", package = "segmetric")
-"seg100_sf"
+#' data("seg200_sf", package = "segmetric")
+"seg200_sf"
 
 #' @rdname seg_sf
 #' 
@@ -128,6 +135,12 @@ NULL
 #' @examples 
 #' data("seg800_sf", package = "segmetric")
 "seg800_sf"
+
+#' @rdname seg_sf
+#' 
+#' @examples 
+#' data("seg1000_sf", package = "segmetric")
+"seg1000_sf"
 
 #' @rdname seg_sf
 #' 
