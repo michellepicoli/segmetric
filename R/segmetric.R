@@ -293,7 +293,7 @@ plot.segmetric <- function(x, type = "base", ...,
                  lwd = 1,
                  add = TRUE)
         }
-        
+
         if (plot_legend) {
             graphics::legend(
                 "bottom",
@@ -306,41 +306,41 @@ plot.segmetric <- function(x, type = "base", ...,
                 bty = "n",
                 bg = NA)
         }
-        
+
     } else if (type == "subset") {
-        
+
         if (!sm_exists(x, subset_id = subset_id))
             stop(paste0("subset '", subset_id, "' not found"))
-        
+
         subset <- sm_subset(x, subset_id = subset_id)
-        
+
         if (!is.character(title))
             title <- NULL
-        
+
         # prepare format parameters
         labels <- c()
         fill <- c()
         border <- c()
         symbols <- c()
         symbols_color <- c()
-        
+
         # prepare data layers
         if (all(c("ref_sf", "seg_sf") %in% layers)) {
-           
+
             ref_sf <- sm_ref(x)[-1]
             ref_sf[["type"]] <- 1
-            
+
             seg_sf <- sm_seg(x)[-1]
             seg_sf[["type"]] <- 2
             data <- rbind(ref_sf, seg_sf)
-            
+
             labels <- c(ref_label, seg_label)
             fill <- c(ref_fill, seg_fill)
             border <- c(ref_color, seg_color)
             symbols <- c(NA, NA)
             symbols_color <- c(NA, NA)
             size <- c(ref_size, seg_size)
-            
+
         } else if ("ref_sf" %in% layers) {
 
             ref_sf <- sm_ref(x)[-1]
@@ -376,10 +376,10 @@ plot.segmetric <- function(x, type = "base", ...,
             plot_extent <- sf::st_bbox(data)
         else
             plot_extent <- sf::st_bbox(plot_extent)
-        
+
         if (plot_legend)
             plot_extent <- mod_extent(plot_extent, factor = 0.167)
-        
+
         # main plot
         plot(data,
              main = title,
@@ -410,7 +410,7 @@ plot.segmetric <- function(x, type = "base", ...,
         } else if (colnames(subset)[2] == "seg_id") {
 
             seg_sf <- sm_seg(x)[-1]
-            seg_sf[["type"]] <- length(fill) + 1 
+            seg_sf[["type"]] <- length(fill) + 1
             rows <- unique(sm_inset(sm_seg(x), subset, return_index = TRUE))
             seg_sf <- seg_sf[rows, ]
             data <- seg_sf
@@ -428,20 +428,20 @@ plot.segmetric <- function(x, type = "base", ...,
 
         # Plot of the subset.
         plot(data,
-             add = TRUE, 
+             add = TRUE,
              main = title,
              col = fill[data[["type"]]],
              border = border[data[["type"]]],
              lwd = size[data[["type"]]]
-        )             
-        
+        )
+
         # plot centroids
         if (plot_centroids) {
 
             # prepare data layers
             if (all(c("ref_sf", "seg_sf") %in% layers)) {
 
-                labels <- c(labels, paste(c(ref_label, seg_label), 
+                labels <- c(labels, paste(c(ref_label, seg_label),
                                           centroids_label))
                 fill <- c(fill, NA, NA)
                 border <- c(border, NA, NA)
@@ -479,22 +479,22 @@ plot.segmetric <- function(x, type = "base", ...,
                  lwd = 1,
                  add = TRUE)
         }
-         
+
         # Plot intersection
         data <- sm_subset(x, subset_id = subset_id)
         plot(sf::st_geometry(data),
              col    = subset_fill,
              border = subset_color,
              add    = TRUE)
-        
+
         if (plot_legend) {
-            
+
             labels <- c(labels, "intersection")
             fill <- c(fill, subset_fill)
             border <- c(border, subset_color)
             symbols <- c(symbols, NA)
             symbols_color <- c(symbols_color, NA)
-            
+
             graphics::legend(
                 x = "bottom",
                 legend = labels,
@@ -507,17 +507,20 @@ plot.segmetric <- function(x, type = "base", ...,
                 bg = NA
             )
         }
-        
+
     } else if (type == "choropleth") {
-        
+
         s_lst <- sm_metric_subset(round(x), metric_id = metric_id)
         for (m_name in names(s_lst)) {
-            nbreaks <- max(min(10, nrow(s_lst[[m_name]])), 
+            nbreaks <- max(min(10, nrow(s_lst[[m_name]])),
                            ceiling(log2(nrow(s_lst[[m_name]]))))
-            breaks <- unique(
-                quantile(s_lst[[m_name]][[ m_name]],
-                         probs = seq(0, 1, length.out = nbreaks + 1))
-            )
+            # breaks <- unique(
+            #     quantile(s_lst[[m_name]][[ m_name]],
+            #              probs = seq(0, 1, length.out = nbreaks + 1))
+            # )
+            breaks <- classInt::classIntervals(var = s_lst[[m_name]][[ m_name]],
+                                               n = nbreaks,
+                                               style = "jenks")$brks
             plot(
                 s_lst[[m_name]][, m_name],
                 main = .db_get(m_name)[["name"]],
