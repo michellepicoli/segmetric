@@ -144,26 +144,27 @@ print.segmetric <- function(x, ...) {
 plot.segmetric <- function(x, type = "base", ...,
                            title = NULL,
                            background = "#FAFAFA",
-                           plot_legend = TRUE,
+                           layers = c("ref_sf", "seg_sf"),
                            ref_color = "#FF0000",
                            ref_fill = "#FFFFFF00",
                            ref_label = "reference",
-                           ref_size = 3,
+                           ref_size = 2,
                            ref_symbol = 2,
                            seg_color = "#000000",
                            seg_fill = "#FFFFFF00",
                            seg_label = "segment",
                            seg_size = 1,
                            seg_symbol = 3,
+                           selected_fill = "#9A9AFF50",
                            plot_centroids = TRUE,
                            centroids_color = "#000000",
                            centroids_label = "centroid",
-                           subset_color = "#00000000",
-                           subset_fill = "#F0E4167F",
-                           layers = c("ref_sf", "seg_sf"),
-                           metric_id = NULL,
                            subset_id = NULL,
-                           extent = NULL,
+                           subset_color = "#000000",
+                           subset_fill = "#F0E4167F",
+                           metric_id = NULL,
+                           plot_extent = NULL,
+                           plot_legend = TRUE,
                            plot_axes = TRUE) {
 
 
@@ -230,8 +231,13 @@ plot.segmetric <- function(x, type = "base", ...,
             stop("Invalid layers parameter")
         }
 
-        if (is.null(extent))
-            extent <- mod_extent(sf::st_bbox(data), 0.2)
+        # adjust plot spatial extent
+        if (is.null(plot_extent))
+            plot_extent <- sf::st_bbox(data)
+        else
+            plot_extent <- sf::st_bbox(plot_extent)
+        if (plot_legend)
+            plot_extent <- mod_extent(plot_extent, factor = 0.167)
 
         # main plot
         plot(data,
@@ -240,7 +246,7 @@ plot.segmetric <- function(x, type = "base", ...,
              border = border[data[["type"]]],
              lwd = size[data[["type"]]],
              bg = background,
-             extent = extent,
+             extent = plot_extent,
              axes = plot_axes,
              reset = FALSE)
 
@@ -297,8 +303,8 @@ plot.segmetric <- function(x, type = "base", ...,
                 pch = symbols,
                 col = symbols_color,
                 ncol = 2,
-                bty = "o",
-                bg = "#FFFFFF")
+                bty = "n",
+                bg = NA)
         }
         
     } else if (type == "subset") {
@@ -329,7 +335,7 @@ plot.segmetric <- function(x, type = "base", ...,
             data <- rbind(ref_sf, seg_sf)
             
             labels <- c(ref_label, seg_label)
-            fill <- c(NA, NA)
+            fill <- c(ref_fill, seg_fill)
             border <- c(ref_color, seg_color)
             symbols <- c(NA, NA)
             symbols_color <- c(NA, NA)
@@ -342,7 +348,7 @@ plot.segmetric <- function(x, type = "base", ...,
             data <- ref_sf
 
             labels <- c(ref_label)
-            fill <- NA
+            fill <- ref_fill
             border <- c(ref_color)
             symbols <- c(NA)
             symbols_color <- c(NA)
@@ -355,7 +361,7 @@ plot.segmetric <- function(x, type = "base", ...,
             data <- seg_sf
 
             labels <- c(seg_label)
-            fill <- NA
+            fill <- seg_fill
             border <- c(seg_color)
             symbols <- c(NA)
             symbols_color <- c(NA)
@@ -365,9 +371,15 @@ plot.segmetric <- function(x, type = "base", ...,
             stop("Invalid layers parameter")
         }
 
-        if (is.null(extent))
-            extent <- mod_extent(sf::st_bbox(data), 0.2)
-
+        # adjust plot spatial extent
+        if (is.null(plot_extent))
+            plot_extent <- sf::st_bbox(data)
+        else
+            plot_extent <- sf::st_bbox(plot_extent)
+        
+        if (plot_legend)
+            plot_extent <- mod_extent(plot_extent, factor = 0.167)
+        
         # main plot
         plot(data,
              main = title,
@@ -375,7 +387,7 @@ plot.segmetric <- function(x, type = "base", ...,
              border = border[data[["type"]]],
              lwd = size[data[["type"]]],
              bg = background,
-             extent = extent,
+             extent = plot_extent,
              axes = plot_axes,
              reset = FALSE)
 
@@ -389,7 +401,7 @@ plot.segmetric <- function(x, type = "base", ...,
             data <- ref_sf
 
             labels <- c(labels, paste("selected", ref_label))
-            fill <- c(fill, ref_fill)
+            fill <- c(fill, selected_fill)
             border <- c(border, ref_color)
             symbols <- c(symbols, NA)
             symbols_color <- c(symbols_color, NA)
@@ -404,7 +416,7 @@ plot.segmetric <- function(x, type = "base", ...,
             data <- seg_sf
 
             labels <- c(labels, paste("selected", seg_label))
-            fill <- c(fill, seg_fill)
+            fill <- c(fill, selected_fill)
             border <- c(border, seg_color)
             symbols <- c(symbols, NA)
             symbols_color <- c(symbols_color, NA)
@@ -429,7 +441,8 @@ plot.segmetric <- function(x, type = "base", ...,
             # prepare data layers
             if (all(c("ref_sf", "seg_sf") %in% layers)) {
 
-                labels <- c(labels, paste(labels, centroids_label))
+                labels <- c(labels, paste(c(ref_label, seg_label), 
+                                          centroids_label))
                 fill <- c(fill, NA, NA)
                 border <- c(border, NA, NA)
                 symbols <- c(symbols, ref_symbol, seg_symbol)
@@ -438,7 +451,7 @@ plot.segmetric <- function(x, type = "base", ...,
 
             } else if ("ref_sf" %in% layers) {
 
-                labels <- c(labels, paste(labels, centroids_label))
+                labels <- c(labels, paste(ref_label, centroids_label))
                 fill <- c(fill, NA)
                 border <- c(border, NA)
                 symbols <- c(symbols, ref_symbol)
@@ -446,7 +459,7 @@ plot.segmetric <- function(x, type = "base", ...,
 
             } else if ("seg_sf" %in% layers) {
 
-                labels <- c(labels, paste(labels, centroids_label))
+                labels <- c(labels, paste(seg_label, centroids_label))
                 fill <- c(fill, NA)
                 border <- c(border, NA)
                 symbols <- c(symbols, seg_symbol)
@@ -483,33 +496,47 @@ plot.segmetric <- function(x, type = "base", ...,
             symbols_color <- c(symbols_color, NA)
             
             graphics::legend(
-                "bottom",
+                x = "bottom",
                 legend = labels,
                 fill = fill,
                 border = border,
                 pch = symbols,
                 col = symbols_color,
                 ncol = 2,
-                bty = "o",
-                bg = "#FFFFFF")
+                bty = "n",
+                bg = NA
+            )
         }
-        
         
     } else if (type == "choropleth") {
         
-        s_lst <- sm_metric_subset(x, metric_id = metric_id)
+        s_lst <- sm_metric_subset(round(x), metric_id = metric_id)
         for (m_name in names(s_lst)) {
-            nbreaks <- min(10, nrow(s_lst[[m_name]]))
-            nbreaks <- max(nbreaks, ceiling(log2(nrow(s_lst[[m_name]]))))
+            nbreaks <- max(min(10, nrow(s_lst[[m_name]])), 
+                           ceiling(log2(nrow(s_lst[[m_name]]))))
+            breaks <- unique(
+                quantile(s_lst[[m_name]][[ m_name]],
+                         probs = seq(0, 1, length.out = nbreaks + 1))
+            )
             plot(
                 s_lst[[m_name]][, m_name],
-                main = paste(.db_get(m_name)[["name"]], m_name, sep = " - "),
-                breaks = quantile(s_lst[[m_name]][[ m_name]],
-                                  probs = seq(0, 1, length.out = nbreaks + 1)),
-                pal = hcl.colors(nbreaks)
+                main = .db_get(m_name)[["name"]],
+                breaks = breaks,
+                pal = hcl.colors(length(breaks) - 1),
+                bg = background,
+                axes = plot_axes
             )
         }
+
     }
+}
+
+#' @exportS3Method
+round.segmetric <- function(x, digits = 8) {
+    val <- lapply(x, round, digits = digits)
+    structure(val,
+              .env = segmetric:::.segmetric_env(x),
+              class = c("segmetric"))
 }
 
 #' @exportS3Method
@@ -551,3 +578,4 @@ sm_is_empty <- function(m) {
         class = c("segmetric")
     )
 }
+

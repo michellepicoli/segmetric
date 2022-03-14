@@ -166,7 +166,7 @@ sm_desc_metric <- function(metric_id) {
         entry = sm_new_metric(
             fn           = OS2,
             fn_subset    = sm_yprime,
-            name         = "OverSegmentation",
+            name         = "Oversegmentation",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Persello and Bruzzone (2010)"
         )
@@ -176,7 +176,7 @@ sm_desc_metric <- function(metric_id) {
         entry = sm_new_metric(
             fn           = OS1,
             fn_subset    = sm_ystar,
-            name         = "OverSegmentation",
+            name         = "Oversegmentation",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Clinton et al. (2010)"
         )
@@ -186,7 +186,7 @@ sm_desc_metric <- function(metric_id) {
         entry = sm_new_metric(
             fn           = US2,
             fn_subset    = sm_yprime,
-            name         = "UnderSegmentation",
+            name         = "Undersegmentation",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Persello and Bruzzone (2010)"
         )
@@ -196,7 +196,7 @@ sm_desc_metric <- function(metric_id) {
         entry = sm_new_metric(
             fn           = US1,
             fn_subset    = sm_ystar,
-            name         = "UnderSegmentation",
+            name         = "Undersegmentation",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Clinton et al. (2010)"
         )
@@ -298,7 +298,7 @@ sm_desc_metric <- function(metric_id) {
         entry = sm_new_metric(
             fn           = RAsub,
             fn_subset    = sm_ytilde,
-            name         = "Relative area",
+            name         = "Relative area (RAsub)",
             description  = "Values from 0 to 1 (optimal)",
             reference    = "M\u00f6ller et al. (2007) and Clinton et al. (2010)"
         )
@@ -308,7 +308,7 @@ sm_desc_metric <- function(metric_id) {
         entry = sm_new_metric(
             fn           = RAsuper,
             fn_subset    = sm_ytilde,
-            name         = "Relative area",
+            name         = "Relative area (RAsuper)",
             description  = "Values from 0 to 1 (optimal)",
             reference    = "M\u00f6ller et al. (2007) and Clinton et al. (2010)"
         )
@@ -318,7 +318,7 @@ sm_desc_metric <- function(metric_id) {
         entry = sm_new_metric(
             fn           = PI,
             fn_subset    = sm_ytilde,
-            name         = "Purity Index",
+            name         = "Purity index",
             description  = "Values from 0 to 1 (optimal)",
             reference    = "van Coillie et al. (2008)"
         )
@@ -338,7 +338,7 @@ sm_desc_metric <- function(metric_id) {
         entry = sm_new_metric(
             fn           = OS3,
             fn_subset    = sm_ycd,
-            name         = "OverSegmentation",
+            name         = "Oversegmentation",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Yang et al. (2014)"
         )
@@ -348,7 +348,7 @@ sm_desc_metric <- function(metric_id) {
         entry = sm_new_metric(
             fn           = US3,
             fn_subset    = sm_ycd,
-            name         = "UnderSegmentation",
+            name         = "Undersegmentation",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Yang et al. (2014)"
         )
@@ -358,7 +358,7 @@ sm_desc_metric <- function(metric_id) {
         entry = sm_new_metric(
             fn           = ED3,
             fn_subset    = sm_ycd,
-            name         = "Euclidean Distance",
+            name         = "Euclidean distance",
             description  = "Values from 0 (optimal) to 1",
             reference    = "Yang et al. (2014)"
         )
