@@ -163,6 +163,7 @@ plot.segmetric <- function(x, type = "base", ...,
                            subset_color = "#000000",
                            subset_fill = "#F0E4167F",
                            metric_id = NULL,
+                           break_style = "jenks",
                            plot_extent = NULL,
                            plot_legend = TRUE,
                            plot_axes = TRUE) {
@@ -509,21 +510,35 @@ plot.segmetric <- function(x, type = "base", ...,
         }
 
     } else if (type == "choropleth") {
-
+        
+        supported_styles <- c("sd", "equal", "pretty", 
+                              "quantile", "kmeans", "hclust", 
+                              "bclust", "fisher", "jenks", 
+                              "dpih", "headtails")
+        
+        break_style <- break_style[[1]]
+        stopifnot(break_style %in% supported_styles)
+        
         s_lst <- sm_metric_subset(round(x), metric_id = metric_id)
         for (m_name in names(s_lst)) {
-            nbreaks <- max(min(10, nrow(s_lst[[m_name]])),
-                           ceiling(log2(nrow(s_lst[[m_name]]))))
-            # breaks <- unique(
-            #     quantile(s_lst[[m_name]][[ m_name]],
-            #              probs = seq(0, 1, length.out = nbreaks + 1))
-            # )
-            breaks <- classInt::classIntervals(var = s_lst[[m_name]][[ m_name]],
-                                               n = nbreaks,
-                                               style = "jenks")$brks
+            
+            nbreaks <- max(
+                min(10, nrow(s_lst[[m_name]])),
+                ceiling(log2(nrow(s_lst[[m_name]])))
+            )
+            breaks <- unique(
+                classInt::classIntervals(
+                    var = s_lst[[m_name]][[ m_name]],
+                    n = nbreaks,
+                    style = break_style)$brks
+            )
+            
+            if (is.null(title))
+                title <- .db_get(m_name)[["name"]]
+            
             plot(
                 s_lst[[m_name]][, m_name],
-                main = .db_get(m_name)[["name"]],
+                main = title,
                 breaks = breaks,
                 pal = hcl.colors(length(breaks) - 1),
                 bg = background,
