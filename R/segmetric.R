@@ -511,6 +511,8 @@ plot.segmetric <- function(x, type = "base", ...,
 
     } else if (type == "choropleth") {
         
+        stopifnot(requireNamespace("classInt"))
+        
         supported_styles <- c("sd", "equal", "pretty", 
                               "quantile", "kmeans", "hclust", 
                               "bclust", "fisher", "jenks", 
@@ -553,7 +555,7 @@ plot.segmetric <- function(x, type = "base", ...,
 round.segmetric <- function(x, digits = 8) {
     val <- lapply(x, round, digits = digits)
     structure(val,
-              .env = segmetric:::.segmetric_env(x),
+              .env = .segmetric_env(x),
               class = c("segmetric"))
 }
 

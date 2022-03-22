@@ -44,6 +44,7 @@
 #'             sm_area(sm_ytilde(m)) / 
 #'                 sm_area(sm_ref(m), order = sm_ytilde(m))
 #'         },
+#'         fn_subset = sm_ytilde,
 #'         name = "Metric name example",
 #'         description = paste("Values range from A to B.",
 #'                             "Optimal value is C"),
