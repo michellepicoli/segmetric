@@ -136,11 +136,56 @@ print.segmetric <- function(x, ...) {
     print(c(x))
 }
 
-# type = "base"
-# type = "choropleth"
-# type = "subsets"
-
-#' @exportS3Method
+#' @title Plot function
+#'
+#' @name plot
+#'
+#' @description
+#' Plot a segmetric map according to the parameter `type`:
+#' * `"base"`: simple plot of the reference or segmentation polygons;
+#' * `"subset"`: plot polygons from a subset over the base plot;
+#' * `"choropleth"`: plot a choropleth map from polygons of a subset using 
+#' metric values. 
+#'
+#' @param x A `segmetric` object.
+#' @param type A `character`. Either `"base"`, `"subset"`, or `"choropleth"`.
+#' @param ... Ignored.
+#' @param title A `character` with plot title
+#' @param background A `character` with a valid hexadecimal color in `rgb` or 
+#' `rgba` format. Set the map background color.
+#' @param layers A `character`. One or both of `"ref_sf"` and `"seg_sf"`
+#' (works only for `type = "base"` and `type = "subset"`).
+#' @param ref_color,seg_color,ref_fill,seg_fill A `character` with a 
+#' valid hexadecimal color in `rgb` or `rgba` format. Set the border and fill 
+#' colors for reference and segmentation polygons.
+#' @param ref_label,seg_label,centroids_label A `character` with legend 
+#' labels for reference polygons, segmentation polygons, and centroids.
+#' @param ref_size,seg_size A `numeric`. Set symbol's size for centroids.
+#' @param ref_symbol,seg_symbol An `integer`. Symbol to represent polygons' 
+#' centroids (see `pch` param in \link[graphics]{points}).
+#' @param selected_fill A `character` with a valid hexadecimal color in `rgb` 
+#' or `rgba` format. Set the fill color of selected reference or 
+#' segmentation polygons depending on `subset_id`.
+#' @param plot_centroids A `logical`. Plot centroids or not.
+#' @param centroids_color  A `character` with a valid hexadecimal color 
+#' in `rgb` or `rgba` format. Set the border colors for centroids.
+#' @param subset_id A `character` with subset name
+#' (required for `type = "subset"`) 
+#' @param subset_color,subset_fill A `character` with a valid hexadecimal 
+#' color in `rgb` or `rgba` format. Set the border and fill 
+#' colors for subset polygons (works only with `type = "subset"`).
+#' @param metric_id A `character` with metric to be plotted in choropleth maps
+#' (required for `type = "choropleth"`) 
+#' @param break_style A `character` with the name of a method to compute 
+#' the intervals for choropleth maps. Can be one of `"sd"`, `"equal"`, 
+#' `"pretty"`, `"quantile"`, `"kmeans"`, `"hclust"`, `"bclust"`, `"fisher"`, 
+#' `"jenks"`, `"dpih"`, and `"headtails"` (see `style` parameter in 
+#' \link[classInt]{classIntervals}).
+#' @param plot_extent A `sf` object. Set the map extent for a plot.
+#' @param plot_legend A `logical`. Plot legend or not.
+#' @param plot_axes A `logical`. Plot coordinates axis or not.
+#'
+#' @exportS3Method 
 plot.segmetric <- function(x, type = "base", ...,
                            title = NULL,
                            background = "#FAFAFA",
