@@ -1,6 +1,6 @@
 Package: segmetric
 Title: Metrics for Assessing Segmentation Accuracy for Geospatial Data
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     c(person(given = "Rolf",
            family = "Simoes",
