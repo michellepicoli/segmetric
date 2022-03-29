@@ -23,7 +23,14 @@
 
 sm_list_metrics()
 
-sm_new_metric(fn, fn_subset, name = "", description = "", reference = "")
+sm_new_metric(
+  fn,
+  fn_subset,
+  name = "",
+  optimal = 0,
+  description = "",
+  reference = ""
+)
 
 sm_reg_metric(metric_id, entry)
 
@@ -83,6 +90,7 @@ sm_reg_metric(
             sm_area(sm_ytilde(m)) / 
                 sm_area(sm_ref(m), order = sm_ytilde(m))
         },
+        fn_subset = sm_ytilde,
         name = "Metric name example",
         description = paste("Values range from A to B.",
                             "Optimal value is C"),

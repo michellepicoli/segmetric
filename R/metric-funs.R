@@ -183,11 +183,8 @@ QR <- function(m, ...) {
 }
 
 D_index <- function(m, ...) {
-    sqrt((
-        .norm_right(sm_area(sm_ystar(m)),
-                     sm_area(sm_ref(m), order = sm_ystar(m))) ^ 2 +
-            .norm_right(sm_area(sm_ystar(m)),
-                         sm_area(sm_seg(m), order = sm_ystar(m))) ^ 2) / 2)
+    m <- sm_compute(m, metric_id = c("OS1", "US1"))
+    sqrt((OS1(m)^2 + US1(m)^2) / 2)
 }
 
 precision <- function(m, ...) {
@@ -243,15 +240,11 @@ Fitness <- function(m, ...) {
 }
 
 ED3 <- function(m, ...) {
-    sqrt(OS3(m) ^ 2 + US3(m) ^ 2) / 2
+    sqrt((OS3(m)^2 + US3(m)^2) / 2)
 }
 
 F_measure <- function(m, ..., alpha = 0.5) {
     stopifnot(alpha >= 0)
     stopifnot(alpha <= 1)
-    1 / ((alpha / (sum(sm_area(sm_xprime(m))) / 
-                       sum(sm_area(sm_seg(m), order = sm_xprime(m))))) + 
-             ((1 - alpha) / 
-                  (sum(sm_area(sm_yprime(m))) / 
-                       sum(sm_area(sm_ref(m), order = sm_yprime(m))))))
+    1 / ((alpha / precision(m)) + ((1 - alpha) / recall(m)))
 }
