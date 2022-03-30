@@ -593,6 +593,9 @@ plot.segmetric <- function(x, type = "base", ...,
                 bg = background,
                 axes = plot_axes
             )
+            
+            # reset title to get next metric name
+            title <- NULL
         }
 
     }
