@@ -3,6 +3,10 @@
 \docType{data}
 \name{seg_sf}
 \alias{seg_sf}
+\alias{seg200_sf}
+\alias{seg500_sf}
+\alias{seg800_sf}
+\alias{seg1000_sf}
 \alias{sample_seg_sf}
 \title{Segmentation dataset}
 \format{
@@ -13,23 +17,42 @@ These datasets are objects of class \code{sf} (inherited from \code{tbl_df},
 \item{\code{geometry}: polygons}
 }
 
-\code{seg_sf}: a dataset with 259 features.
+\code{seg200_sf}: a dataset with 547 features.
+\code{seg500_sf}: a dataset with 215 features.
+\code{seg800_sf}: a dataset with 169 features.
+\code{seg1000_sf}: a dataset with 158 features.
 
-\code{sample_seg_sf}: a dataset with 6 features.
+An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 215 rows and 2 columns.
+
+An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 169 rows and 2 columns.
+
+An object of class \code{sf} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 158 rows and 2 columns.
+
+\code{sample_seg_sf}: a dataset with 6 features extracted from
+\code{seg500_sf} dataset.
 }
 \usage{
-seg_sf
+seg200_sf
+
+seg500_sf
+
+seg800_sf
+
+seg1000_sf
 
 sample_seg_sf
 }
 \description{
-\code{seg_sf}: a dataset containing segments generated from PlanetScope image,
-level 3B, acquired on Feb 18, 2020, with 3.7-meter resolution (Planet Team,
-2017), using the multiresolution segmentation method (Baatz and Schape,
-2000).
+\code{seg200_sf},\code{seg500_sf},\code{seg800_sf},\code{seg1000_sf}: a dataset containing
+segments generated from PlanetScope image, level 3B, acquired on
+Feb 18, 2020, with 3.7-meter resolution (Planet Team, 2017), using the
+multiresolution segmentation method (Baatz and Schape, 2000).
 
-The data was post-processed using the spectral difference algorithm on band
-3.
+The data covers the approximately the same area of LEM+ dataset
+(see \link{ref_sf}).
+
+The data was post-processed using the spectral difference algorithm on
+band 3.
 
 The polygons were simplified using the Douglas-Peucker algorithm in QGIS.
 
@@ -37,7 +60,8 @@ Self-intersections were removed using SAGA's Polygon Self-Intersection.
 
 Segmentation parameters:
 \itemize{
-\item{\verb{scale parameter}: 500}
+\item{\verb{scale parameter}: 200 (\code{seg200_sf}), 500 (\code{seg500_sf}),
+800 (\code{seg800_sf}), and 1000 (\code{seg1000_sf})}
 \item{\code{shape}: 0.9}
 \item{\code{compactness}: 0.1}
 }
@@ -58,7 +82,10 @@ above 25 were selected.
 \code{sample_seg_sf}: a subset of \code{seg_sf} dataset.
 }
 \examples{
-data("seg_sf", package = "segmetric")
+data("seg200_sf", package = "segmetric")
+data("seg500_sf", package = "segmetric")
+data("seg800_sf", package = "segmetric")
+data("seg1000_sf", package = "segmetric")
 data("sample_seg_sf", package = "segmetric")
 }
 \references{

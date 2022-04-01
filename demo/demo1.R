@@ -1,33 +1,39 @@
 
-# register 'Example' metric
+# unregister metric
+sm_unreg_metric(metric_id = "IoU")
+
+# register 'IoU' metric
 sm_reg_metric(
-    metric_id = "Example",
+    metric_id = "IoU",
     entry = sm_new_metric(
         fn = function(m) {
-            sm_area(sm_ytilde(m)) / 
-                sm_area(sm_ref(m), order = sm_ytilde(m))
+            sm_area(sm_yprime(m)) / 
+                sm_area(sm_subset_union(sm_yprime(m)))
         },
-        name = "Metric name example",
-        description = paste("Values range from A to B.",
-                            "Optimal value is C"),
-        reference = "Author (Year)"
-    ))
+        fn_subset = sm_yprime,
+        name = "Intersection over Union (also known as Jaccard)",
+        optimal = 1,
+        description = paste("Values range from 0 to 1.",
+                            "Optimal value is 1"),
+        reference = "Rezatofighi et al. (2019)"
+    )
+)
 
-# describes the 'Example' metric
-sm_desc_metric("Example")
+# describes the 'IoU' metric
+sm_desc_metric("IoU")
 
 # lists all supported metrics
 sm_list_metrics()
 
 # load datasets
 data("ref_sf", package = "segmetric")
-data("seg_sf", package = "segmetric")
+data("seg500_sf", package = "segmetric")
 
 # create segmetric object
-m <- sm_read(ref_sf = ref_sf, seg_sf = seg_sf)
+m <- sm_read(ref_sf = ref_sf, seg_sf = seg500_sf)
 
 # compute a metric
-sm_compute(m, metric = "Example")
+sm_compute(m, metric = "IoU")
 
 # clear computed subsets
 sm_clear(m)

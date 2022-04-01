@@ -16,6 +16,8 @@
 NULL
 
 #' @importFrom graphics legend
+#' @importFrom grDevices hcl.colors
+#' @importFrom stats quantile
 NULL
 
 # package environment

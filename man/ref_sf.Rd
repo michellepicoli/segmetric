@@ -26,7 +26,12 @@ ref_sf
 sample_ref_sf
 }
 \description{
-\code{ref_sf}: a dataset containing field boundaries.
+\code{ref_sf}: a dataset containing field boundaries from Luiz Eduardo Magalhaes
+municipality, Brazil.
+
+The data covers the following extent:
+xmin: -46.37683 ymin: -12.34579 xmax: -46.15776 ymax: -12.13663
+CRS: EPSG:4326
 
 \code{sample_ref_sf}: a subset of \code{ref_sf} dataset.
 }

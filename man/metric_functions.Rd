@@ -3,9 +3,12 @@
 \name{metric_functions}
 \alias{metric_functions}
 \alias{sm_compute}
+\alias{sm_metric_subset}
 \title{Metric functions}
 \usage{
 sm_compute(m, metric_id, ...)
+
+sm_metric_subset(m, metric_id = NULL)
 }
 \arguments{
 \item{m}{A \code{segmetric} object.}
@@ -25,6 +28,9 @@ polygons using a metric.
 
 A list with all supported metrics can be obtained
 by \code{sm_list_metrics()} (see Details for more information).
+
+The \code{sm_metric_subset()} returns the subset used to compute the metrics
+in segmetric object.
 }
 \details{
 \itemize{
@@ -50,9 +56,9 @@ by \code{sm_list_metrics()} (see Details for more information).
 (Van Rijsbergen, 1979; Zhang et al., 2015).
 \item "\code{recall}" refers to Recall. Its values range from 0 to 1 (optimal) (Van
 Rijsbergen, 1979; Zhang et al., 2015).
-\item "\code{UMerging}" refers to Undermerging. Its values range from 0 (optimal) to 0.5
+\item "\code{UMerging}" refers to Undermerging. Its values range from 0 (optimal) to 1
 (Levine and Nazif, 1982; Clinton et al., 2010).
-\item "\code{OMerging}" refers to Overmerging. Its values range from 0 (optimal) to 0.5
+\item "\code{OMerging}" refers to Overmerging. Its optimal value is 0
 (Levine and Nazif, 1982; Clinton et al., 2010).
 \item "\code{M}" refers to Match. Its values range from 0 to 1 (optimal) (Janssen and
 Molenaar, 1995; Feitosa et al., 2010).

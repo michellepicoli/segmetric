@@ -34,9 +34,9 @@
 #' (Van Rijsbergen, 1979; Zhang et al., 2015).
 #' - "`recall`" refers to Recall. Its values range from 0 to 1 (optimal) (Van 
 #' Rijsbergen, 1979; Zhang et al., 2015).
-#' - "`UMerging`" refers to Undermerging. Its values range from 0 (optimal) to 0.5 
+#' - "`UMerging`" refers to Undermerging. Its values range from 0 (optimal) to 1 
 #' (Levine and Nazif, 1982; Clinton et al., 2010).
-#' - "`OMerging`" refers to Overmerging. Its values range from 0 (optimal) to 0.5 
+#' - "`OMerging`" refers to Overmerging. Its optimal value is 0 
 #' (Levine and Nazif, 1982; Clinton et al., 2010).
 #' - "`M`" refers to Match. Its values range from 0 to 1 (optimal) (Janssen and 
 #' Molenaar, 1995; Feitosa et al., 2010).
@@ -113,6 +113,34 @@ sm_compute <- function(m, metric_id, ...) {
     m
 }
 
+#' @rdname metric_functions
+#' @description 
+#' 
+#' The `sm_metric_subset()` returns the subset used to compute the metrics
+#' in segmetric object. 
+#' 
+#' @export
+sm_metric_subset <- function(m, metric_id = NULL) {
+    
+    .segmetric_check(m)
+   
+    if (!is.null(metric_id))
+        m <- m[metric_id]
+    
+    result <- list()
+    metrics <- names(m)
+    for (i in seq_along(m)) {
+        f <- .db_get(key = metrics[[i]])
+        if (!is.null(f[["fn_subset"]])) {
+            result[[i]] <- do.call(f[["fn_subset"]], args = list(m = m))
+            result[[i]][metrics[[i]]] <- m[[metrics[[i]]]]
+        } else 
+            result[[i]] <- NULL
+    }
+    names(result) <- metrics
+    
+    result
+}
 
 OS1 <- function(m, ...) {
     .norm_right(sm_area(sm_ystar(m)), 
@@ -155,11 +183,8 @@ QR <- function(m, ...) {
 }
 
 D_index <- function(m, ...) {
-    sqrt((
-        .norm_right(sm_area(sm_ystar(m)),
-                     sm_area(sm_ref(m), order = sm_ystar(m))) ^ 2 +
-            .norm_right(sm_area(sm_ystar(m)),
-                         sm_area(sm_seg(m), order = sm_ystar(m))) ^ 2) / 2)
+    m <- sm_compute(m, metric_id = c("OS1", "US1"))
+    sqrt((OS1(m)^2 + US1(m)^2) / 2)
 }
 
 precision <- function(m, ...) {
@@ -215,15 +240,11 @@ Fitness <- function(m, ...) {
 }
 
 ED3 <- function(m, ...) {
-    sqrt(OS3(m) ^ 2 + US3(m) ^ 2) / 2
+    sqrt((OS3(m)^2 + US3(m)^2) / 2)
 }
 
 F_measure <- function(m, ..., alpha = 0.5) {
     stopifnot(alpha >= 0)
     stopifnot(alpha <= 1)
-    1 / ((alpha / (sum(sm_area(sm_xprime(m))) / 
-                       sum(sm_area(sm_seg(m), order = sm_xprime(m))))) + 
-             ((1 - alpha) / 
-                  (sum(sm_area(sm_yprime(m))) / 
-                       sum(sm_area(sm_ref(m), order = sm_yprime(m))))))
+    1 / ((alpha / precision(m)) + ((1 - alpha) / recall(m)))
 }
