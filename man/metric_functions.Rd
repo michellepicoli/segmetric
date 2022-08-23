@@ -77,6 +77,8 @@ Coillie et al., 2008).
 \item "\code{F_measure}" refers to F-measure metric. Its values range from 0 to 1
 (optimal) (Van Rijsbergen, 1979; Zhang et al., 2015). It takes the optional
 weight argument \code{alpha}, ranging from \code{0.0} to \code{1.0} (the default is \code{0.5}).
+\item "\code{IoU}" refers to Intersection over Union metric. Its values range
+from 0 to 1 (optimal) (Jaccard, 1912; Rezatofighi et al., 2019).
 }
 }
 \examples{

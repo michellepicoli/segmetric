@@ -397,4 +397,17 @@ sm_desc_metric <- function(metric_id) {
             reference    = "Van Rijsbergen (1979) and Zhang et al. (2015)"
         )
     )
+    sm_reg_metric(
+        metric_id = "IoU",
+        entry = sm_new_metric(
+            fn = IoU,
+            fn_subset = sm_yprime,
+            name = "Intersection over Union",
+            optimal = 1,
+            description = paste("Values range from 0 to 1.",
+                                "Optimal value is 1"),
+            reference = "Rezatofighi et al. (2019)"
+        )
+    )
+    
 }

@@ -10,7 +10,6 @@
   type = "base",
   ...,
   title = NULL,
-  background = "#FAFAFA",
   layers = c("ref_sf", "seg_sf"),
   ref_color = "#FF00009F",
   ref_fill = "#FFFFFF00",
@@ -44,9 +43,6 @@
 \item{...}{Ignored.}
 
 \item{title}{A \code{character} with plot title}
-
-\item{background}{A \code{character} with a valid hexadecimal color in \code{rgb} or
-\code{rgba} format. Set the map background color.}
 
 \item{layers}{A \code{character}. One or both of \code{"ref_sf"} and \code{"seg_sf"}
 (works only for \code{type = "base"} and \code{type = "subset"}).}

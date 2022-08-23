@@ -55,7 +55,9 @@
 #' - "`F_measure`" refers to F-measure metric. Its values range from 0 to 1 
 #' (optimal) (Van Rijsbergen, 1979; Zhang et al., 2015). It takes the optional 
 #' weight argument `alpha`, ranging from `0.0` to `1.0` (the default is `0.5`).
-#' 
+#' - "`IoU`" refers to Intersection over Union metric. Its values range 
+#' from 0 to 1 (optimal) (Jaccard, 1912; Rezatofighi et al., 2019).
+#'  
 #' @return Return a `numeric` vector with computed metric.
 #' 
 #' @examples 
@@ -247,4 +249,9 @@ F_measure <- function(m, ..., alpha = 0.5) {
     stopifnot(alpha >= 0)
     stopifnot(alpha <= 1)
     1 / ((alpha / precision(m)) + ((1 - alpha) / recall(m)))
+}
+
+IoU <- function(m) {
+    sm_area(sm_yprime(m)) / 
+        sm_area(sm_subset_union(sm_yprime(m)))
 }

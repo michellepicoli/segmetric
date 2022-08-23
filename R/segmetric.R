@@ -151,8 +151,6 @@ print.segmetric <- function(x, ...) {
 #' @param type A `character`. Either `"base"`, `"subset"`, or `"choropleth"`.
 #' @param ... Ignored.
 #' @param title A `character` with plot title
-#' @param background A `character` with a valid hexadecimal color in `rgb` or 
-#' `rgba` format. Set the map background color.
 #' @param layers A `character`. One or both of `"ref_sf"` and `"seg_sf"`
 #' (works only for `type = "base"` and `type = "subset"`).
 #' @param ref_color,seg_color,ref_fill,seg_fill A `character` with a 
@@ -188,7 +186,6 @@ print.segmetric <- function(x, ...) {
 #' @exportS3Method 
 plot.segmetric <- function(x, type = "base", ...,
                            title = NULL,
-                           background = "#FAFAFA",
                            layers = c("ref_sf", "seg_sf"),
                            ref_color = "#FF00009F",
                            ref_fill = "#FFFFFF00",
@@ -282,6 +279,7 @@ plot.segmetric <- function(x, type = "base", ...,
             plot_extent <- sf::st_bbox(data)
         else
             plot_extent <- sf::st_bbox(plot_extent)
+        
         if (plot_legend)
             plot_extent <- mod_extent(plot_extent, factor = 0.167)
 
@@ -291,7 +289,6 @@ plot.segmetric <- function(x, type = "base", ...,
              col = fill[data[["type"]]],
              border = border[data[["type"]]],
              lwd = size[data[["type"]]],
-             bg = background,
              extent = plot_extent,
              axes = plot_axes,
              reset = FALSE)
@@ -432,7 +429,6 @@ plot.segmetric <- function(x, type = "base", ...,
              col = fill[data[["type"]]],
              border = border[data[["type"]]],
              lwd = size[data[["type"]]],
-             bg = background,
              extent = plot_extent,
              axes = plot_axes,
              reset = FALSE)
@@ -474,11 +470,10 @@ plot.segmetric <- function(x, type = "base", ...,
 
         # Plot of the subset.
         plot(data,
-             add = TRUE,
-             main = title,
              col = fill[data[["type"]]],
              border = border[data[["type"]]],
-             lwd = size[data[["type"]]]
+             lwd = size[data[["type"]]],
+             add = TRUE
         )
 
         # plot centroids
@@ -590,7 +585,6 @@ plot.segmetric <- function(x, type = "base", ...,
                 pal = hcl.colors(
                     length(breaks) - 1, 
                     rev = .db_get(m_name)[["optimal"]] == 0),
-                bg = background,
                 axes = plot_axes
             )
             
