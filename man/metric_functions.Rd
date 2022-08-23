@@ -79,6 +79,14 @@ Coillie et al., 2008).
 weight argument \code{alpha}, ranging from \code{0.0} to \code{1.0} (the default is \code{0.5}).
 \item "\code{IoU}" refers to Intersection over Union metric. Its values range
 from 0 to 1 (optimal) (Jaccard, 1912; Rezatofighi et al., 2019).
+\item "\code{SimSize}" refers to the similarity size metric. Its values range from
+0 to 1 (optimal) (Zhan et al., 2005).
+\item "\code{qLoc}"refers to quality of object’s location metric. Its optimal value
+is 0 (Zhan et al., 2005).
+\item "\code{RPsub}" refers to Relative Position (sub) metric. Optimal value is 0
+(Möller et al., 2007, Clinton et al., 2010).
+\item "\code{RPsuper}" refers to Relative Position (super) metric. Its values range
+from 0 (optimal) to 1 (Möller et al., 2007, Clinton et al., 2010).
 }
 }
 \examples{

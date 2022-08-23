@@ -215,7 +215,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_yprime,
             name         = "Area fit index",
             optimal      = 0,
-            description  = "Optimal value: 0",
+            description  = "Optimal value is 0",
             reference    = "Lucieer and Stein (2002) and Clinton et al. (2010)"
         )
     )
@@ -349,7 +349,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_xprime,
             name         = "Fitness function",
             optimal      = 0,
-            description  = "Optimal value: 0",
+            description  = "Optimal value is 0",
             reference    = "Costa et al. (2008)"
         )
     )
@@ -404,10 +404,52 @@ sm_desc_metric <- function(metric_id) {
             fn_subset = sm_yprime,
             name = "Intersection over Union",
             optimal = 1,
-            description = paste("Values range from 0 to 1.",
-                                "Optimal value is 1"),
+            description = "Values from 0 to 1 (optimal)",
             reference = "Rezatofighi et al. (2019)"
         )
     )
-    
+    sm_reg_metric(
+        metric_id = "SimSize",
+        entry = sm_new_metric(
+            fn = SimSize,
+            fn_subset = sm_ystar,
+            name = "Similarity of size",
+            optimal = 1,
+            description = "Values from 0 to 1 (optimal)",
+            reference = "Zhan et al. (2005)"
+        )
+    )
+    sm_reg_metric(
+        metric_id = "qLoc",
+        entry = sm_new_metric(
+            fn = qLoc,
+            fn_subset = sm_ystar,
+            name = "Quality of object's location",
+            optimal = 0,
+            description = "Optimal value is 0",
+            reference = "Zhan et al. (2005)"
+        )
+    )
+    sm_reg_metric(
+        metric_id = "RPsub",
+        entry = sm_new_metric(
+            fn = RPsub,
+            fn_subset = sm_ytilde,
+            name = "Relative position (sub)",
+            optimal = 0,
+            description = "Optimal value is 0",
+            reference = "Möller et al. (2007) and Clinton et al. (2010)"
+        )
+    )
+    sm_reg_metric(
+        metric_id = "RPsuper",
+        entry = sm_new_metric(
+            fn = RPsuper,
+            fn_subset = sm_ystar,
+            name = "Relative position (super)",
+            optimal = 0,
+            description = "Values from 0 (optimal) to 1",
+            reference = "Möller et al. (2007) and Clinton et al. (2010)"
+        )
+    )
 }

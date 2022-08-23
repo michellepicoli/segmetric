@@ -80,6 +80,13 @@
 #' evaluation using region-based precision and recall measures for remote 
 #' sensing images. ISPRS J. Photogramm. Remote Sens. 102, pp. 73-84. 
 #' \doi{10.1016/j.isprsjprs.2015.01.009}.
-#'
+#' - Zhan, Q., Molenaar, M., Tempfli, K. and Shi, W., 2005. Quality assessment 
+#' for geo‐spatial objects derived from remotely sensed data. International 
+#' Journal of Remote Sensing, 26(14), pp.2953-2974. 
+#' \doi{10.1080/01431160500057764}
+#' - Möller, M., Lymburner, L. and Volk, M., 2007. The comparison index: A 
+#' tool for assessing the accuracy of image segmentation. International 
+#' Journal of Applied Earth Observation and Geoinformation, 9(3), pp.311-321.
+#' \doi{10.1016/j.jag.2006.10.002}
 "_PACKAGE"
 NULL

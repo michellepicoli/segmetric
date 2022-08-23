@@ -57,6 +57,14 @@
 #' weight argument `alpha`, ranging from `0.0` to `1.0` (the default is `0.5`).
 #' - "`IoU`" refers to Intersection over Union metric. Its values range 
 #' from 0 to 1 (optimal) (Jaccard, 1912; Rezatofighi et al., 2019).
+#' - "`SimSize`" refers to the similarity size metric. Its values range from 
+#' 0 to 1 (optimal) (Zhan et al., 2005).
+#' - "`qLoc`"refers to quality of object’s location metric. Its optimal value 
+#' is 0 (Zhan et al., 2005).
+#' - "`RPsub`" refers to Relative Position (sub) metric. Optimal value is 0 
+#' (Möller et al., 2007, Clinton et al., 2010).
+#' - "`RPsuper`" refers to Relative Position (super) metric. Its values range 
+#' from 0 (optimal) to 1 (Möller et al., 2007, Clinton et al., 2010).
 #'  
 #' @return Return a `numeric` vector with computed metric.
 #' 
@@ -214,7 +222,6 @@ M <- function(m, ...) {
 }
 
 E <- function(m, ...) {
-    # TODO: check formula in Carleer et al. (2005)
     .norm_left(sm_area(sm_seg(m), order = sm_xprime(m)),
                  sm_area(sm_xprime(m))) * 100
 }
@@ -251,7 +258,31 @@ F_measure <- function(m, ..., alpha = 0.5) {
     1 / ((alpha / precision(m)) + ((1 - alpha) / recall(m)))
 }
 
-IoU <- function(m) {
+IoU <- function(m, ...) {
     sm_area(sm_yprime(m)) / 
         sm_area(sm_subset_union(sm_yprime(m)))
 }
+
+SimSize <- function(m, ...) {
+    pmin(sm_area(sm_ref(m), order = sm_ystar(m)),
+         sm_area(sm_seg(m), order = sm_ystar(m))) /
+        pmax(sm_area(sm_ref(m), order = sm_ystar(m)),
+             sm_area(sm_seg(m), order = sm_ystar(m)))
+}
+
+qLoc <- function(m, ...) {
+    sm_distance(sm_centroid(sm_ref(m), order = sm_ystar(m)), 
+                sm_centroid(sm_seg(m), order = sm_ystar(m)))
+}
+
+RPsub <- function(m, ...) {
+    sm_distance(sm_centroid(sm_ref(m), order = sm_ytilde(m)), 
+                sm_centroid(sm_seg(m), order = sm_ytilde(m)))
+}
+
+RPsuper <- function(m, ...) {
+    sm_distance(sm_centroid(sm_ref(m), order = sm_ystar(m)), 
+                sm_centroid(sm_seg(m), order = sm_ystar(m))) /
+        max(RPsub(m))
+}
+

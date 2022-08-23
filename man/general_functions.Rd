@@ -4,6 +4,7 @@
 \alias{general_functions}
 \alias{sm_area}
 \alias{sm_centroid}
+\alias{sm_distance}
 \alias{sm_intersection}
 \alias{sm_subset_union}
 \alias{sm_rbind}
@@ -11,7 +12,9 @@
 \usage{
 sm_area(s, order = NULL)
 
-sm_centroid(s)
+sm_centroid(s, order = NULL)
+
+sm_distance(s1, s2)
 
 sm_intersection(s1, s2, touches = TRUE)
 

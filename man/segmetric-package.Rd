@@ -88,7 +88,22 @@ Photogramm. Remote Sens. 94, pp. 13-24.
 evaluation using region-based precision and recall measures for remote
 sensing images. ISPRS J. Photogramm. Remote Sens. 102, pp. 73-84.
 \doi{10.1016/j.isprsjprs.2015.01.009}.
+\item Zhan, Q., Molenaar, M., Tempfli, K. and Shi, W., 2005. Quality assessment
+for geo‐spatial objects derived from remotely sensed data. International
+Journal of Remote Sensing, 26(14), pp.2953-2974.
+\doi{10.1080/01431160500057764}
+\item Möller, M., Lymburner, L. and Volk, M., 2007. The comparison index: A
+tool for assessing the accuracy of image segmentation. International
+Journal of Applied Earth Observation and Geoinformation, 9(3), pp.311-321.
+\doi{10.1016/j.jag.2006.10.002}
 }
+}
+\seealso{
+Useful links:
+\itemize{
+  \item Report bugs at \url{https://github.com/michellepicoli/segmetric/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Michelle Picoli \email{mipicoli@gmail.com} (\href{https://orcid.org/0000-0001-9855-2046}{ORCID})
