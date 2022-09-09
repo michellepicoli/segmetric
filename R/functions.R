@@ -156,10 +156,20 @@ sm_rbind <- function(...) {
     result
 }
 
-.norm_left <- function(x, y) {
+#' @rdname general_functions
+#' @export
+sm_apply_group <- function(x, groups, fn, ...) {
+    unname(tapply(x, groups, fn, ...))
+}
+
+#' @rdname general_functions
+#' @export
+sm_norm_left <- function(x, y) {
     (x - y) / x
 }
 
-.norm_right <- function(x, y) {
+#' @rdname general_functions
+#' @export
+sm_norm_right <- function(x, y) {
     (y - x) / y
 }
