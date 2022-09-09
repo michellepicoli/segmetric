@@ -19,7 +19,7 @@ sm_read(ref_sf, seg_sf)
 
 sm_clear(m)
 
-\method{summary}{segmetric}(object, ...)
+\method{summary}{segmetric}(object, weight = NULL, ...)
 
 sm_is_empty(m)
 

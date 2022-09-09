@@ -8,6 +8,9 @@
 \alias{sm_intersection}
 \alias{sm_subset_union}
 \alias{sm_rbind}
+\alias{sm_apply_group}
+\alias{sm_norm_left}
+\alias{sm_norm_right}
 \title{General functions}
 \usage{
 sm_area(s, order = NULL)
@@ -21,6 +24,12 @@ sm_intersection(s1, s2, touches = TRUE)
 sm_subset_union(s)
 
 sm_rbind(...)
+
+sm_apply_group(x, groups, fn, ...)
+
+sm_norm_left(x, y)
+
+sm_norm_right(x, y)
 }
 \arguments{
 \item{s, s1, s2}{Either a \code{ref_sf}, a \code{seg_sf}, or a \code{subset_sf} object
