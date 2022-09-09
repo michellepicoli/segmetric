@@ -11,11 +11,11 @@ sm_reg_metric(
                 sm_area(sm_subset_union(sm_yprime(m)))
         },
         fn_subset = sm_yprime,
-        name = "Intersection over Union (also known as Jaccard)",
+        name = "Intersection over Union (also known as Jaccard Index)",
         optimal = 1,
         description = paste("Values range from 0 to 1.",
                             "Optimal value is 1"),
-        reference = "Rezatofighi et al. (2019)"
+        reference = "Jaccard (1912); Rezatofighi et al. (2019)"
     )
 )
 
