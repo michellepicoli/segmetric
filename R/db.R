@@ -452,4 +452,15 @@ sm_desc_metric <- function(metric_id) {
             reference = "Möller et al. (2007) and Clinton et al. (2010)"
         )
     )
+    sm_reg_metric(
+        metric_id = "OI2",
+        entry = sm_new_metric(
+            fn = OI2,
+            fn_subset = sm_ytilde,
+            name = "Overlap index",
+            optimal = 0,
+            description = "Values from 0 to 1 (optimal)",
+            reference = "Yang et al. (2017)"
+        )
+    )
 }
