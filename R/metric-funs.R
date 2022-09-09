@@ -65,7 +65,9 @@
 #' (Möller et al., 2007, Clinton et al., 2010).
 #' - "`RPsuper`" refers to Relative Position (super) metric. Its values range 
 #' from 0 (optimal) to 1 (Möller et al., 2007, Clinton et al., 2010).
-#'  
+#' - "`OI2` refers to Overlap Index metric. Its values range from 0 to 1
+#' (optimal) (Yang et al., 2017).
+#' 
 #' @return Return a `numeric` vector with computed metric.
 #' 
 #' @examples 
@@ -112,12 +114,9 @@ sm_compute <- function(m, metric_id, ...) {
     
     parameters <- list(...)
     
-    for (i in seq_along(metric_id)) {
-        metrics <- names(m)
-        f <- .db_get(key = metric_id[[i]])
-        m[[length(m) + 1]] <- do.call(f[["fn"]], 
-                                      args = c(list(m = m), parameters))
-        names(m) <- c(metrics, metric_id[[i]])
+    for (metric in metric_id) {
+        f <- .db_get(key = metric)
+        m[[metric]] <- do.call(f[["fn"]], args = c(list(m = m), parameters))
     }
     
     m
@@ -153,42 +152,42 @@ sm_metric_subset <- function(m, metric_id = NULL) {
 }
 
 OS1 <- function(m, ...) {
-    .norm_right(sm_area(sm_ystar(m)), 
+    sm_norm_right(sm_area(sm_ystar(m)), 
                  sm_area(sm_ref(m), order = sm_ystar(m)))
 }
 
 US1 <- function(m, ...) {
-    .norm_right(sm_area(sm_ystar(m)), 
+    sm_norm_right(sm_area(sm_ystar(m)), 
                  sm_area(sm_seg(m), order = sm_ystar(m)))
 }
 
 OS2 <- function(m, ...) {
-    .norm_right(sm_area(sm_yprime(m)), 
+    sm_norm_right(sm_area(sm_yprime(m)), 
                  sm_area(sm_ref(m), order = sm_yprime(m)))
 }
 
 US2 <- function(m, ...) {
-    .norm_right(sm_area(sm_yprime(m)), 
+    sm_norm_right(sm_area(sm_yprime(m)), 
                  sm_area(sm_seg(m), order = sm_yprime(m)))
 }
 
 OS3 <- function(m, ...) {
-    .norm_right(sm_area(sm_ycd(m)), 
+    sm_norm_right(sm_area(sm_ycd(m)), 
                  sm_area(sm_ref(m), order = sm_ycd(m)))
 }
 
 US3 <- function(m, ...) {
-    .norm_right(sm_area(sm_ycd(m)),
+    sm_norm_right(sm_area(sm_ycd(m)),
                  sm_area(sm_seg(m), order = sm_ycd(m)))
 }
 
 AFI <- function(m, ...) {
-    .norm_left(sm_area(sm_ref(m), order = sm_yprime(m)),
+    sm_norm_left(sm_area(sm_ref(m), order = sm_yprime(m)),
                  sm_area(sm_seg(m), order = sm_yprime(m)))
 }
 
 QR <- function(m, ...) {
-    .norm_right(sm_area(sm_ystar(m)), 
+    sm_norm_right(sm_area(sm_ystar(m)), 
                  sm_area(sm_subset_union(sm_ystar(m))))
 }
 
@@ -206,7 +205,7 @@ recall <- function(m, ...) {
 }
 
 UMerging <- function(m, ...) {
-    .norm_left(sm_area(sm_ref(m), order = sm_ystar(m)), sm_area(sm_ystar(m)))
+    sm_norm_left(sm_area(sm_ref(m), order = sm_ystar(m)), sm_area(sm_ystar(m)))
 }
 
 OMerging <- function(m, ...) {
@@ -222,7 +221,7 @@ M <- function(m, ...) {
 }
 
 E <- function(m, ...) {
-    .norm_left(sm_area(sm_seg(m), order = sm_xprime(m)),
+    sm_norm_left(sm_area(sm_seg(m), order = sm_xprime(m)),
                  sm_area(sm_xprime(m))) * 100
 }
 
@@ -235,10 +234,11 @@ RAsuper <- function(m, ...) {
 }
 
 PI <- function(m, ...) {
-    sm_area(sm_ytilde(m)) ^ 2 / (
+    x <- sm_area(sm_ytilde(m)) ^ 2 / (
         sm_area(sm_ref(m), order = sm_ytilde(m)) *
             sm_area(sm_seg(m), order = sm_ytilde(m))
     )
+    sm_apply_group(x, groups = sm_ytilde(m)[["ref_id"]], sum)
 }
 
 Fitness <- function(m, ...) {
@@ -281,8 +281,14 @@ RPsub <- function(m, ...) {
 }
 
 RPsuper <- function(m, ...) {
+    dist_max <- sm_apply_group(qLoc(m), sm_ystar(m)[["ref_id"]], max)
     sm_distance(sm_centroid(sm_ref(m), order = sm_ystar(m)), 
-                sm_centroid(sm_seg(m), order = sm_ystar(m))) /
-        max(RPsub(m))
+                sm_centroid(sm_seg(m), order = sm_ystar(m))) / dist_max
+        
 }
 
+OI2 <- function(m, ...) {
+    x <- sm_area(sm_ytilde(m)) / sm_area(sm_ref(m), order = sm_ytilde(m)) *
+        sm_area(sm_ytilde(m)) / sm_area(sm_seg(m), order = sm_ytilde(m))
+    sm_apply_group(x, groups = sm_ytilde(m)[["ref_id"]], max)
+}
