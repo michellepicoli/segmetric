@@ -118,7 +118,7 @@ sm_read <- function(ref_sf, seg_sf) {
 
     structure(list(),
               .env = .env,
-              class = c("segmetric"))
+              class = "segmetric")
 }
 
 #' @export
@@ -128,7 +128,9 @@ sm_clear <- function(m) {
     subsets <- sm_list(m)
     subsets <- subsets[!subsets %in% c("ref_sf", "seg_sf")]
     rm(list = subsets, envir = .segmetric_env(m), inherits = FALSE)
-    m
+    structure(list(),
+              .env = .segmetric_env(m),
+              class = "segmetric")
 }
 
 #' @exportS3Method
@@ -605,11 +607,11 @@ round.segmetric <- function(x, digits = 8) {
 
 #' @exportS3Method
 #' @rdname segmetric_functions
-summary.segmetric <- function(object, ...) {
+summary.segmetric <- function(object, weight = NULL, ...) {
 
     stopifnot(inherits(object, "segmetric"))
 
-    value <- vapply(object, mean, numeric(1), ...)
+    value <- vapply(object, weighted.mean, numeric(1), ...)
     if (length(object) <= 1)
         return(unname(value))
     value
