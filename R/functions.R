@@ -159,7 +159,11 @@ sm_rbind <- function(...) {
 #' @rdname general_functions
 #' @export
 sm_apply_group <- function(x, groups, fn, ...) {
-    unname(tapply(x, groups, fn, ...))
+    # unname(tapply(x, groups, fn, ...))
+    tibble::tibble(x = x, groups = groups) %>% 
+        dplyr::group_by(groups) %>% 
+        dplyr::mutate(x = fn(x)) %>% 
+        dplyr::pull(x)
 }
 
 #' @rdname general_functions
