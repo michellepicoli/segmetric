@@ -563,6 +563,8 @@ plot.segmetric <- function(x, type = "base", ...,
         break_style <- break_style[[1]]
         stopifnot(break_style %in% supported_styles)
         
+        # Compute metrics
+        x <- sm_compute(x, metric_id = metric_id)
         s_lst <- sm_metric_subset(round(x), metric_id = metric_id)
         for (m_name in names(s_lst)) {
             
