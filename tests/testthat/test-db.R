@@ -1,5 +1,8 @@
-
+# TODO: Test if the perfect segmentation matches the optimal values.
+# sm_compute(m, "OS2")[["OS2"]] - .db_get("OS2")$optimal < 1e-08
+# m <- sm_read(ref_sf = ref_sf, seg_sf = ref_sf)
 source("segmetric_util.R")
+
 
 test_that("different CRS test", {
     # data test
@@ -56,6 +59,11 @@ test_that("empty intersection tests", {
     expect_true(sm_is_empty(sm_compute(data, "UMerging")))
     expect_true(sm_is_empty(sm_compute(data, "OMerging")))
     expect_true(sm_is_empty(sm_compute(data, "Fitness")))
+    expect_true(sm_is_empty(sm_compute(data, "IoU")))
+    expect_true(sm_is_empty(sm_compute(data, "SimSize")))
+    expect_true(sm_is_empty(sm_compute(data, "qLoc")))
+    expect_true(sm_is_empty(sm_compute(data, "RPsub")))
+    expect_true(sm_is_empty(sm_compute(data, "RPsuper")))
 })
 
 test_that("one vertex intersection tests", {
@@ -88,6 +96,11 @@ test_that("one vertex intersection tests", {
     expect_true(sm_is_empty(sm_compute(data, "UMerging")))
     expect_true(sm_is_empty(sm_compute(data, "OMerging")))
     expect_true(sm_is_empty(sm_compute(data, "Fitness")))
+    expect_true(sm_is_empty(sm_compute(data, "IoU")))
+    expect_true(sm_is_empty(sm_compute(data, "SimSize")))
+    expect_true(sm_is_empty(sm_compute(data, "qLoc")))
+    expect_true(sm_is_empty(sm_compute(data, "RPsub")))
+    expect_true(sm_is_empty(sm_compute(data, "RPsuper")))
 })
 
 test_that("one edge intersection tests", {
@@ -121,6 +134,11 @@ test_that("one edge intersection tests", {
     expect_true(sm_is_empty(sm_compute(data, "UMerging")))
     expect_true(sm_is_empty(sm_compute(data, "OMerging")))
     expect_true(sm_is_empty(sm_compute(data, "Fitness")))
+    expect_true(sm_is_empty(sm_compute(data, "IoU")))
+    expect_true(sm_is_empty(sm_compute(data, "SimSize")))
+    expect_true(sm_is_empty(sm_compute(data, "qLoc")))
+    expect_true(sm_is_empty(sm_compute(data, "RPsub")))
+    expect_true(sm_is_empty(sm_compute(data, "RPsuper")))
 })
 
 test_that("one vertex and one polygon tests", {
@@ -154,6 +172,11 @@ test_that("one vertex and one polygon tests", {
     expect_true(!sm_is_empty(sm_compute(data, "UMerging")))
     expect_true(!sm_is_empty(sm_compute(data, "OMerging")))
     expect_true(!sm_is_empty(sm_compute(data, "Fitness")))
+    expect_true(sm_is_empty(sm_compute(data, "IoU")))
+    expect_true(sm_is_empty(sm_compute(data, "SimSize")))
+    expect_true(sm_is_empty(sm_compute(data, "qLoc")))
+    expect_true(sm_is_empty(sm_compute(data, "RPsub")))
+    expect_true(sm_is_empty(sm_compute(data, "RPsuper")))
 })
 
 test_that("normal use tests", {
@@ -191,6 +214,11 @@ test_that("normal use tests", {
     expect_true(!sm_is_empty(sm_compute(data, "UMerging")))
     expect_true(!sm_is_empty(sm_compute(data, "OMerging")))
     expect_true(!sm_is_empty(sm_compute(data, "Fitness")))
+    expect_true(sm_is_empty(sm_compute(data, "IoU")))
+    expect_true(sm_is_empty(sm_compute(data, "SimSize")))
+    expect_true(sm_is_empty(sm_compute(data, "qLoc")))
+    expect_true(sm_is_empty(sm_compute(data, "RPsub")))
+    expect_true(sm_is_empty(sm_compute(data, "RPsuper")))
 })
 
 
@@ -225,6 +253,11 @@ test_that("perfect fit test", {
     expect_true(!sm_is_empty(sm_compute(data, "UMerging")))
     expect_true(!sm_is_empty(sm_compute(data, "OMerging")))
     expect_true(!sm_is_empty(sm_compute(data, "Fitness")))
+    expect_true(sm_is_empty(sm_compute(data, "IoU")))
+    expect_true(sm_is_empty(sm_compute(data, "SimSize")))
+    expect_true(sm_is_empty(sm_compute(data, "qLoc")))
+    expect_true(sm_is_empty(sm_compute(data, "RPsub")))
+    expect_true(sm_is_empty(sm_compute(data, "RPsuper")))
 })
 
 
@@ -257,7 +290,14 @@ test_that("two segments inside test", {
     expect_true(!sm_is_empty(sm_compute(data, "US3")))
     expect_true(!sm_is_empty(sm_compute(data, "ED3")))
     expect_true(!sm_is_empty(sm_compute(data, "F_measure")))
-
+    expect_true(!sm_is_empty(sm_compute(data, "UMerging")))
+    expect_true(!sm_is_empty(sm_compute(data, "OMerging")))
+    expect_true(!sm_is_empty(sm_compute(data, "Fitness")))
+    expect_true(!sm_is_empty(sm_compute(data, "IoU")))
+    expect_true(!sm_is_empty(sm_compute(data, "SimSize")))
+    expect_true(!sm_is_empty(sm_compute(data, "qLoc")))
+    expect_true(!sm_is_empty(sm_compute(data, "RPsub")))
+    expect_true(!sm_is_empty(sm_compute(data, "RPsuper")))
 })
 
 
@@ -291,6 +331,14 @@ test_that("grid test", {
     expect_true(sm_is_empty(sm_compute(data, "US3")))
     expect_true(sm_is_empty(sm_compute(data, "ED3")))
     expect_true(!sm_is_empty(sm_compute(data, "F_measure")))
+    expect_true(!sm_is_empty(sm_compute(data, "UMerging")))
+    expect_true(!sm_is_empty(sm_compute(data, "OMerging")))
+    expect_true(!sm_is_empty(sm_compute(data, "Fitness")))
+    expect_true(!sm_is_empty(sm_compute(data, "IoU")))
+    expect_true(!sm_is_empty(sm_compute(data, "SimSize")))
+    expect_true(!sm_is_empty(sm_compute(data, "qLoc")))
+    expect_true(!sm_is_empty(sm_compute(data, "RPsub")))
+    expect_true(!sm_is_empty(sm_compute(data, "RPsuper")))
 })
 
 test_that("normal use test values", {
@@ -344,6 +392,17 @@ test_that("normal use test values", {
         summary(sm_compute(data, "F_measure"))
     )
     expect_equal(mean(test_E(x_prime)), summary(sm_compute(data, "E")))
+# TODO: add new metrics to the tests here and below!
+#' - "`IoU`" refers to Intersection over Union metric. Its values range
+#' from 0 to 1 (optimal) (Jaccard, 1912; Rezatofighi et al., 2019).
+#' - "`SimSize`" refers to the similarity size metric. Its values range from
+#' 0 to 1 (optimal) (Zhan et al., 2005).
+#' - "`qLoc`"refers to quality of object’s location metric. Its optimal value
+#' is 0 (Zhan et al., 2005).
+#' - "`RPsub`" refers to Relative Position (sub) metric. Optimal value is 0
+#' (Möller et al., 2007, Clinton et al., 2010).
+#' - "`RPsuper`" refers to Relative Position (super) metric. Its values range
+#' from 0 (optimal) to 1 (Möller et al., 2007, Clinton et al., 2010).
 })
 
 test_that("perfect fit test values", {
