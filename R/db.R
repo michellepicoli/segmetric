@@ -79,7 +79,11 @@ NULL
 .db_get <- function(key) {
     stopifnot(is.character(key))
     key <- key[[1]]
-    stopifnot(key %in% .db_list())
+    # TODO: compute levenshtein distance to suggest possible metrics
+    if (!key %in% .db_list()) {
+        stop("metric '", key, "' not found\n",
+             "use `sits_list_metrics()` to print metrics", call. = FALSE)
+    }
     
     get(key, envir = .db_env, inherits = FALSE)
 }
