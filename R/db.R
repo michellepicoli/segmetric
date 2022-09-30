@@ -101,11 +101,14 @@ sm_new_metric <- function(fn,
                           fn_subset,
                           name = "", 
                           optimal = 0,
+                          summarizable = TRUE,
                           description = "", 
                           reference = "") {
     
     stopifnot(inherits(fn, "function"))
     stopifnot(is.character(name))
+    stopifnot(is.numeric(optimal))
+    stopifnot(is.logical(summarizable))
     stopifnot(is.character(description))
     stopifnot(is.character(reference))
     
@@ -114,6 +117,7 @@ sm_new_metric <- function(fn,
              fn_subset = fn_subset,
              name = name,
              optimal = optimal,
+             summarizable = summarizable,
              description = description,
              reference = reference),
         class = c("metric_entry", 
@@ -175,6 +179,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_yprime,
             name         = "Oversegmentation",
             optimal      = 0,
+            summarizable = TRUE,
             description  = "Values from 0 (optimal) to 1",
             reference    = "Persello and Bruzzone (2010)"
         )
@@ -186,6 +191,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_ystar,
             name         = "Oversegmentation",
             optimal      = 0,
+            summarizable = TRUE,
             description  = "Values from 0 (optimal) to 1",
             reference    = "Clinton et al. (2010)"
         )
@@ -197,6 +203,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_yprime,
             name         = "Undersegmentation",
             optimal      = 0,
+            summarizable = TRUE,
             description  = "Values from 0 (optimal) to 1",
             reference    = "Persello and Bruzzone (2010)"
         )
@@ -208,6 +215,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_ystar,
             name         = "Undersegmentation",
             optimal      = 0,
+            summarizable = TRUE,
             description  = "Values from 0 (optimal) to 1",
             reference    = "Clinton et al. (2010)"
         )
@@ -219,6 +227,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_yprime,
             name         = "Area fit index",
             optimal      = 0,
+            summarizable = TRUE,
             description  = "Optimal value is 0",
             reference    = "Lucieer and Stein (2002) and Clinton et al. (2010)"
         )
@@ -230,6 +239,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_ystar,
             name         = "Quality rate",
             optimal      = 0,
+            summarizable = TRUE,
             description  = "Values from 0 (optimal) to 1",
             reference    = "Weidner (2008) and Clinton et al. (2010)"
         )
@@ -241,6 +251,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_ystar,
             name         = "Index D",
             optimal      = 0,
+            summarizable = TRUE,
             description  = "Values from 0 (optimal) to 1",
             reference    = "Levine and Nazif (1982) and Clinton et al. (2010)"
         )
@@ -252,6 +263,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_xprime,
             name         = "Precision",
             optimal      = 1,
+            summarizable = TRUE,
             description  = "Values from 0 to 1 (optimal)",
             reference    = "Van Rijsbergen (1979) and Zhang et al. (2015)"
         )
@@ -263,6 +275,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_yprime,
             name         = "Recall",
             optimal      = 1,
+            summarizable = TRUE,
             description  = "Values from 0 to 1 (optimal)",
             reference    = "Van Rijsbergen (1979) and Zhang et al. (2015)"
         )
@@ -274,6 +287,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_ystar,
             name         = "underMerging",
             optimal      = 0,
+            summarizable = TRUE,
             description  = "Values from 0 (optimal) to 0.5",
             reference    = "Levine and Nazif (1982) and Clinton et al. (2010)"
         )
@@ -285,6 +299,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_ystar,
             name         = "overMerging",
             optimal      = 0,
+            summarizable = TRUE,
             description  = "Values from 0 (optimal) to 0.5",
             reference    = "Levine and Nazif (1982) and Clinton et al. (2010)"
         )
@@ -296,6 +311,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_yprime,
             name         = "Match",
             optimal      = 1,
+            summarizable = TRUE,
             description  = "Values from 0 to 1 (optimal)",
             reference    = "Janssen and Molenaar (1995) and Feitosa et al. (2010)"
         )
@@ -309,6 +325,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_xprime,
             name         = "Evaluation measure",
             optimal      = 0,
+            summarizable = TRUE,
             description  = "Values from 0 (optimal) to 50",
             reference    = "Carleer et al. (2005)"
         )
@@ -320,6 +337,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_ytilde,
             name         = "Relative area (RAsub)",
             optimal      = 1,
+            summarizable = FALSE,
             description  = "Values from 0 to 1 (optimal)",
             reference    = "M\u00f6ller et al. (2007) and Clinton et al. (2010)"
         )
@@ -331,6 +349,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_ytilde,
             name         = "Relative area (RAsuper)",
             optimal      = 1,
+            summarizable = FALSE,
             description  = "Values from 0 to 1 (optimal)",
             reference    = "M\u00f6ller et al. (2007) and Clinton et al. (2010)"
         )
@@ -342,6 +361,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_ytilde,
             name         = "Purity index",
             optimal      = 1,
+            summarizable = TRUE,
             description  = "Values from 0 to 1 (optimal)",
             reference    = "van Coillie et al. (2008)"
         )
@@ -353,6 +373,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_xprime,
             name         = "Fitness function",
             optimal      = 0,
+            summarizable = TRUE,
             description  = "Optimal value is 0",
             reference    = "Costa et al. (2008)"
         )
@@ -364,6 +385,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_ycd,
             name         = "Oversegmentation",
             optimal      = 0,
+            summarizable = TRUE,
             description  = "Values from 0 (optimal) to 1",
             reference    = "Yang et al. (2014)"
         )
@@ -375,6 +397,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_ycd,
             name         = "Undersegmentation",
             optimal      = 0,
+            summarizable = TRUE,
             description  = "Values from 0 (optimal) to 1",
             reference    = "Yang et al. (2014)"
         )
@@ -386,6 +409,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_ycd,
             name         = "Euclidean distance",
             optimal      = 0,
+            summarizable = TRUE,
             description  = "Values from 0 (optimal) to 1",
             reference    = "Yang et al. (2014)"
         )
@@ -397,6 +421,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_xprime,
             name         = "F-measure",
             optimal      = 1,
+            summarizable = TRUE,
             description  = "Values from 0 to 1 (optimal)",
             reference    = "Van Rijsbergen (1979) and Zhang et al. (2015)"
         )
@@ -408,6 +433,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset = sm_yprime,
             name = "Intersection over Union",
             optimal = 1,
+            summarizable = TRUE,
             description = "Values from 0 to 1 (optimal)",
             reference = "Rezatofighi et al. (2019)"
         )
@@ -419,6 +445,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset = sm_ystar,
             name = "Similarity of size",
             optimal = 1,
+            summarizable = TRUE,
             description = "Values from 0 to 1 (optimal)",
             reference = "Zhan et al. (2005)"
         )
@@ -430,6 +457,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset = sm_ystar,
             name = "Quality of object's location",
             optimal = 0,
+            summarizable = TRUE,
             description = "Optimal value is 0",
             reference = "Zhan et al. (2005)"
         )
@@ -441,6 +469,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset = sm_ytilde,
             name = "Relative position (sub)",
             optimal = 0,
+            summarizable = FALSE,
             description = "Optimal value is 0",
             reference = "Möller et al. (2007) and Clinton et al. (2010)"
         )
@@ -452,6 +481,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset = sm_ystar,
             name = "Relative position (super)",
             optimal = 0,
+            summarizable = FALSE,
             description = "Values from 0 (optimal) to 1",
             reference = "Möller et al. (2007) and Clinton et al. (2010)"
         )
@@ -463,6 +493,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset = sm_ytilde,
             name = "Overlap index",
             optimal = 0,
+            summarizable = TRUE,
             description = "Values from 0 to 1 (optimal)",
             reference = "Yang et al. (2017)"
         )
