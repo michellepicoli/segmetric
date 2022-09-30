@@ -607,16 +607,44 @@ round.segmetric <- function(x, digits = 8) {
               class = c("segmetric"))
 }
 
+.sm_weight <- function(x, weight, na_rm) {
+    if (length(x) == 1) return(x)
+    if (!is.null(weight))
+        stats::weighted.mean(x = x, w = weight, na.rm = na_rm)
+    else
+        mean(x = x, na.rm = na_rm)
+}
+
 #' @exportS3Method
 #' @rdname segmetric_functions
-summary.segmetric <- function(object, weight = NULL, ...) {
+summary.segmetric <- function(object, weight = NULL, na_rm = TRUE, ...) {
 
     stopifnot(inherits(object, "segmetric"))
-
-    value <- vapply(object, weighted.mean, numeric(1), ...)
-    if (length(object) <= 1)
-        return(unname(value))
-    value
+    
+    value <- vapply(names(object), function(metric_id) {
+        if (is.character(weight)) {
+            f <- .db_get(metric_id)
+            if (!f[["summarizable"]]) {
+                warning("metric '", metric_id, "' was not proposed ",
+                        "to be aggregated for the whole segmentation output",
+                        call. = FALSE)
+            }
+            fn_subset <- f[["fn_subset"]]
+            weight <- switch(
+                weight,
+                "ref" = sm_area(sm_ref(object), order = fn_subset(object)),
+                "seg" = sm_area(sm_seg(object), order = fn_subset(object)),
+                "inter" = sm_area(fn_subset(object)),
+                stop("invalid 'weight' parameter")
+            )
+        }
+        if (!is.null(weight)) stopifnot(is.numeric(weight))
+        .sm_weight(object[[metric_id]], weight = weight, na_rm = na_rm)
+    }, numeric(1))
+    
+    if (length(object) <= 1) return(value)
+    names(value) <- names(object)
+    return(value)
 }
 
 #' @export
