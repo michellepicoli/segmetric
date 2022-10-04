@@ -16,6 +16,12 @@
 #' @param ref_sf A `sf` object. The reference polygons.
 #' @param seg_sf A `sf` object. The segmentation polygons.
 #' @param ...    Additional parameters (Not implemented).
+#' @param weight Weights to summarize metrics. Accepts `character` options
+#'   `"ref"`, `"seg"`, and `"inter"`, that weights using reference, segment, 
+#'   and intersection areas, respectively. Also accepts a `numeric` vector 
+#'   of weights of the same length as input metrics giving the weights to 
+#'   be used.
+#' @param na_rm  Should missing values (including `NaN`) be removed?
 #'
 #' @returns
 #' * `sm_read()`, `sm_clear()`: Return a `segmetric` object containing an
