@@ -387,23 +387,30 @@ test_that("normal use test values", {
     expect_true(sm_is_empty(sm_compute(data, "OS3")))
     expect_true(sm_is_empty(sm_compute(data, "US3")))
     expect_true(sm_is_empty(sm_compute(data, "ED3")))
+
+    # TODO: This test was supposed to throw an errors, but it doesn't because
+    #       of the test data set. We need to prepare a better test data set.
     expect_equal(
         mean(test_F_measure(test_precision(x_prime), test_recall(y_prime))),
         summary(sm_compute(data, "F_measure"))
     )
     expect_equal(mean(test_E(x_prime)), summary(sm_compute(data, "E")))
-# TODO: add new metrics to the tests here and below!
-#' - "`IoU`" refers to Intersection over Union metric. Its values range
-#' from 0 to 1 (optimal) (Jaccard, 1912; Rezatofighi et al., 2019).
-#' - "`SimSize`" refers to the similarity size metric. Its values range from
-#' 0 to 1 (optimal) (Zhan et al., 2005).
-#' - "`qLoc`"refers to quality of object’s location metric. Its optimal value
-#' is 0 (Zhan et al., 2005).
-#' - "`RPsub`" refers to Relative Position (sub) metric. Optimal value is 0
-#' (Möller et al., 2007, Clinton et al., 2010).
-#' - "`RPsuper`" refers to Relative Position (super) metric. Its values range
-#' from 0 (optimal) to 1 (Möller et al., 2007, Clinton et al., 2010).
+
+    expect_equal(mean(test_IoU(y_prime)), summary(sm_compute(data, "IoU")))
+    expect_equal(mean(test_SimSize(y_star)),
+                 summary(sm_compute(data, "SimSize")))
+    expect_equal(mean(test_qLoc(y_star)),
+                 summary(sm_compute(data, "qLoc")))
+    expect_equal(mean(test_RPsub(y_tilde)),
+                 summary(sm_compute(data, "RPsub")))
+    expect_equal(mean(test_RPsuper(y_star)),
+                 summary(sm_compute(data, "RPsuper")))
+
 })
+
+# TODO: Implement new tests!
+
+
 
 test_that("perfect fit test values", {
     # data test
@@ -454,6 +461,16 @@ test_that("perfect fit test values", {
                             test_recall(y_prime))),
         summary(sm_compute(data, "F_measure")))
     expect_equal(mean(test_E(x_prime)), summary(sm_compute(data, "E")))
+    expect_equal(mean(test_IoU(y_prime)), summary(sm_compute(data, "IoU")))
+    expect_equal(mean(test_SimSize(y_star)),
+                 summary(sm_compute(data, "SimSize")))
+    expect_equal(mean(test_qLoc(y_star)),
+                 summary(sm_compute(data, "qLoc")))
+    expect_equal(mean(test_RPsub(y_tilde)),
+                 summary(sm_compute(data, "RPsub")))
+    expect_equal(mean(test_RPsuper(y_star)),
+                 summary(sm_compute(data, "RPsuper")))
+
 })
 
 test_that("two segments inside test values", {
@@ -507,6 +524,16 @@ test_that("two segments inside test values", {
     expect_equal(test_F_measure(test_precision(x_prime), test_recall(y_prime)),
                  summary(sm_compute(data, "F_measure")))
     expect_equal(mean(test_E(x_prime)), summary(sm_compute(data, "E")))
+    expect_equal(mean(test_IoU(y_prime)), summary(sm_compute(data, "IoU")))
+    expect_equal(mean(test_SimSize(y_star)),
+                 summary(sm_compute(data, "SimSize")))
+    expect_equal(mean(test_qLoc(y_star)),
+                 summary(sm_compute(data, "qLoc")))
+    expect_equal(mean(test_RPsub(y_tilde)),
+                 summary(sm_compute(data, "RPsub")))
+    expect_equal(mean(test_RPsuper(y_star)),
+                 summary(sm_compute(data, "RPsuper")))
+
 })
 
 
@@ -560,6 +587,16 @@ test_that("grid test values", {
         test_F_measure(test_precision(x_prime), test_recall(y_prime)),
         summary(sm_compute(data, "F_measure")))
     expect_equal(mean(test_E(x_prime)), summary(sm_compute(data, "E")))
+    expect_equal(mean(test_IoU(y_prime)), summary(sm_compute(data, "IoU")))
+    expect_equal(mean(test_SimSize(y_star)),
+                 summary(sm_compute(data, "SimSize")))
+    expect_equal(mean(test_qLoc(y_star)),
+                 summary(sm_compute(data, "qLoc")))
+    expect_equal(mean(test_RPsub(y_tilde)),
+                 summary(sm_compute(data, "RPsub")))
+    expect_equal(mean(test_RPsuper(y_star)),
+                 summary(sm_compute(data, "RPsuper")))
+
 })
 
 
@@ -579,29 +616,93 @@ test_that("real test values", {
                              dplyr::as_tibble(test_y_d(area_df))) %>%
         dplyr::distinct(seg_id, ref_id, .keep_all = TRUE)
 
-    expect_equal(test_OS2(y_prime), unlist(sm_compute(data, "OS2"), use.names = FALSE))
-    expect_equal(test_US2(y_prime), unlist(sm_compute(data, "US2"), use.names = FALSE))
-    expect_equal(test_OS1(y_star), unlist(sm_compute(data, "OS1"), use.names = FALSE))
-    expect_equal(test_US1(y_star), unlist(sm_compute(data, "US1"), use.names = FALSE))
-    expect_equal(test_overMerging(y_star), unlist(sm_compute(data, "OMerging"), use.names = FALSE))
-    expect_equal(test_underMerging(y_star), unlist(sm_compute(data, "UMerging"), use.names = FALSE))
-    expect_equal(test_AFI(y_prime), unlist(sm_compute(data, "AFI"), use.names = FALSE))
-    expect_equal(test_QR(y_star), unlist(sm_compute(data, "QR"), use.names = FALSE))
-    expect_equal(test_D_index(y_star), unlist(sm_compute(data, "D_index"), use.names = FALSE))
-    expect_equal(test_precision(x_prime), unlist(sm_compute(data, "precision"), use.names = FALSE), tolerance = 2e-08)
-    expect_equal(test_recall(y_prime), unlist(sm_compute(data, "recall"), use.names = FALSE), tolerance = 2e-08)
-    expect_equal(test_M(y_prime), unlist(sm_compute(data, "M"), use.names = FALSE))
-    expect_equal(test_RAsub(y_tilde), unlist(sm_compute(data, "RAsub"), use.names = FALSE))
-    expect_equal(test_RAsuper(y_tilde), unlist(sm_compute(data, "RAsuper"), use.names = FALSE))
-    expect_equal(test_PI(y_tilde), unlist(sm_compute(data, "PI"), use.names = FALSE))
-    expect_equal(test_OS3(y_cd), unlist(sm_compute(data, "OS3"), use.names = FALSE))
-    expect_equal(test_US3(y_cd), unlist(sm_compute(data, "US3"), use.names = FALSE))
-    expect_equal(test_ED3(y_cd), unlist(sm_compute(data, "ED3"), use.names = FALSE))
+    expect_equal(
+        test_OS2(y_prime), unlist(sm_compute(data, "OS2"), use.names = FALSE)
+    )
+    expect_equal(
+        test_US2(y_prime), unlist(sm_compute(data, "US2"), use.names = FALSE)
+    )
+    expect_equal(
+        test_OS1(y_star), unlist(sm_compute(data, "OS1"), use.names = FALSE)
+    )
+    expect_equal(
+        test_US1(y_star), unlist(sm_compute(data, "US1"), use.names = FALSE)
+    )
+    expect_equal(
+        test_overMerging(y_star), unlist(sm_compute(data, "OMerging"),
+                                         use.names = FALSE)
+    )
+    expect_equal(
+        test_underMerging(y_star), unlist(sm_compute(data, "UMerging"),
+                                          use.names = FALSE)
+    )
+    expect_equal(
+        test_AFI(y_prime), unlist(sm_compute(data, "AFI"), use.names = FALSE)
+    )
+    expect_equal(
+        test_QR(y_star), unlist(sm_compute(data, "QR"), use.names = FALSE)
+    )
+    expect_equal(
+        test_D_index(y_star), unlist(sm_compute(data, "D_index"),
+                                     use.names = FALSE)
+    )
+    expect_equal(
+        test_precision(x_prime), unlist(sm_compute(data, "precision"),
+                                        use.names = FALSE),
+                 tolerance = 2e-08
+    )
+    expect_equal(
+        test_recall(y_prime), unlist(sm_compute(data, "recall"),
+                                     use.names = FALSE),
+                 tolerance = 2e-08
+    )
+    expect_equal(
+        test_M(y_prime), unlist(sm_compute(data, "M"), use.names = FALSE)
+    )
+    expect_equal(
+        test_RAsub(y_tilde), unlist(sm_compute(data, "RAsub"),
+                                    use.names = FALSE)
+    )
+    expect_equal(
+        test_RAsuper(y_tilde), unlist(sm_compute(data, "RAsuper"),
+                                      use.names = FALSE)
+    )
+    expect_equal(
+        test_PI(y_tilde), unlist(sm_compute(data, "PI"), use.names = FALSE)
+    )
+    expect_equal(
+        test_OS3(y_cd), unlist(sm_compute(data, "OS3"), use.names = FALSE)
+    )
+    expect_equal(
+        test_US3(y_cd), unlist(sm_compute(data, "US3"), use.names = FALSE)
+    )
+    expect_equal(
+        test_ED3(y_cd), unlist(sm_compute(data, "ED3"), use.names = FALSE)
+    )
     expect_equal(
         test_F_measure(test_precision(x_prime), test_recall(y_prime)),
-        unlist(sm_compute(data, "F_measure"), use.names = FALSE))
-    expect_equal(test_E(x_prime), unlist(sm_compute(data, "E"), use.names = FALSE), tolerance = 2e-05)
+        unlist(sm_compute(data, "F_measure"), use.names = FALSE)
+    )
+    expect_equal(
+        test_E(x_prime), unlist(sm_compute(data, "E"), use.names = FALSE),
+        tolerance = 2e-05
+    )
+    expect_equal(mean(test_IoU(y_prime)), summary(sm_compute(data, "IoU")))
+    expect_equal(mean(test_SimSize(y_star)),
+                 summary(sm_compute(data, "SimSize")))
+    expect_equal(mean(test_qLoc(y_star)),
+                 summary(sm_compute(data, "qLoc")))
+    expect_equal(mean(test_RPsub(y_tilde)),
+                 summary(sm_compute(data, "RPsub")))
+    expect_equal(mean(test_RPsuper(y_star)),
+                 summary(sm_compute(data, "RPsuper")))
+
 })
+
+
+
+# TODO: test new metrics IoU, SimSize, qLoc, RPsub, RPsuper
+
 
 tolerance <- .Machine$double.eps^0.5
 
