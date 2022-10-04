@@ -17,6 +17,7 @@
 #' @param touches A `logical`. Is the border part of the intersection?
 #' @param ...     For `sm_rbind()`, a set of `subset_sf` objects to be
 #' merged.
+#' @param x,y     A `numeric` values (e.g. areas, lengths) to compute metrics.
 #' 
 #' @returns 
 #' * `sm_area()`: Return a `numeric` vector with polygons' area.
