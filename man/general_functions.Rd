@@ -42,6 +42,8 @@ according to the object passed here.}
 
 \item{...}{For \code{sm_rbind()}, a set of \code{subset_sf} objects to be
 merged.}
+
+\item{x, y}{A \code{numeric} values (e.g. areas, lengths) to compute metrics.}
 }
 \value{
 \itemize{

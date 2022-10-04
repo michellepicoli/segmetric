@@ -49,6 +49,8 @@ Eng. Remote. Sens. 76, pp. 289-299.
 adaptation of segmentation parameters. In: Blaschke, T., Lang, S., Hay, G.J.
 (Eds.), Object-based Image Analysis. Springer Berlin Heidelberg, Berlin,
 Heidelberg, pp. 679-695. \doi{10.1007/978-3-540-77058-9_37}.
+\item Dice, L.R., 1945. Measures of the amount of ecologic association between
+species. Ecology, 26(3), pp.297-302.
 \item Feitosa, R.Q., Ferreira, R.S., Almeida, C.M., Camargo, F.F., Costa,
 G.A.O.P., 2010. Similarity metrics for genetic adaptation of segmentation
 parameters. In: 3rd International Conference on Geographic Object-Based Image
