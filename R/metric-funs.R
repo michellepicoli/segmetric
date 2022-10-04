@@ -290,3 +290,7 @@ OI2 <- function(m, s, ...) {
         groups = s[["ref_id"]], fn = max
     )
 }
+
+Dice <- function(m, ...) {
+    F_measure(m, ..., alpha = 0.5)
+}
