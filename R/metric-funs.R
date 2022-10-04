@@ -116,7 +116,10 @@ sm_compute <- function(m, metric_id, ...) {
     
     for (metric in metric_id) {
         f <- .db_get(key = metric)
-        s <- do.call(f[["fn_subset"]], args = c(list(m = m)))
+        s <- NULL
+        if (!is.null(f[["fn_subset"]])) {
+            s <- do.call(f[["fn_subset"]], args = c(list(m = m)))
+        }
         m[[metric]] <- do.call(
             f[["fn"]], args = c(list(m = m, s = s), parameters)
         )
@@ -245,10 +248,12 @@ ED3 <- function(m, s, ...) {
     sqrt((OS3(m, s)^2 + US3(m, s)^2) / 2)
 }
 
-F_measure <- function(m, s, ..., alpha = 0.5) {
+F_measure <- function(m, ..., alpha = 0.5) {
     stopifnot(alpha >= 0)
     stopifnot(alpha <= 1)
-    1 / ((alpha / precision(m, s)) + ((1 - alpha) / recall(m, s)))
+    
+    1 / ((alpha / sm_compute(m, "precision")) + 
+             ((1 - alpha) / sm_compute(m, "recall")))
 }
 
 IoU <- function(m, s, ...) {
