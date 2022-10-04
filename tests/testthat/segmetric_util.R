@@ -266,11 +266,11 @@ test_qLoc <- function(y_star) {
     y_star[["cent_dist"]]
 }
 
+test_RPsub <- function(y_tilde) {
+    y_tilde[["cent_dist"]]
+}
 
-# TODO: add new metrics.
-#' - "`qLoc`"refers to quality of object’s location metric. Its optimal value
-#' is 0 (Zhan et al., 2005).
-#' - "`RPsub`" refers to Relative Position (sub) metric. Optimal value is 0
-#' (Möller et al., 2007, Clinton et al., 2010).
-#' - "`RPsuper`" refers to Relative Position (super) metric. Its values range
-#' from 0 (optimal) to 1 (Möller et al., 2007, Clinton et al., 2010).
+test_RPsuper <- function(y_star) {
+    y_star[["cent_dist"]] / max(y_star[["cent_dist"]])
+}
+
