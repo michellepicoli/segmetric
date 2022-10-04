@@ -418,7 +418,7 @@ sm_desc_metric <- function(metric_id) {
         metric_id = "F_measure",
         entry = sm_new_metric(
             fn           = F_measure,
-            fn_subset    = sm_xprime,
+            fn_subset    = NULL,
             name         = "F-measure",
             optimal      = 1,
             summarizable = TRUE,
@@ -429,73 +429,86 @@ sm_desc_metric <- function(metric_id) {
     sm_reg_metric(
         metric_id = "IoU",
         entry = sm_new_metric(
-            fn = IoU,
-            fn_subset = sm_yprime,
-            name = "Intersection over Union",
-            optimal = 1,
+            fn           = IoU,
+            fn_subset    = sm_yprime,
+            name         = paste0("Intersection over Union (also known as",
+                                  "Jaccard Index)"),
+            optimal      = 1,
             summarizable = TRUE,
-            description = "Values from 0 to 1 (optimal)",
-            reference = "Rezatofighi et al. (2019)"
+            description  = "Values from 0 to 1 (optimal)",
+            reference = "Jaccard (1912); Rezatofighi et al. (2019)"
         )
     )
     sm_reg_metric(
         metric_id = "SimSize",
         entry = sm_new_metric(
-            fn = SimSize,
-            fn_subset = sm_ystar,
-            name = "Similarity of size",
-            optimal = 1,
+            fn           = SimSize,
+            fn_subset    = sm_ystar,
+            name         = "Similarity of size",
+            optimal      = 1,
             summarizable = TRUE,
-            description = "Values from 0 to 1 (optimal)",
-            reference = "Zhan et al. (2005)"
+            description  = "Values from 0 to 1 (optimal)",
+            reference    = "Zhan et al. (2005)"
         )
     )
     sm_reg_metric(
         metric_id = "qLoc",
         entry = sm_new_metric(
-            fn = qLoc,
-            fn_subset = sm_ystar,
-            name = "Quality of object's location",
-            optimal = 0,
+            fn           = qLoc,
+            fn_subset    = sm_ystar,
+            name         = "Quality of object's location",
+            optimal      = 0,
             summarizable = TRUE,
-            description = "Optimal value is 0",
-            reference = "Zhan et al. (2005)"
+            description  = "Optimal value is 0",
+            reference    = "Zhan et al. (2005)"
         )
     )
     sm_reg_metric(
         metric_id = "RPsub",
         entry = sm_new_metric(
-            fn = RPsub,
-            fn_subset = sm_ytilde,
-            name = "Relative position (sub)",
-            optimal = 0,
+            fn           = RPsub,
+            fn_subset    = sm_ytilde,
+            name         = "Relative position (sub)",
+            optimal      = 0,
             summarizable = FALSE,
-            description = "Optimal value is 0",
-            reference = "Möller et al. (2007) and Clinton et al. (2010)"
+            description  = "Optimal value is 0",
+            reference    = "Möller et al. (2007) and Clinton et al. (2010)"
         )
     )
     sm_reg_metric(
         metric_id = "RPsuper",
         entry = sm_new_metric(
-            fn = RPsuper,
-            fn_subset = sm_ystar,
-            name = "Relative position (super)",
-            optimal = 0,
+            fn           = RPsuper,
+            fn_subset    = sm_ystar,
+            name         = "Relative position (super)",
+            optimal      = 0,
             summarizable = FALSE,
-            description = "Values from 0 (optimal) to 1",
-            reference = "Möller et al. (2007) and Clinton et al. (2010)"
+            description  = "Values from 0 (optimal) to 1",
+            reference    = "Möller et al. (2007) and Clinton et al. (2010)"
         )
     )
     sm_reg_metric(
         metric_id = "OI2",
         entry = sm_new_metric(
-            fn = OI2,
-            fn_subset = sm_ytilde,
-            name = "Overlap index",
-            optimal = 0,
+            fn           = OI2,
+            fn_subset    = sm_ytilde,
+            name         = "Overlap index",
+            optimal      = 0,
             summarizable = TRUE,
-            description = "Values from 0 to 1 (optimal)",
-            reference = "Yang et al. (2017)"
+            description  = "Values from 0 to 1 (optimal)",
+            reference    = "Yang et al. (2017)"
+        )
+    )
+    sm_reg_metric(
+        metric_id = "Dice",
+        entry = sm_new_metric(
+            fn           = Dice,
+            fn_subset    = NULL,
+            name         = "Sorensen–Dice coefficient",
+            optimal      = 1,
+            summarizable = TRUE,
+            description  = "Values from 0 to 1 (optimal)",
+            reference    = "Dice (1945)"
         )
     )
 }
