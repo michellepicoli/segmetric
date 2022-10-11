@@ -86,6 +86,9 @@ sm_distance <- function(s1, s2) {
     if (inherits(dist, "units"))
         dist <- units::drop_units(dist)
     
+    if (length(dist) == 0)
+        return(NaN)
+    
     dist
 }
 
