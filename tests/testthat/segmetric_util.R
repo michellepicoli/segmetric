@@ -237,7 +237,12 @@ test_RAsuper <- function(y_tilde) {
 }
 
 test_PI <- function(y_tilde) {
-    y_tilde$inter_area^2 / (y_tilde$seg_area * y_tilde$ref_area)
+    y_tilde %>%
+        dplyr::mutate(pi = inter_area^2 / (seg_area * ref_area)) %>%
+        dplyr::group_by(ref_id) %>%
+        dplyr::summarize(mean_pi = mean(pi)) %>%
+        dplyr::pull(mean_pi) %>%
+        return()
 }
 
 
@@ -271,6 +276,8 @@ test_RPsub <- function(y_tilde) {
 }
 
 test_RPsuper <- function(y_star) {
+    if (nrow(y_star) == 1 && y_star[["cent_dist"]] == 0)
+        return(0)
     y_star[["cent_dist"]] / max(y_star[["cent_dist"]])
 }
 
