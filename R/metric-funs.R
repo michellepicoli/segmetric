@@ -279,7 +279,11 @@ RPsub <- function(m, s, ...) {
 
 RPsuper <- function(m, s, ...) {
     sm_apply_group(
-        x = qLoc(m, s), groups = s[["ref_id"]], fn = function(x) {x / max(x)}
+        x = qLoc(m, s), groups = s[["ref_id"]], fn = function(x) {
+            if (length(x) == 1 && x == 0)
+                return(0)
+            x / max(x)
+        }
     )
 }
 
