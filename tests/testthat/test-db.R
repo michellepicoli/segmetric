@@ -1,6 +1,4 @@
-# TODO: Test if the perfect segmentation matches the optimal values.
-# sm_compute(m, "OS2")[["OS2"]] - .db_get("OS2")$optimal < 1e-08
-# m <- sm_read(ref_sf = ref_sf, seg_sf = ref_sf)
+# TODO: Check if all the metrics are tested, every time!
 source("segmetric_util.R")
 
 
@@ -388,7 +386,7 @@ test_that("normal use test values", {
     expect_true(sm_is_empty(sm_compute(data, "US3")))
     expect_true(sm_is_empty(sm_compute(data, "ED3")))
 
-    # TODO: This test was supposed to throw an errors, but it doesn't because
+    # TODO: This test was supposed to throw errors, but it doesn't because
     #       of the test data set. We need to prepare a better test data set.
     expect_equal(
         mean(test_F_measure(test_precision(x_prime), test_recall(y_prime))),
@@ -408,7 +406,6 @@ test_that("normal use test values", {
 
 })
 
-# TODO: Implement new tests!
 
 
 
@@ -514,7 +511,7 @@ test_that("two segments inside test values", {
                  summary(sm_compute(data, "RAsub")))
     expect_equal(mean(test_RAsuper(y_tilde)),
                  summary(sm_compute(data, "RAsuper")))
-    expect_equal(mean(test_PI(y_tilde)), summary(sm_compute(data, "PI")))
+    expect_equal(test_PI(y_tilde), summary(sm_compute(data, "PI")))
 
     if (nrow(y_cd) == 0) {
         expect_true(sm_is_empty(sm_compute(data, "OS3")))
@@ -701,34 +698,132 @@ test_that("real test values", {
 
 
 
-# TODO: test new metrics IoU, SimSize, qLoc, RPsub, RPsuper
+test_that("perfect fit produces optimal value", {
+
+    p00 <- sf::st_polygon(list(rbind(c(0,0), c(1,0), c(1,1), c(0,1), c(0,0))))
+    p05 <- p00 + 5
+
+    ref_sf <- sf::st_sf(geometry = sf::st_sfc(p05))
+    seg_sf <- sf::st_sf(geometry = sf::st_sfc(p05))
+
+    data <- sm_read(ref_sf, seg_sf)
+
+    tlr <- .Machine$double.eps^0.5
+
+    expect_true(
+        unlist(sm_compute(data, "OS2")) - .db_get("OS2")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "OS1")) - .db_get("OS1")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "US2")) - .db_get("US2")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "US1")) - .db_get("US1")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "AFI")) - .db_get("AFI")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "QR"))  - .db_get("QR")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "D_index")) - .db_get("D_index")$optimal <  tlr
+    )
+    expect_true(
+    unlist(sm_compute(data, "precision")) - .db_get("precision")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "recall")) - .db_get("recall")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "M")) - .db_get("M")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "E")) - .db_get("E")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "RAsub")) - .db_get("RAsub")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "RAsuper")) - .db_get("RAsuper")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "PI")) - .db_get("PI")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "OS3")) - .db_get("OS3")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "US3")) - .db_get("US3")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "ED3")) - .db_get("ED3")$optimal <  tlr
+    )
+    expect_true(
+    unlist(sm_compute(data, "F_measure")) - .db_get("F_measure")$optimal <  tlr
+    )
+    expect_true(
+    unlist(sm_compute(data, "UMerging")) - .db_get("UMerging")$optimal <  tlr
+    )
+    expect_true(
+    unlist(sm_compute(data, "OMerging")) - .db_get("OMerging")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "Fitness")) - .db_get("Fitness")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "IoU")) - .db_get("IoU")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "SimSize")) - .db_get("SimSize")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "qLoc")) - .db_get("qLoc")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "RPsub")) - .db_get("RPsub")$optimal <  tlr
+    )
+    expect_true(
+        unlist(sm_compute(data, "RPsuper")) - .db_get("RPsuper")$optimal <  tlr
+    )
+})
 
 
-tolerance <- .Machine$double.eps^0.5
 
-test_that("test metric is between 0 and 0.5", {
+test_that("test metric fall in valid range", {
 
-    data("sample_ref_sf", package = "segmetric")
-    data("sample_seg_sf", package = "segmetric")
-    data <- sm_read(sample_ref_sf, sample_seg_sf)
+    tolerance <- .Machine$double.eps^0.5
+
+
+    #---- test that metrics are between 0 and 0.5 ----
+
+    data("seg200_sf", package = "segmetric")
+    data("seg1000_sf", package = "segmetric")
+    data <- sm_read(seg200_sf, seg1000_sf)
 
     expect_true(
         all(c(unlist(sm_compute(data, "OMerging")) >= 0 - tolerance,
-              unlist(sm_compute(data, "OMerging")) <= 1 + tolerance))
+              unlist(sm_compute(data, "OMerging")) <= 0.5 + tolerance))
     )
 
     expect_true(
         all(c(unlist(sm_compute(data, "UMerging")) >= 0 - tolerance,
-              unlist(sm_compute(data, "UMerging")) <= 1 + tolerance))
+              unlist(sm_compute(data, "UMerging")) <= 0.5 + tolerance))
     )
 
-})
 
-test_that("test metric is between 0 and 1", {
 
-    data("sample_ref_sf", package = "segmetric")
-    data("sample_seg_sf", package = "segmetric")
-    data <- sm_read(sample_ref_sf, sample_seg_sf)
+    #---- test that metrics are equal or less than 1 ----
+
+    expect_true(
+        all(unlist(sm_compute(data, "AFI")) <= 1 + tolerance)
+    )
+
+
+
+    #---- test that metrics are between 0 and 1 ----
 
     expect_true(
         all(c(unlist(sm_compute(data, "OS1")) >= 0 - tolerance,
@@ -758,10 +853,6 @@ test_that("test metric is between 0 and 1", {
     expect_true(
         all(c(unlist(sm_compute(data, "US3")) >= 0 - tolerance,
               unlist(sm_compute(data, "US3")) <= 1 + tolerance))
-    )
-
-    expect_true(
-        all(unlist(sm_compute(data, "AFI")) <= 1 + tolerance)
     )
 
     expect_true(
@@ -803,7 +894,6 @@ test_that("test metric is between 0 and 1", {
         all(c(unlist(sm_compute(data, "F_measure")) >= 0 - tolerance,
               unlist(sm_compute(data, "F_measure")) <= 1 + tolerance))
     )
-
     expect_true(
         all(c(unlist(sm_compute(data, "QR")) >= 0 - tolerance,
               unlist(sm_compute(data, "QR")) <= 1 + tolerance))
@@ -814,18 +904,43 @@ test_that("test metric is between 0 and 1", {
               unlist(sm_compute(data, "D_index")) <= 1 + tolerance))
     )
 
-})
+    expect_true(
+        all(c(unlist(sm_compute(data, "IoU")) >= 0 - tolerance,
+              unlist(sm_compute(data, "IoU")) <= 1 + tolerance))
+    )
 
-test_that("test metric is between 0 and 50", {
+    expect_true(
+        all(c(unlist(sm_compute(data, "SimSize")) >= 0 - tolerance,
+              unlist(sm_compute(data, "SimSize")) <= 1 + tolerance))
+    )
 
-    data("sample_ref_sf", package = "segmetric")
-    data("sample_seg_sf", package = "segmetric")
-    data <- sm_read(sample_ref_sf, sample_seg_sf)
+    expect_true(
+        all(c(unlist(sm_compute(data, "RPsuper")) >= 0 - tolerance,
+              unlist(sm_compute(data, "RPsuper")) <= 1 + tolerance))
+    )
+
+
+
+    #---- test that metrics are between 0 and 50 ----
 
     expect_true(
         all(c(unlist(sm_compute(data, "E")) >= 0 - tolerance,
               unlist(sm_compute(data, "E")) <= 50 + tolerance))
     )
 
+
+
+    #---- test that metrics are greater or equal to 0 ----
+
+    expect_true(
+        all(c(unlist(sm_compute(data, "qLoc")) >= 0 - tolerance))
+    )
+
+    expect_true(
+        all(c(unlist(sm_compute(data, "RPsub")) >= 0 - tolerance))
+    )
+
 })
+
+
 
