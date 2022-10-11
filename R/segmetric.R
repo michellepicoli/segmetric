@@ -646,7 +646,7 @@ summary.segmetric <- function(object, weight = NULL, na_rm = TRUE, ...) {
         }
         if (!is.null(weight)) stopifnot(is.numeric(weight))
         .sm_weight(object[[metric_id]], weight = weight, na_rm = na_rm)
-    }, numeric(1))
+    }, numeric(1), USE.NAMES = FALSE)
     
     if (length(object) <= 1) return(value)
     names(value) <- names(object)
