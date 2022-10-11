@@ -252,8 +252,8 @@ F_measure <- function(m, ..., alpha = 0.5) {
     stopifnot(alpha >= 0)
     stopifnot(alpha <= 1)
     
-    1 / ((alpha / sm_compute(m, "precision")) + 
-             ((1 - alpha) / sm_compute(m, "recall")))
+    1 / ((alpha / sm_compute(m, "precision")[["precision"]]) + 
+             ((1 - alpha) / sm_compute(m, "recall")[["recall"]]))
 }
 
 IoU <- function(m, s, ...) {
