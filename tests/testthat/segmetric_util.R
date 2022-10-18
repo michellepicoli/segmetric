@@ -210,11 +210,9 @@ test_underMerging <- function(y_star) {
     (y_star$ref_area - y_star$inter_area) / y_star$ref_area
 }
 
-
 test_QR <- function(y_star) {
     1 - (y_star$inter_area / y_star$union_area)
 }
-
 
 test_precision <- function(x_prime) {
     sum(x_prime$inter_area) / sum(x_prime$seg_area)
@@ -240,11 +238,10 @@ test_PI <- function(y_tilde) {
     y_tilde %>%
         dplyr::mutate(pi = inter_area^2 / (seg_area * ref_area)) %>%
         dplyr::group_by(ref_id) %>%
-        dplyr::summarize(mean_pi = mean(pi)) %>%
-        dplyr::pull(mean_pi) %>%
+        dplyr::summarize(sum_pi = sum(pi)) %>%
+        dplyr::pull(sum_pi) %>%
         return()
 }
-
 
 test_ED3 <- function(y_cd) {
     sqrt((test_OS3(y_cd)^2 + test_US3(y_cd)^2) / 2)
@@ -258,26 +255,40 @@ test_E <- function(x_prime) {
     100 * (x_prime$seg_area - x_prime$inter_area) / x_prime$seg_area
 }
 
-test_IoU <- function(y_prime) {
-    y_prime$inter_area / y_prime$union_area
+test_IoU <- function(y_tilde) {
+    y_tilde$inter_area / y_tilde$union_area
 }
 
 test_SimSize <- function(y_star) {
-    min(y_star$seg_area, y_star$ref_area) /
-        max(y_star$seg_area, y_star$ref_area)
+    y_star %>%
+        dplyr::group_by(ref_id, seg_id) %>%
+        dplyr::mutate(
+            SimSize = min(seg_area, ref_area) / max(seg_area, ref_area)
+        ) %>%
+        dplyr::pull(SimSize) %>%
+        return()
 }
 
 test_qLoc <- function(y_star) {
-    y_star[["cent_dist"]]
+    units::set_units(y_star[["cent_dist"]], NULL)
 }
 
 test_RPsub <- function(y_tilde) {
-    y_tilde[["cent_dist"]]
+    units::set_units(y_tilde[["cent_dist"]], NULL)
 }
 
 test_RPsuper <- function(y_star) {
     if (nrow(y_star) == 1 && y_star[["cent_dist"]] == 0)
         return(0)
-    y_star[["cent_dist"]] / max(y_star[["cent_dist"]])
+
+    y_star %>%
+        dplyr::group_by(ref_id) %>%
+        dplyr::mutate(
+            max_dist_cent = max(cent_dist),
+            RPsuper = cent_dist / max_dist_cent
+        ) %>%
+        dplyr::pull(RPsuper) %>%
+        units::set_units(NULL) %>%
+        return()
 }
 

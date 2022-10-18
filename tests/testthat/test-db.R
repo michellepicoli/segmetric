@@ -340,7 +340,7 @@ test_that("grid test", {
 })
 
 test_that("normal use test values", {
-    # data test
+
     p00 <- sf::st_polygon(list(rbind(c(0,0), c(1,0), c(1,1), c(0,1), c(0,0))))
     p05 <- p00 + 5
 
@@ -381,7 +381,11 @@ test_that("normal use test values", {
                  summary(sm_compute(data, "RAsub")))
     expect_equal(mean(test_RAsuper(y_tilde)),
                  summary(sm_compute(data, "RAsuper")))
-    expect_equal(mean(test_PI(y_tilde)), summary(sm_compute(data, "PI")))
+    expect_equal(test_PI(y_tilde), sm_compute(data, "PI"))
+    # NOTE: The number of elements returned by the PI metric must be the same
+    #       as the number of reference polygons.
+    expect_equal(length(unique(y_tilde$ref_id)),
+                 length(sm_compute(data, "PI")))
     expect_true(sm_is_empty(sm_compute(data, "OS3")))
     expect_true(sm_is_empty(sm_compute(data, "US3")))
     expect_true(sm_is_empty(sm_compute(data, "ED3")))
@@ -471,7 +475,7 @@ test_that("perfect fit test values", {
 })
 
 test_that("two segments inside test values", {
-    # data test
+
     p00 <- sf::st_polygon(list(rbind(c(0,0), c(1,0), c(1,1), c(0,1), c(0,0))))
     p05 <- p00 + 5
 
@@ -522,8 +526,8 @@ test_that("two segments inside test values", {
                  summary(sm_compute(data, "F_measure")))
     expect_equal(mean(test_E(x_prime)), summary(sm_compute(data, "E")))
     expect_equal(mean(test_IoU(y_prime)), summary(sm_compute(data, "IoU")))
-    expect_equal(mean(test_SimSize(y_star)),
-                 summary(sm_compute(data, "SimSize")))
+    expect_equal(test_SimSize(y_star),
+                 sm_compute(data, "SimSize"))
     expect_equal(mean(test_qLoc(y_star)),
                  summary(sm_compute(data, "qLoc")))
     expect_equal(mean(test_RPsub(y_tilde)),
@@ -598,7 +602,7 @@ test_that("grid test values", {
 
 
 test_that("real test values", {
-    # data test
+
     data("sample_ref_sf", package = "segmetric")
     data("sample_seg_sf", package = "segmetric")
 
@@ -794,7 +798,7 @@ test_that("perfect fit produces optimal value", {
 
 test_that("test metric fall in valid range", {
 
-    tolerance <- .Machine$double.eps^0.5
+    tolerance <- .Machine$double.eps
 
 
     #---- test that metrics are between 0 and 0.5 ----
