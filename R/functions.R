@@ -163,12 +163,22 @@ sm_rbind <- function(...) {
 #' @rdname general_functions
 #' @export
 sm_apply_group <- function(x, groups, fn, ...) {
-    # unname(tapply(x, groups, fn, ...))
     if (length(groups) == 0)
         return(x)
     tibble::tibble(x = x, groups = groups) %>% 
         dplyr::group_by(groups) %>% 
         dplyr::mutate(x = fn(x)) %>% 
+        dplyr::pull(x)
+}
+
+#' @rdname general_functions
+#' @export
+sm_summarize_group <- function(x, groups, fn, ...) {
+    if (length(groups) == 0)
+        return(x)
+    tibble::tibble(x = x, groups = groups) %>% 
+        dplyr::group_by(groups) %>% 
+        dplyr::summarise(x = fn(x)) %>% 
         dplyr::pull(x)
 }
 
