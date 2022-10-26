@@ -381,11 +381,11 @@ test_that("normal use test values", {
                  summary(sm_compute(data, "RAsub")))
     expect_equal(mean(test_RAsuper(y_tilde)),
                  summary(sm_compute(data, "RAsuper")))
-    expect_equal(test_PI(y_tilde), sm_compute(data, "PI"))
+    expect_equal(test_PI(y_tilde), sm_compute(data, "PI")$PI)
     # NOTE: The number of elements returned by the PI metric must be the same
     #       as the number of reference polygons.
     expect_equal(length(unique(y_tilde$ref_id)),
-                 length(sm_compute(data, "PI")))
+                 length(sm_compute(data, "PI")$PI))
     expect_true(sm_is_empty(sm_compute(data, "OS3")))
     expect_true(sm_is_empty(sm_compute(data, "US3")))
     expect_true(sm_is_empty(sm_compute(data, "ED3")))
@@ -527,7 +527,7 @@ test_that("two segments inside test values", {
     expect_equal(mean(test_E(x_prime)), summary(sm_compute(data, "E")))
     expect_equal(mean(test_IoU(y_prime)), summary(sm_compute(data, "IoU")))
     expect_equal(test_SimSize(y_star),
-                 sm_compute(data, "SimSize"))
+                 sm_compute(data, "SimSize")$SimSize)
     expect_equal(mean(test_qLoc(y_star)),
                  summary(sm_compute(data, "qLoc")))
     expect_equal(mean(test_RPsub(y_tilde)),
