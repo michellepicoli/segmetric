@@ -193,3 +193,12 @@ sm_norm_left <- function(x, y) {
 sm_norm_right <- function(x, y) {
     (y - x) / y
 }
+
+#' @rdname general_functions
+#' @export
+sm_options <- function(..., digits = NULL) {
+    if (!is.null(digits)) 
+        options(segmetric.digits = digits)
+    else
+        options(...)[[1]]
+}
