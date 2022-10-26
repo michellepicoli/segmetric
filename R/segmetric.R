@@ -628,13 +628,13 @@ summary.segmetric <- function(object, weight = NULL, na_rm = TRUE, ...) {
     stopifnot(inherits(object, "segmetric"))
     
     value <- vapply(names(object), function(metric_id) {
+        f <- .db_get(metric_id)
+        if (!f[["summarizable"]]) {
+            warning("metric '", metric_id, "' was not proposed ",
+                    "to be aggregated for the whole segmentation output",
+                    call. = FALSE)
+        }
         if (is.character(weight)) {
-            f <- .db_get(metric_id)
-            if (!f[["summarizable"]]) {
-                warning("metric '", metric_id, "' was not proposed ",
-                        "to be aggregated for the whole segmentation output",
-                        call. = FALSE)
-            }
             fn_subset <- f[["fn_subset"]]
             weight <- switch(
                 weight,
