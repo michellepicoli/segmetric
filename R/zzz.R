@@ -25,5 +25,6 @@ NULL
 
 # package on load
 .onLoad <- function(libname, pkgname) {
+    sm_options(digits = 10)
     .db_registry()
 }
