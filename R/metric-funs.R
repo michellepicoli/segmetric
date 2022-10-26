@@ -234,7 +234,7 @@ PI <- function(m, s, ...) {
     x <- sm_area(s) ^ 2 / (
         sm_area(sm_ref(m), order = s) * sm_area(sm_seg(m), order = s)
     )
-    sm_apply_group(x, groups = s[["ref_id"]], sum)
+    sm_summarize_group(x, groups = s[["ref_id"]], sum)
 }
 
 Fitness <- function(m, s, ...) {
@@ -288,7 +288,7 @@ RPsuper <- function(m, s, ...) {
 }
 
 OI2 <- function(m, s, ...) {
-    sm_apply_group(
+    sm_summarize_group(
         x = sm_area(s) / sm_area(sm_ref(m), order = s) *
             sm_area(s) / sm_area(sm_seg(m), order = s), 
         groups = s[["ref_id"]], fn = max
