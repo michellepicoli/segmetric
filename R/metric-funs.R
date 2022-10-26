@@ -120,9 +120,9 @@ sm_compute <- function(m, metric_id, ...) {
         if (!is.null(f[["fn_subset"]])) {
             s <- do.call(f[["fn_subset"]], args = c(list(m = m)))
         }
-        m[[metric]] <- do.call(
+        m[[metric]] <- round(do.call(
             f[["fn"]], args = c(list(m = m, s = s), parameters)
-        )
+        ), sm_options("segmetric.digits"))
     }
     
     m
