@@ -494,7 +494,7 @@ sm_desc_metric <- function(metric_id) {
             fn_subset    = sm_ytilde,
             name         = "Overlap index",
             optimal      = 0,
-            summarizable = TRUE,
+            summarizable = FALSE,
             description  = "Values from 0 to 1 (optimal)",
             reference    = "Yang et al. (2017)"
         )
