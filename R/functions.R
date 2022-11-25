@@ -131,8 +131,9 @@ sm_subset_union <- function(s) {
                 s
             else
                 do.call(rbind, args = lapply(seq_len(nrow(s)), function(i) {
-                    # TODO: optimize can be done by vectorizing union operation
-                    # link to GEOS library CPP function GEOSUnion_r 
+                    # NOTE: optimization could be done by vectorizing 
+                    # union operation link to GEOS library CPP 
+                    # function GEOSUnion_r 
                     suppressWarnings(suppressMessages({
                         sf::st_union(x = sm_inset(sm_ref(m), s[i,]),
                                      y = sm_inset(sm_seg(m), s[i,]))
