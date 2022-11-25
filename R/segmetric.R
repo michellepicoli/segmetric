@@ -673,7 +673,15 @@ sm_is_empty <- function(m) {
 #' @rdname segmetric_functions
 `[.segmetric` <- function(x, i) {
     .segmetric_check(x)
-    stopifnot(all(i %in% names(x)))
+    if (is.character(i)) {
+        stopifnot(all(i %in% names(x)))
+    } else if (is.numeric(i)) {
+        stopifnot(max(i) <= length(x))
+    } else if (is.logical(i)) {
+        stopifnot(length(i) == length(x))
+    } else {
+        stop("object of type ", typeof(i), " cannot be used as an index")
+    }
     structure(
         c(x)[i],
         .env = .segmetric_env(x),
