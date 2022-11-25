@@ -6,7 +6,7 @@ sm_unreg_metric(metric_id = "IoU")
 sm_reg_metric(
     metric_id = "IoU",
     entry = sm_new_metric(
-        fn = function(m) {
+        fn = function(m, s) {
             sm_area(sm_yprime(m)) / 
                 sm_area(sm_subset_union(sm_yprime(m)))
         },
