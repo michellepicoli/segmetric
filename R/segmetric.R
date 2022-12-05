@@ -195,6 +195,7 @@ print.segmetric <- function(x, ...) {
 plot.segmetric <- function(x, type = "base", ...,
                            title = NULL,
                            layers = c("ref_sf", "seg_sf"),
+                           background = "#FFFFFF",
                            ref_color = "#FF00009F",
                            ref_fill = "#FFFFFF00",
                            ref_label = "reference",
@@ -214,6 +215,8 @@ plot.segmetric <- function(x, type = "base", ...,
                            subset_fill = "#F0E4167F",
                            metric_id = NULL,
                            break_style = "jenks",
+                           choropleth_palette = "YlGnBu",
+                           choropleth_size = 0.1,
                            plot_extent = NULL,
                            plot_legend = TRUE,
                            plot_axes = TRUE) {
@@ -294,6 +297,7 @@ plot.segmetric <- function(x, type = "base", ...,
         # main plot
         plot(data,
              main = title,
+             bg = background,
              col = fill[data[["type"]]],
              border = border[data[["type"]]],
              lwd = size[data[["type"]]],
@@ -434,6 +438,7 @@ plot.segmetric <- function(x, type = "base", ...,
         # main plot
         plot(data,
              main = title,
+             bgc = background,
              col = fill[data[["type"]]],
              border = border[data[["type"]]],
              lwd = size[data[["type"]]],
@@ -588,13 +593,23 @@ plot.segmetric <- function(x, type = "base", ...,
             if (is.null(title))
                 title <- .db_get(m_name)[["name"]]
             
+            # adjust plot spatial extent
+            if (is.null(plot_extent))
+                plot_extent <- sf::st_bbox(s_lst[[m_name]])
+            else
+                plot_extent <- sf::st_bbox(plot_extent)
+            
             plot(
                 s_lst[[m_name]][, m_name],
                 main = title,
+                bgc = background,
                 breaks = breaks,
+                lwd = choropleth_size,
                 pal = hcl.colors(
-                    length(breaks) - 1, 
+                    n = length(breaks) - 1,
+                    palette = choropleth_palette,
                     rev = .db_get(m_name)[["optimal"]] == 0),
+                extent = plot_extent,
                 axes = plot_axes
             )
             
