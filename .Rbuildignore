@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 ^README\.Rmd$
 tags
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

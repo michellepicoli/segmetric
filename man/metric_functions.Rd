@@ -87,6 +87,8 @@ is 0 (Zhan et al., 2005).
 (Möller et al., 2007, Clinton et al., 2010).
 \item "\code{RPsuper}" refers to Relative Position (super) metric. Its values range
 from 0 (optimal) to 1 (Möller et al., 2007, Clinton et al., 2010).
+\item "\code{OI2} refers to Overlap Index metric. Its values range from 0 to 1
+(optimal) (Yang et al., 2017).
 }
 }
 \examples{

@@ -16,6 +16,12 @@
 #' @param ref_sf A `sf` object. The reference polygons.
 #' @param seg_sf A `sf` object. The segmentation polygons.
 #' @param ...    Additional parameters (Not implemented).
+#' @param weight Weights to summarize metrics. Accepts `character` options
+#'   `"ref"`, `"seg"`, and `"inter"`, that weights using reference, segment, 
+#'   and intersection areas, respectively. Also accepts a `numeric` vector 
+#'   of weights of the same length as input metrics giving the weights to 
+#'   be used.
+#' @param na_rm  Should missing values (including `NaN`) be removed?
 #'
 #' @returns
 #' * `sm_read()`, `sm_clear()`: Return a `segmetric` object containing an
@@ -118,7 +124,7 @@ sm_read <- function(ref_sf, seg_sf) {
 
     structure(list(),
               .env = .env,
-              class = c("segmetric"))
+              class = "segmetric")
 }
 
 #' @export
@@ -128,7 +134,9 @@ sm_clear <- function(m) {
     subsets <- sm_list(m)
     subsets <- subsets[!subsets %in% c("ref_sf", "seg_sf")]
     rm(list = subsets, envir = .segmetric_env(m), inherits = FALSE)
-    m
+    structure(list(),
+              .env = .segmetric_env(m),
+              class = "segmetric")
 }
 
 #' @exportS3Method
@@ -187,6 +195,7 @@ print.segmetric <- function(x, ...) {
 plot.segmetric <- function(x, type = "base", ...,
                            title = NULL,
                            layers = c("ref_sf", "seg_sf"),
+                           background = "#FFFFFF",
                            ref_color = "#FF00009F",
                            ref_fill = "#FFFFFF00",
                            ref_label = "reference",
@@ -206,6 +215,8 @@ plot.segmetric <- function(x, type = "base", ...,
                            subset_fill = "#F0E4167F",
                            metric_id = NULL,
                            break_style = "jenks",
+                           choropleth_palette = "YlGnBu",
+                           choropleth_size = 0.1,
                            plot_extent = NULL,
                            plot_legend = TRUE,
                            plot_axes = TRUE) {
@@ -286,6 +297,7 @@ plot.segmetric <- function(x, type = "base", ...,
         # main plot
         plot(data,
              main = title,
+             bg = background,
              col = fill[data[["type"]]],
              border = border[data[["type"]]],
              lwd = size[data[["type"]]],
@@ -426,6 +438,7 @@ plot.segmetric <- function(x, type = "base", ...,
         # main plot
         plot(data,
              main = title,
+             bgc = background,
              col = fill[data[["type"]]],
              border = border[data[["type"]]],
              lwd = size[data[["type"]]],
@@ -561,6 +574,8 @@ plot.segmetric <- function(x, type = "base", ...,
         break_style <- break_style[[1]]
         stopifnot(break_style %in% supported_styles)
         
+        # Compute metrics
+        x <- sm_compute(x, metric_id = metric_id)
         s_lst <- sm_metric_subset(round(x), metric_id = metric_id)
         for (m_name in names(s_lst)) {
             
@@ -578,13 +593,23 @@ plot.segmetric <- function(x, type = "base", ...,
             if (is.null(title))
                 title <- .db_get(m_name)[["name"]]
             
+            # adjust plot spatial extent
+            if (is.null(plot_extent))
+                plot_extent <- sf::st_bbox(s_lst[[m_name]])
+            else
+                plot_extent <- sf::st_bbox(plot_extent)
+            
             plot(
                 s_lst[[m_name]][, m_name],
                 main = title,
+                bgc = background,
                 breaks = breaks,
+                lwd = choropleth_size,
                 pal = hcl.colors(
-                    length(breaks) - 1, 
+                    n = length(breaks) - 1,
+                    palette = choropleth_palette,
                     rev = .db_get(m_name)[["optimal"]] == 0),
+                extent = plot_extent,
                 axes = plot_axes
             )
             
@@ -603,16 +628,44 @@ round.segmetric <- function(x, digits = 8) {
               class = c("segmetric"))
 }
 
+.sm_weight <- function(x, weight, na_rm) {
+    if (length(x) == 1) return(x)
+    if (!is.null(weight))
+        stats::weighted.mean(x = x, w = weight, na.rm = na_rm)
+    else
+        mean(x = x, na.rm = na_rm)
+}
+
 #' @exportS3Method
 #' @rdname segmetric_functions
-summary.segmetric <- function(object, ...) {
+summary.segmetric <- function(object, weight = NULL, na_rm = TRUE, ...) {
 
     stopifnot(inherits(object, "segmetric"))
-
-    value <- vapply(object, mean, numeric(1), ...)
-    if (length(object) <= 1)
-        return(unname(value))
-    value
+    
+    value <- vapply(names(object), function(metric_id) {
+        f <- .db_get(metric_id)
+        if (!f[["summarizable"]]) {
+            warning("metric '", metric_id, "' was not proposed ",
+                    "to be aggregated for the whole segmentation output",
+                    call. = FALSE)
+        }
+        if (is.character(weight)) {
+            fn_subset <- f[["fn_subset"]]
+            weight <- switch(
+                weight,
+                "ref" = sm_area(sm_ref(object), order = fn_subset(object)),
+                "seg" = sm_area(sm_seg(object), order = fn_subset(object)),
+                "inter" = sm_area(fn_subset(object)),
+                stop("invalid 'weight' parameter")
+            )
+        }
+        if (!is.null(weight)) stopifnot(is.numeric(weight))
+        .sm_weight(object[[metric_id]], weight = weight, na_rm = na_rm)
+    }, numeric(1), USE.NAMES = FALSE)
+    
+    if (length(object) <= 1) return(value)
+    names(value) <- names(object)
+    return(value)
 }
 
 #' @export
@@ -635,7 +688,15 @@ sm_is_empty <- function(m) {
 #' @rdname segmetric_functions
 `[.segmetric` <- function(x, i) {
     .segmetric_check(x)
-    stopifnot(all(i %in% names(x)))
+    if (is.character(i)) {
+        stopifnot(all(i %in% names(x)))
+    } else if (is.numeric(i)) {
+        stopifnot(max(i) <= length(x))
+    } else if (is.logical(i)) {
+        stopifnot(length(i) == length(x))
+    } else {
+        stop("object of type ", typeof(i), " cannot be used as an index")
+    }
     structure(
         c(x)[i],
         .env = .segmetric_env(x),

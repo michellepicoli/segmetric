@@ -65,7 +65,9 @@
 #' (Möller et al., 2007, Clinton et al., 2010).
 #' - "`RPsuper`" refers to Relative Position (super) metric. Its values range 
 #' from 0 (optimal) to 1 (Möller et al., 2007, Clinton et al., 2010).
-#'  
+#' - "`OI2` refers to Overlap Index metric. Its values range from 0 to 1
+#' (optimal) (Yang et al., 2017).
+#' 
 #' @return Return a `numeric` vector with computed metric.
 #' 
 #' @examples 
@@ -112,12 +114,15 @@ sm_compute <- function(m, metric_id, ...) {
     
     parameters <- list(...)
     
-    for (i in seq_along(metric_id)) {
-        metrics <- names(m)
-        f <- .db_get(key = metric_id[[i]])
-        m[[length(m) + 1]] <- do.call(f[["fn"]], 
-                                      args = c(list(m = m), parameters))
-        names(m) <- c(metrics, metric_id[[i]])
+    for (metric in metric_id) {
+        f <- .db_get(key = metric)
+        s <- NULL
+        if (!is.null(f[["fn_subset"]])) {
+            s <- do.call(f[["fn_subset"]], args = c(list(m = m)))
+        }
+        m[[metric]] <- round(do.call(
+            f[["fn"]], args = c(list(m = m, s = s), parameters)
+        ), sm_options("segmetric.digits"))
     }
     
     m
@@ -152,137 +157,144 @@ sm_metric_subset <- function(m, metric_id = NULL) {
     result
 }
 
-OS1 <- function(m, ...) {
-    .norm_right(sm_area(sm_ystar(m)), 
-                 sm_area(sm_ref(m), order = sm_ystar(m)))
+OS1 <- function(m, s, ...) {
+    sm_norm_right(sm_area(s), sm_area(sm_ref(m), order = s))
 }
 
-US1 <- function(m, ...) {
-    .norm_right(sm_area(sm_ystar(m)), 
-                 sm_area(sm_seg(m), order = sm_ystar(m)))
+US1 <- function(m, s, ...) {
+    sm_norm_right(sm_area(s), sm_area(sm_seg(m), order = s))
 }
 
-OS2 <- function(m, ...) {
-    .norm_right(sm_area(sm_yprime(m)), 
-                 sm_area(sm_ref(m), order = sm_yprime(m)))
+OS2 <- function(m, s, ...) {
+    sm_norm_right(sm_area(s), sm_area(sm_ref(m), order = s))
 }
 
-US2 <- function(m, ...) {
-    .norm_right(sm_area(sm_yprime(m)), 
-                 sm_area(sm_seg(m), order = sm_yprime(m)))
+US2 <- function(m, s, ...) {
+    sm_norm_right(sm_area(s), sm_area(sm_seg(m), order = s))
 }
 
-OS3 <- function(m, ...) {
-    .norm_right(sm_area(sm_ycd(m)), 
-                 sm_area(sm_ref(m), order = sm_ycd(m)))
+OS3 <- function(m, s, ...) {
+    sm_norm_right(sm_area(s), sm_area(sm_ref(m), order = s))
 }
 
-US3 <- function(m, ...) {
-    .norm_right(sm_area(sm_ycd(m)),
-                 sm_area(sm_seg(m), order = sm_ycd(m)))
+US3 <- function(m, s, ...) {
+    sm_norm_right(sm_area(s), sm_area(sm_seg(m), order = s))
 }
 
-AFI <- function(m, ...) {
-    .norm_left(sm_area(sm_ref(m), order = sm_yprime(m)),
-                 sm_area(sm_seg(m), order = sm_yprime(m)))
+AFI <- function(m, s, ...) {
+    sm_norm_left(sm_area(sm_ref(m), order = s), sm_area(sm_seg(m), order = s))
 }
 
-QR <- function(m, ...) {
-    .norm_right(sm_area(sm_ystar(m)), 
-                 sm_area(sm_subset_union(sm_ystar(m))))
+QR <- function(m, s, ...) {
+    sm_norm_right(sm_area(s), sm_area(sm_subset_union(s)))
 }
 
-D_index <- function(m, ...) {
-    m <- sm_compute(m, metric_id = c("OS1", "US1"))
-    sqrt((OS1(m)^2 + US1(m)^2) / 2)
+D_index <- function(m, s, ...) {
+    # m <- sm_compute(m, metric_id = c("OS1", "US1"))
+    sqrt((OS1(m, s)^2 + US1(m, s)^2) / 2)
 }
 
-precision <- function(m, ...) {
-    sum(sm_area(sm_xprime(m))) / sum(sm_area(sm_seg(m), order = sm_xprime(m)))
+precision <- function(m, s, ...) {
+    sum(sm_area(s)) / sum(sm_area(sm_seg(m), order = s))
 }
 
-recall <- function(m, ...) {
-    sum(sm_area(sm_yprime(m))) / sum(sm_area(sm_ref(m), order = sm_yprime(m)))
+recall <- function(m, s, ...) {
+    sum(sm_area(s)) / sum(sm_area(sm_ref(m), order = s))
 }
 
-UMerging <- function(m, ...) {
-    .norm_left(sm_area(sm_ref(m), order = sm_ystar(m)), sm_area(sm_ystar(m)))
+UMerging <- function(m, s, ...) {
+    sm_norm_left(sm_area(sm_ref(m), order = s), sm_area(s))
 }
 
-OMerging <- function(m, ...) {
-    (sm_area(sm_seg(m), order = sm_ystar(m)) - sm_area(sm_ystar(m))) /
-        sm_area(sm_ref(m), order = sm_ystar(m))
+OMerging <- function(m, s, ...) {
+    (sm_area(sm_seg(m), order = s) - sm_area(s)) / 
+        sm_area(sm_ref(m), order = s)
     
 }
 
-M <- function(m, ...) {
-    sm_area(sm_yprime(m)) / 
-        sqrt(sm_area(sm_ref(m), order = sm_yprime(m)) *
-                 sm_area(sm_seg(m), order = sm_yprime(m)))
-}
-
-E <- function(m, ...) {
-    .norm_left(sm_area(sm_seg(m), order = sm_xprime(m)),
-                 sm_area(sm_xprime(m))) * 100
-}
-
-RAsub <- function(m, ...) {
-    sm_area(sm_ytilde(m)) / sm_area(sm_ref(m), order = sm_ytilde(m))
-}
-
-RAsuper <- function(m, ...) {
-    sm_area(sm_ytilde(m)) / sm_area(sm_seg(m), order = sm_ytilde(m))
-}
-
-PI <- function(m, ...) {
-    sm_area(sm_ytilde(m)) ^ 2 / (
-        sm_area(sm_ref(m), order = sm_ytilde(m)) *
-            sm_area(sm_seg(m), order = sm_ytilde(m))
+M <- function(m, s, ...) {
+    sm_area(s) / sqrt(
+        sm_area(sm_ref(m), order = s) * sm_area(sm_seg(m), order = s)
     )
 }
 
-Fitness <- function(m, ...) {
-    (sm_area(sm_seg(m), order = sm_xprime(m)) +
-         sm_area(sm_ref(m), order = sm_xprime(m)) -
-         2 * sm_area(sm_xprime(m))) /
-        sm_area(sm_seg(m), order = sm_xprime(m))
+E <- function(m, s, ...) {
+    sm_norm_left(sm_area(sm_seg(m), order = s), sm_area(s)) * 100
 }
 
-ED3 <- function(m, ...) {
-    sqrt((OS3(m)^2 + US3(m)^2) / 2)
+RAsub <- function(m, s, ...) {
+    sm_area(s) / sm_area(sm_ref(m), order = s)
+}
+
+RAsuper <- function(m, s, ...) {
+    sm_area(s) / sm_area(sm_seg(m), order = s)
+}
+
+PI <- function(m, s, ...) {
+    x <- sm_area(s) ^ 2 / (
+        sm_area(sm_ref(m), order = s) * sm_area(sm_seg(m), order = s)
+    )
+    sm_summarize_group(x, groups = s[["ref_id"]], sum)
+}
+
+Fitness <- function(m, s, ...) {
+    (
+        sm_area(sm_seg(m), order = s) + sm_area(sm_ref(m), order = s) - 
+            2 * sm_area(s)
+    ) / sm_area(sm_seg(m), order = s)
+}
+
+ED3 <- function(m, s, ...) {
+    sqrt((OS3(m, s)^2 + US3(m, s)^2) / 2)
 }
 
 F_measure <- function(m, ..., alpha = 0.5) {
     stopifnot(alpha >= 0)
     stopifnot(alpha <= 1)
-    1 / ((alpha / precision(m)) + ((1 - alpha) / recall(m)))
+    
+    1 / ((alpha / sm_compute(m, "precision")[["precision"]]) + 
+             ((1 - alpha) / sm_compute(m, "recall")[["recall"]]))
 }
 
-IoU <- function(m, ...) {
-    sm_area(sm_yprime(m)) / 
-        sm_area(sm_subset_union(sm_yprime(m)))
+IoU <- function(m, s, ...) {
+    sm_area(s) / sm_area(sm_subset_union(s))
 }
 
-SimSize <- function(m, ...) {
-    pmin(sm_area(sm_ref(m), order = sm_ystar(m)),
-         sm_area(sm_seg(m), order = sm_ystar(m))) /
-        pmax(sm_area(sm_ref(m), order = sm_ystar(m)),
-             sm_area(sm_seg(m), order = sm_ystar(m)))
+SimSize <- function(m, s, ...) {
+    pmin(sm_area(sm_ref(m), order = s), sm_area(sm_seg(m), order = s)) /
+        pmax(sm_area(sm_ref(m), order = s), sm_area(sm_seg(m), order = s))
 }
 
-qLoc <- function(m, ...) {
-    sm_distance(sm_centroid(sm_ref(m), order = sm_ystar(m)), 
-                sm_centroid(sm_seg(m), order = sm_ystar(m)))
+qLoc <- function(m, s, ...) {
+    sm_distance(
+        sm_centroid(sm_ref(m), order = s), sm_centroid(sm_seg(m), order = s)
+    )
 }
 
-RPsub <- function(m, ...) {
-    sm_distance(sm_centroid(sm_ref(m), order = sm_ytilde(m)), 
-                sm_centroid(sm_seg(m), order = sm_ytilde(m)))
+RPsub <- function(m, s, ...) {
+    sm_distance(
+        sm_centroid(sm_ref(m), order = s), sm_centroid(sm_seg(m), order = s)
+    )
 }
 
-RPsuper <- function(m, ...) {
-    sm_distance(sm_centroid(sm_ref(m), order = sm_ystar(m)), 
-                sm_centroid(sm_seg(m), order = sm_ystar(m))) /
-        max(RPsub(m))
+RPsuper <- function(m, s, ...) {
+    sm_apply_group(
+        x = qLoc(m, s), groups = s[["ref_id"]], fn = function(x) {
+            if (length(x) == 1 && x == 0)
+                return(0)
+            x / max(x)
+        }
+    )
 }
 
+OI2 <- function(m, s, ...) {
+    sm_summarize_group(
+        x = sm_area(s) / sm_area(sm_ref(m), order = s) *
+            sm_area(s) / sm_area(sm_seg(m), order = s), 
+        groups = s[["ref_id"]], fn = max
+    )
+}
+
+Dice <- function(m, ...) {
+    F_measure(m, ..., alpha = 0.5)
+}

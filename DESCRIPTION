@@ -31,12 +31,13 @@ RoxygenNote: 7.2.1
 Imports:
     magrittr,
     graphics,
-    sf,
     units
 Suggests:
     classInt,
     dplyr,
     testthat (>= 3.0.0)
 Depends: 
-    R (>= 2.10)
+    R (>= 2.10),
+    sf
 BugReports: https://github.com/michellepicoli/segmetric/issues
+URL: https://michellepicoli.github.io/segmetric

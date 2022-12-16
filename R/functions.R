@@ -17,6 +17,7 @@
 #' @param touches A `logical`. Is the border part of the intersection?
 #' @param ...     For `sm_rbind()`, a set of `subset_sf` objects to be
 #' merged.
+#' @param x,y     A `numeric` values (e.g. areas, lengths) to compute metrics.
 #' 
 #' @returns 
 #' * `sm_area()`: Return a `numeric` vector with polygons' area.
@@ -85,6 +86,9 @@ sm_distance <- function(s1, s2) {
     if (inherits(dist, "units"))
         dist <- units::drop_units(dist)
     
+    if (length(dist) == 0)
+        return(NaN)
+    
     dist
 }
 
@@ -127,8 +131,9 @@ sm_subset_union <- function(s) {
                 s
             else
                 do.call(rbind, args = lapply(seq_len(nrow(s)), function(i) {
-                    # TODO: optimize can be done by vectorizing union operation
-                    # link to GEOS library CPP function GEOSUnion_r 
+                    # NOTE: optimization could be done by vectorizing 
+                    # union operation link to GEOS library CPP 
+                    # function GEOSUnion_r 
                     suppressWarnings(suppressMessages({
                         sf::st_union(x = sm_inset(sm_ref(m), s[i,]),
                                      y = sm_inset(sm_seg(m), s[i,]))
@@ -156,10 +161,45 @@ sm_rbind <- function(...) {
     result
 }
 
-.norm_left <- function(x, y) {
+#' @rdname general_functions
+#' @export
+sm_apply_group <- function(x, groups, fn, ...) {
+    if (length(groups) == 0)
+        return(x)
+    tibble::tibble(x = x, groups = groups) %>% 
+        dplyr::group_by(groups) %>% 
+        dplyr::mutate(x = fn(x)) %>% 
+        dplyr::pull(x)
+}
+
+#' @rdname general_functions
+#' @export
+sm_summarize_group <- function(x, groups, fn, ...) {
+    if (length(groups) == 0)
+        return(x)
+    tibble::tibble(x = x, groups = groups) %>% 
+        dplyr::group_by(groups) %>% 
+        dplyr::summarise(x = fn(x)) %>% 
+        dplyr::pull(x)
+}
+
+#' @rdname general_functions
+#' @export
+sm_norm_left <- function(x, y) {
     (x - y) / x
 }
 
-.norm_right <- function(x, y) {
+#' @rdname general_functions
+#' @export
+sm_norm_right <- function(x, y) {
     (y - x) / y
+}
+
+#' @rdname general_functions
+#' @export
+sm_options <- function(..., digits = NULL) {
+    if (!is.null(digits)) 
+        options(segmetric.digits = digits)
+    else
+        options(...)[[1]]
 }

@@ -43,3 +43,4 @@ vignettes/*.pdf
 
 # snaps
 ^_snaps$
+docs
