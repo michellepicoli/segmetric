@@ -118,6 +118,8 @@ sensing images. ISPRS J. Photogramm. Remote Sens. 102, pp. 73-84.
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://michellepicoli.github.io/segmetric}
+  \item \url{https://michellepicoli.github.io/segmetric/}
   \item Report bugs at \url{https://github.com/michellepicoli/segmetric/issues}
 }
 

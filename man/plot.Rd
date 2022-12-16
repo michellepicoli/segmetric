@@ -11,6 +11,7 @@
   ...,
   title = NULL,
   layers = c("ref_sf", "seg_sf"),
+  background = "#FFFFFF",
   ref_color = "#FF00009F",
   ref_fill = "#FFFFFF00",
   ref_label = "reference",
@@ -30,6 +31,8 @@
   subset_fill = "#F0E4167F",
   metric_id = NULL,
   break_style = "jenks",
+  choropleth_palette = "YlGnBu",
+  choropleth_size = 0.1,
   plot_extent = NULL,
   plot_legend = TRUE,
   plot_axes = TRUE
