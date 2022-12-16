@@ -1,0 +1,16 @@
+citHeader("To cite segmetric in publications use:")
+
+citEntry(
+  entry    = "Manual",
+  title    = "segmetric: Metrics for Assessing Segmentation Accuracy for Geospatial Data",
+  author   = "Rolf Simoes and Alber Sanchez and Michelle Picoli",
+  year     = "2022",
+  note     = "R package version 0.2.1",
+  url      = "https://CRAN.R-project.org/package=segmetric",
+  textVersion = paste(
+    "Simoes R, Sanchez A, Picoli M (2022).",
+    "segmetric: Metrics for Assessing Segmentation Accuracy for Geospatial",
+    "Data. R package version 0.2.1,",
+    "<https://CRAN.R-project.org/package=segmetric>."
+  )
+)
