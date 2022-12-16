@@ -698,6 +698,16 @@ test_that("test metric falls in range", {
     # TODO: Check m$PI[m$PI > 1]
     # TODO: Check if segmetric is using s2. See ?sf::sf_use_s2
     # NOTE: The issue happens even after tuning off s2 using sf::sf_use_s2(F)
+    area_df <- get_areas(sm_ref(data), sm_seg(data))
+    x_prime <- test_x_prime(area_df)
+    y_prime <- test_y_prime(area_df)
+    y_star  <- test_y_star(area_df)
+    y_tilde <- test_y_tilde(area_df)
+    y_cd <- dplyr::bind_rows(dplyr::as_tibble(test_y_c(area_df)),
+                             dplyr::as_tibble(test_y_d(area_df))) %>%
+        dplyr::distinct(seg_id, ref_id, .keep_all = TRUE)
+    test_PI(y_tilde)
+    
     expect_true(all(m$PI <= 1 + tlr))
 
     expect_true(all(m$ED3 >= 0 - tlr))
