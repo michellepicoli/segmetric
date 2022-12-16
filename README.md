@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# segmetric <img src="inst/extdata/img/logo.png" align="right" width="120"/>
+# segmetric <img src="man/figures/logo.png" align="right" width="120"/>
 
 Segmentation Assessment Metrics (`segmetric`)
 
@@ -50,6 +50,8 @@ Spatial datasets can be loaded using `sf` objects. To create a
 
 ``` r
 library(segmetric)
+#> Loading required package: sf
+#> Linking to GEOS 3.9.1, GDAL 3.3.2, PROJ 7.2.1; sf_use_s2() is TRUE
 
 # load example datasets
 data("sample_ref_sf", package = "segmetric")
@@ -65,7 +67,7 @@ Plot your data using `plot()` command:
 plot(m)
 ```
 
-<img src="inst/extdata/img/plot-1.png" width="50%" />
+<img src="man/figures/plot-1.png" width="50%" />
 
 Segmentation metrics can be computed by function `sm_compute()`. Use
 `summary()` to obtain an overall metric (mean or weighted mean).
@@ -94,12 +96,14 @@ summary(m)
 To see all supported metrics, type `?metric_functions` or run:
 
 ``` r
+
 # list all supported metrics
 sm_list_metrics()
-#>  [1] "AFI"       "D_index"   "E"         "ED3"       "F_measure" "Fitness"  
-#>  [7] "M"         "OMerging"  "OS1"       "OS2"       "OS3"       "PI"       
-#> [13] "precision" "QR"        "RAsub"     "RAsuper"   "recall"    "UMerging" 
-#> [19] "US1"       "US2"       "US3"
+#>  [1] "AFI"       "D_index"   "Dice"      "E"         "ED3"       "F_measure"
+#>  [7] "Fitness"   "IoU"       "M"         "OI2"       "OMerging"  "OS1"      
+#> [13] "OS2"       "OS3"       "PI"        "precision" "qLoc"      "QR"       
+#> [19] "RAsub"     "RAsuper"   "recall"    "RPsub"     "RPsuper"   "SimSize"  
+#> [25] "UMerging"  "US1"       "US2"       "US3"
 ```
 
 ## Getting Help

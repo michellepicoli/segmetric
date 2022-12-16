@@ -41,4 +41,5 @@ Depends:
     sf
 BugReports: https://github.com/michellepicoli/segmetric/issues
 URL: https://michellepicoli.github.io/segmetric,
-    https://michellepicoli.github.io/segmetric/
+    https://michellepicoli.github.io/segmetric/,
+    https://rolfsimoes.github.io/segmetric/
