@@ -639,15 +639,14 @@ test_that("test metric falls in range", {
 
     tlr <- .Machine$double.eps ^ 0.5
 
-    data("seg200_sf", package = "segmetric")
-    data("seg1000_sf", package = "segmetric")
-    data <- sm_read(seg200_sf, seg1000_sf)
+    data("sample_ref_sf", package = "segmetric")
+    data("sample_seg_sf", package = "segmetric")
+    data <- sm_read(sample_ref_sf, sample_seg_sf)
     m <- sm_compute(data, c("OMerging", "UMerging", "AFI", "OS1", "US1",
                             "OS2", "US2", "US3", "US3", "precision",
                             "recall", "M", "RAsub", "RAsuper", "PI", "ED3",
                             "F_measure", "QR", "D_index", "IoU", "SimSize",
                             "RPsuper", "E", "qLoc", "RPsub"))
-
 
 
     #---- test that metrics are equal or less than 1 ----
@@ -695,9 +694,6 @@ test_that("test metric falls in range", {
     expect_true(all(m$RAsuper <= 1 + tlr))
 
     expect_true(all(m$PI >= 0 - tlr))
-    # TODO: Check m$PI[m$PI > 1]
-    # TODO: Check if segmetric is using s2. See ?sf::sf_use_s2
-    # NOTE: The issue happens even after tuning off s2 using sf::sf_use_s2(F)
     area_df <- get_areas(sm_ref(data), sm_seg(data))
     x_prime <- test_x_prime(area_df)
     y_prime <- test_y_prime(area_df)
@@ -708,6 +704,7 @@ test_that("test metric falls in range", {
         dplyr::distinct(seg_id, ref_id, .keep_all = TRUE)
     test_PI(y_tilde)
     
+    # TODO: Check m$PI[m$PI > 1]
     expect_true(all(m$PI <= 1 + tlr))
 
     expect_true(all(m$ED3 >= 0 - tlr))

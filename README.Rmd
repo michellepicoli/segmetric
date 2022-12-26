@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 library(tibble)
 ```
 
-# segmetric <img src="inst/extdata/img/logo.png" align="right" width="120"/>
+# segmetric <img src="man/figures/logo.png" align="right" width="120"/>
 
 Segmentation Assessment Metrics (`segmetric`)
 
@@ -66,7 +66,7 @@ m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
 
 Plot your data  using `plot()` command:
 
-```{r plot, echo=TRUE, fig.height=7, fig.width=7, fig.path="inst/extdata/img/", out.width="50%"}
+```{r plot, echo=TRUE, fig.height=7, fig.width=7, fig.path="man/figures/", out.width="50%"}
 plot(m)
 ```
 
