@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# segmetric <img src="inst/extdata/img/logo.png" align="right" width="120"/>
+# segmetric <img src="man/figures/logo.png" align="right" width="120"/>
 
 Segmentation Assessment Metrics (`segmetric`)
 
@@ -16,13 +16,9 @@ Cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://l
 <!-- badges: end -->
 
 The `segmetric` is an open source package that provides a set of metrics
-for analysis and evaluation of geospatial segmentation. It includes more
-than 20 metrics used in literature for spatial segmentation assessment
-(Van Rijsbergen, 1979; Levine and Nazif, 1982; Janssen and Molenaar,
-1995; Lucieer and Stein, 2002; Carleer et al., 2005; Moller et al.,
-2007; van Coillie et al., 2008; Costa et al., 2008; Weidner, 2008;
-Feitosa et al., 2010; Clinton et al. 2010; Persello and Bruzzone, 2010;
-Yang et al., 2014; and Zhang et al., 2015).
+for analyzing and evaluating geospatial segmentations. It implements 28
+supervised metrics used in literature for spatial segmentation
+assessment (see References below).
 
 ## Installation
 
@@ -34,7 +30,7 @@ install.packages("segmetric")
 ### Development version
 
 To install the development version of `segmetric`, run the following
-commands
+commands:
 
 ``` r
 # load necessary libraries
@@ -65,7 +61,7 @@ Plot your data using `plot()` command:
 plot(m)
 ```
 
-<img src="inst/extdata/img/plot-1.png" width="50%" />
+<img src="man/figures/plot-1.png" width="50%" />
 
 Segmentation metrics can be computed by function `sm_compute()`. Use
 `summary()` to obtain an overall metric (mean or weighted mean).
@@ -94,12 +90,14 @@ summary(m)
 To see all supported metrics, type `?metric_functions` or run:
 
 ``` r
+
 # list all supported metrics
 sm_list_metrics()
-#>  [1] "AFI"       "D_index"   "E"         "ED3"       "F_measure" "Fitness"  
-#>  [7] "M"         "OMerging"  "OS1"       "OS2"       "OS3"       "PI"       
-#> [13] "precision" "QR"        "RAsub"     "RAsuper"   "recall"    "UMerging" 
-#> [19] "US1"       "US2"       "US3"
+#>  [1] "AFI"       "D_index"   "Dice"      "E"         "ED3"       "F_measure"
+#>  [7] "Fitness"   "IoU"       "M"         "OI2"       "OMerging"  "OS1"      
+#> [13] "OS2"       "OS3"       "PI"        "precision" "qLoc"      "QR"       
+#> [19] "RAsub"     "RAsuper"   "recall"    "RPsub"     "RPsuper"   "SimSize"  
+#> [25] "UMerging"  "US1"       "US2"       "US3"
 ```
 
 ## Getting Help
@@ -144,12 +142,19 @@ agreement No 677140 MIDLAND).
     Lang, S., Hay, G.J. (Eds.), Object-based Image Analysis. Springer
     Berlin Heidelberg, Berlin, Heidelberg, pp. 679-695.
     <http://dx.doi.org/10.1007/978-3-540-77058-9_37>.
+-   Dice, L.R., 1945. Measures of the amount of ecologic association
+    between species. Ecology, 26(3), pp.297-302.
 -   Feitosa, R.Q., Ferreira, R.S., Almeida, C.M., Camargo, F.F., Costa,
     G.A.O.P., 2010. Similarity metrics for genetic adaptation of
     segmentation parameters. In: 3rd International Conference on
     Geographic Object-Based Image Analysis (GEOBIA 2010). The
     International Archives of the Photogrammetry, Remote Sensing and
     Spatial Information Sciences, Ghent.
+-   Jaccard, P., 1912. The distribution of the flora in the alpine zone.
+
+1.  New phytologist, 11(2), pp.37-50.
+    <http://dx.doi.org/10.1111/j.1469-8137.1912.tb05611.x>
+
 -   Janssen, L.L.F., Molenaar, M., 1995. Terrain objects, their dynamics
     and their monitoring by the integration of GIS and remote sensing.
     IEEE Trans. Geosci. Remote Sens. 33, pp. 749-758.
@@ -170,6 +175,12 @@ agreement No 677140 MIDLAND).
     assessment in classification of very high resolution images. IEEE
     Trans. Geosci. Remote Sens. 48, pp. 1232-1244.
     <http://dx.doi.org/10.1109/TGRS.2009.2029570>.
+-   Rezatofighi, H., Tsoi, N., Gwak, J., Sadeghian, A., Reid, I.,
+    Savarese, S.,
+
+2019. In: Proceedings of the IEEE/CVF Conference on Computer Vision and
+      Pattern Recognition (CVPR), pp. 658-666.
+
 -   Van Coillie, F.M.B., Verbeke, L.P.C., De Wulf, R.R., 2008.
     Semi-automated forest stand delineation using wavelet based
     segmentation of very high resolution optical imagery. In:
@@ -181,10 +192,19 @@ agreement No 677140 MIDLAND).
 -   Weidner, U., 2008. Contribution to the assessment of segmentation
     quality for remote sensing applications. Int. Arch. Photogramm.
     Remote Sens. Spat. Inf. Sci. 37, pp. 479-484.
--   Yang Yang, J., Li, P., He, Y., 2014. A multi-band approach to
+-   Yang, J., Li, P., He, Y., 2014. A multi-band approach to
     unsupervised scale parameter selection for multi-scale image
     segmentation. ISPRS J. Photogramm. Remote Sens. 94, pp. 13-24.
     <http://dx.doi.org/10.1016/j.isprsjprs.2014.04.008>.
+-   Yang, J., He, Y., Caspersen, J. P., Jones, T. A., 2017. Delineating
+    Individual Tree Crowns in an Uneven-Aged, Mixed Broadleaf Forest
+    Using Multispectral Watershed Segmentation and Multiscale Fitting.
+    IEEE J. Sel. Top. Appl. Earth Obs. Remote Sens., 10(4),
+    pp. 1390-1401. <http://dx.doi.org/10.1109/JSTARS.2016.2638822>.
+-   Zhan, Q., Molenaar, M., Tempfli, K., Shi, W., 2005. Quality
+    assessment for geo‐spatial objects derived from remotely sensed
+    data. International Journal of Remote Sensing, 26(14), pp.2953-2974.
+    <http://dx.doi.org/10.1080/01431160500057764>.
 -   Zhang, X., Feng, X., Xiao, P., He, G., Zhu, L., 2015a. Segmentation
     quality evaluation using region-based precision and recall measures
     for remote sensing images. ISPRS J. Photogramm. Remote Sens. 102,

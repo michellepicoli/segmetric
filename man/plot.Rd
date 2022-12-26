@@ -10,8 +10,8 @@
   type = "base",
   ...,
   title = NULL,
-  background = "#FAFAFA",
   layers = c("ref_sf", "seg_sf"),
+  background = "#FFFFFF",
   ref_color = "#FF00009F",
   ref_fill = "#FFFFFF00",
   ref_label = "reference",
@@ -31,6 +31,8 @@
   subset_fill = "#F0E4167F",
   metric_id = NULL,
   break_style = "jenks",
+  choropleth_palette = "YlGnBu",
+  choropleth_size = 0.1,
   plot_extent = NULL,
   plot_legend = TRUE,
   plot_axes = TRUE
@@ -44,9 +46,6 @@
 \item{...}{Ignored.}
 
 \item{title}{A \code{character} with plot title}
-
-\item{background}{A \code{character} with a valid hexadecimal color in \code{rgb} or
-\code{rgba} format. Set the map background color.}
 
 \item{layers}{A \code{character}. One or both of \code{"ref_sf"} and \code{"seg_sf"}
 (works only for \code{type = "base"} and \code{type = "subset"}).}

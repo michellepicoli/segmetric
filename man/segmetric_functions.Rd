@@ -19,7 +19,7 @@ sm_read(ref_sf, seg_sf)
 
 sm_clear(m)
 
-\method{summary}{segmetric}(object, ...)
+\method{summary}{segmetric}(object, weight = NULL, na_rm = TRUE, ...)
 
 sm_is_empty(m)
 
@@ -33,6 +33,14 @@ sm_is_empty(m)
 \item{seg_sf}{A \code{sf} object. The segmentation polygons.}
 
 \item{object}{A \code{segmetric} object.}
+
+\item{weight}{Weights to summarize metrics. Accepts \code{character} options
+\code{"ref"}, \code{"seg"}, and \code{"inter"}, that weights using reference, segment,
+and intersection areas, respectively. Also accepts a \code{numeric} vector
+of weights of the same length as input metrics giving the weights to
+be used.}
+
+\item{na_rm}{Should missing values (including \code{NaN}) be removed?}
 
 \item{...}{Additional parameters (Not implemented).}
 }

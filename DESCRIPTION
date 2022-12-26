@@ -1,6 +1,6 @@
 Package: segmetric
 Title: Metrics for Assessing Segmentation Accuracy for Geospatial Data
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: 
     c(person(given = "Rolf",
            family = "Simoes",
@@ -27,16 +27,17 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Imports:
     magrittr,
     graphics,
-    sf,
     units
 Suggests:
     classInt,
     dplyr,
     testthat (>= 3.0.0)
 Depends: 
-    R (>= 2.10)
+    R (>= 2.10),
+    sf
 BugReports: https://github.com/michellepicoli/segmetric/issues
+URL: https://michellepicoli.github.io/segmetric/

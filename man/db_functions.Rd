@@ -28,6 +28,7 @@ sm_new_metric(
   fn_subset,
   name = "",
   optimal = 0,
+  summarizable = TRUE,
   description = "",
   reference = ""
 )

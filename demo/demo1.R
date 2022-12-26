@@ -1,21 +1,31 @@
+#' 
+#' # Demo 1: new metric
+#' 
+#' Study area: Luis Eduardo Magalhaes municipality, 
+#' Bahia state, Brazil
+#' 
+library(segmetric)
 
 # unregister metric
 sm_unreg_metric(metric_id = "IoU")
+
+# list all supported metrics
+sm_list_metrics()
 
 # register 'IoU' metric
 sm_reg_metric(
     metric_id = "IoU",
     entry = sm_new_metric(
-        fn = function(m) {
+        fn = function(m, s) {
             sm_area(sm_yprime(m)) / 
                 sm_area(sm_subset_union(sm_yprime(m)))
         },
         fn_subset = sm_yprime,
-        name = "Intersection over Union (also known as Jaccard)",
+        name = "Intersection over Union (also known as Jaccard Index)",
         optimal = 1,
         description = paste("Values range from 0 to 1.",
                             "Optimal value is 1"),
-        reference = "Rezatofighi et al. (2019)"
+        reference = "Jaccard (1912); Rezatofighi et al. (2019)"
     )
 )
 
