@@ -28,7 +28,7 @@ License](https://img.shields.io/badge/license-MIT-green)](https://github.com/mic
 Cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
 
-The `segmetric` is an open source package that provides a set of metrics for analysis and evaluation of geospatial segmentation. It implements `r length(sm_list_metrics())` supervised metrics used in literature for spatial segmentation assessment (see References below).
+The `segmetric` is an open source package that provides a set of metrics for analyzing and evaluating geospatial segmentations. It implements `r length(sm_list_metrics())` supervised metrics used in literature for spatial segmentation assessment (see References below).
 
 ## Installation
 
@@ -40,7 +40,7 @@ install.packages("segmetric")
 ### Development version
 
 To install the development version of `segmetric`, run the following
-commands
+commands:
 
 ```r
 # load necessary libraries

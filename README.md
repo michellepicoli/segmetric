@@ -16,7 +16,7 @@ Cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://l
 <!-- badges: end -->
 
 The `segmetric` is an open source package that provides a set of metrics
-for analysis and evaluation of geospatial segmentation. It implements 28
+for analyzing and evaluating geospatial segmentations. It implements 28
 supervised metrics used in literature for spatial segmentation
 assessment (see References below).
 
@@ -30,7 +30,7 @@ install.packages("segmetric")
 ### Development version
 
 To install the development version of `segmetric`, run the following
-commands
+commands:
 
 ``` r
 # load necessary libraries
