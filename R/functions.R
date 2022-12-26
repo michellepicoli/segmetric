@@ -174,10 +174,8 @@ sm_rbind <- function(...) {
 sm_apply_group <- function(x, groups, fn, ...) {
     if (length(groups) == 0)
         return(x)
-    tibble::tibble(x = x, groups = groups) %>% 
-        dplyr::group_by(groups) %>% 
-        dplyr::mutate(x = fn(x)) %>% 
-        dplyr::pull(x)
+    split(x, groups) <- lapply(unname(split(x, groups)), fn)
+    x
 }
 
 #' @rdname general_functions
@@ -185,10 +183,7 @@ sm_apply_group <- function(x, groups, fn, ...) {
 sm_summarize_group <- function(x, groups, fn, ...) {
     if (length(groups) == 0)
         return(x)
-    tibble::tibble(x = x, groups = groups) %>% 
-        dplyr::group_by(groups) %>% 
-        dplyr::summarise(x = fn(x)) %>% 
-        dplyr::pull(x)
+    unlist(lapply(unname(split(x, groups)), fn))
 }
 
 #' @rdname general_functions
