@@ -9,6 +9,9 @@
 #' * `sm_intersection()`: Return the intersection of the given simple features.
 #' * `sm_subset_union()`: Return the union of the given simple features.
 #' * `sm_rbind()`: Return the merge of unique simple features.
+#' * `sm_summarize_groups()`: Summarizes metric values by a group 
+#'   (either reference or segment).
+#' * `sm_options()`: Get/Set segmetric options.
 #' 
 #' @param s,s1,s2 Either a `ref_sf`, a `seg_sf`, or a `subset_sf` object 
 #' (inherited from `sf`).
@@ -18,6 +21,11 @@
 #' @param ...     For `sm_rbind()`, a set of `subset_sf` objects to be
 #' merged.
 #' @param x,y     A `numeric` values (e.g. areas, lengths) to compute metrics.
+#' @param groups  A group identifier vector used to aggregate a metric 
+#' for each group.
+#' @param fn      A `function` to aggregate a metric for a group.
+#' @param digits  An `integer` indicating how many digits used to round 
+#' metric values.
 #' 
 #' @returns 
 #' * `sm_area()`: Return a `numeric` vector with polygons' area.
