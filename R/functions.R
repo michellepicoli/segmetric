@@ -87,6 +87,9 @@ sm_distance <- function(s1, s2) {
     .subset_check(s1)
     .subset_check(s2)
     
+    if (nrow(s1) == 0 || nrow(s2) == 0)
+        return(NaN)
+    
     dist <- suppressWarnings(suppressMessages(
         sf::st_distance(s1, s2, by_element = TRUE)
     ))
@@ -97,7 +100,7 @@ sm_distance <- function(s1, s2) {
     if (length(dist) == 0)
         return(NaN)
     
-    dist
+    unname(dist)
 }
 
 #' @rdname general_functions
