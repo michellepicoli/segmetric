@@ -2,7 +2,7 @@ pandoc: '2.18'
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles: {}
-last_built: 2022-12-16T13:46Z
+last_built: 2022-12-26T13:18Z
 urls:
   reference: https://michellepicoli.github.io/segmetric/reference
   article: https://michellepicoli.github.io/segmetric/articles
