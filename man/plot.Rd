@@ -50,6 +50,8 @@
 \item{layers}{A \code{character}. One or both of \code{"ref_sf"} and \code{"seg_sf"}
 (works only for \code{type = "base"} and \code{type = "subset"}).}
 
+\item{background}{A \code{character} with valid color used in graph's background.}
+
 \item{ref_color, seg_color, ref_fill, seg_fill}{A \code{character} with a
 valid hexadecimal color in \code{rgb} or \code{rgba} format. Set the border and fill
 colors for reference and segmentation polygons.}
@@ -86,6 +88,11 @@ the intervals for choropleth maps. Can be one of \code{"sd"}, \code{"equal"},
 \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"},
 \code{"jenks"}, \code{"dpih"}, and \code{"headtails"} (see \code{style} parameter in
 \link[classInt]{classIntervals}).}
+
+\item{choropleth_palette}{A \code{character} with a valid palette to be used
+in choropleth plots.}
+
+\item{choropleth_size}{A \code{numeric} with border size used to plot polygons.}
 
 \item{plot_extent}{A \code{sf} object. Set the map extent for a plot.}
 

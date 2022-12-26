@@ -50,6 +50,14 @@ according to the object passed here.}
 merged.}
 
 \item{x, y}{A \code{numeric} values (e.g. areas, lengths) to compute metrics.}
+
+\item{groups}{A group identifier vector used to aggregate a metric
+for each group.}
+
+\item{fn}{A \code{function} to aggregate a metric for a group.}
+
+\item{digits}{An \code{integer} indicating how many digits used to round
+metric values.}
 }
 \value{
 \itemize{
@@ -70,5 +78,8 @@ These functions manipulate segmetric objects.
 \item \code{sm_intersection()}: Return the intersection of the given simple features.
 \item \code{sm_subset_union()}: Return the union of the given simple features.
 \item \code{sm_rbind()}: Return the merge of unique simple features.
+\item \code{sm_summarize_groups()}: Summarizes metric values by a group
+(either reference or segment).
+\item \code{sm_options()}: Get/Set segmetric options.
 }
 }
