@@ -339,7 +339,7 @@ sm_desc_metric <- function(metric_id) {
             optimal      = 1,
             summarizable = FALSE,
             description  = "Values from 0 to 1 (optimal)",
-            reference    = "M\u00f6ller et al. (2007) and Clinton et al. (2010)"
+            reference    = "Moller et al. (2007) and Clinton et al. (2010)"
         )
     )
     sm_reg_metric(
@@ -351,7 +351,7 @@ sm_desc_metric <- function(metric_id) {
             optimal      = 1,
             summarizable = FALSE,
             description  = "Values from 0 to 1 (optimal)",
-            reference    = "M\u00f6ller et al. (2007) and Clinton et al. (2010)"
+            reference    = "Moller et al. (2007) and Clinton et al. (2010)"
         )
     )
     sm_reg_metric(
@@ -472,7 +472,7 @@ sm_desc_metric <- function(metric_id) {
             optimal      = 0,
             summarizable = FALSE,
             description  = "Optimal value is 0",
-            reference    = "Möller et al. (2007) and Clinton et al. (2010)"
+            reference    = "Moller et al. (2007) and Clinton et al. (2010)"
         )
     )
     sm_reg_metric(
@@ -484,7 +484,7 @@ sm_desc_metric <- function(metric_id) {
             optimal      = 0,
             summarizable = FALSE,
             description  = "Values from 0 (optimal) to 1",
-            reference    = "Möller et al. (2007) and Clinton et al. (2010)"
+            reference    = "Moller et al. (2007) and Clinton et al. (2010)"
         )
     )
     sm_reg_metric(
@@ -504,7 +504,7 @@ sm_desc_metric <- function(metric_id) {
         entry = sm_new_metric(
             fn           = Dice,
             fn_subset    = NULL,
-            name         = "Sorensen–Dice coefficient",
+            name         = "Sorensen-Dice coefficient",
             optimal      = 1,
             summarizable = TRUE,
             description  = "Values from 0 to 1 (optimal)",
