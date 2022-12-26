@@ -190,6 +190,10 @@ print.segmetric <- function(x, ...) {
 #' @param plot_extent A `sf` object. Set the map extent for a plot.
 #' @param plot_legend A `logical`. Plot legend or not.
 #' @param plot_axes A `logical`. Plot coordinates axis or not.
+#' @param background A `character` with valid color used in graph's background.
+#' @param choropleth_palette A `character` with a valid palette to be used
+#' in choropleth plots.
+#' @param choropleth_size A `numeric` with border size used to plot polygons.
 #'
 #' @exportS3Method 
 plot.segmetric <- function(x, type = "base", ...,
