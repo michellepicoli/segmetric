@@ -40,7 +40,7 @@
 #' sm_reg_metric(
 #'     metric_id = "Example",
 #'     entry = sm_new_metric(
-#'         fn = function(m) {
+#'         fn = function(m, ...) {
 #'             sm_area(sm_ytilde(m)) / 
 #'                 sm_area(sm_ref(m), order = sm_ytilde(m))
 #'         },
@@ -153,24 +153,22 @@ sm_unreg_metric <- function(metric_id) {
 #' @rdname db_functions
 sm_desc_metric <- function(metric_id) {
     
-    x <- .db_get(metric_id)
-    
-    if (nchar(x[["name"]]) > 0)
-        cat(paste("*", metric_id, paste0("(", x[["name"]], ")")), fill = TRUE)
-    else
-        cat(paste("*", metric_id), fill = TRUE)
-    
-    # print function body
-    cat(paste(" ", deparse(x[["fn"]])), fill = TRUE)
-    
-    if (nchar(x[["description"]]) > 0)
-        cat(paste(" ", x[["description"]]), fill = TRUE)
-    if (nchar(x[["reference"]]) > 0)
-        cat(paste(" ", "reference:", x[["reference"]]), fill = TRUE)
+    for (metric in metric_id) {
+        x <- .db_get(metric)
+        
+        if (nchar(x[["name"]]) > 0)
+            cat(paste("*", metric, paste0("(", x[["name"]], ")")), fill = TRUE)
+        else
+            cat(paste("*", metric), fill = TRUE)
+        
+        if (nchar(x[["description"]]) > 0)
+            cat(paste(" ", x[["description"]]), fill = TRUE)
+        if (nchar(x[["reference"]]) > 0)
+            cat(paste(" ", "reference:", x[["reference"]]), fill = TRUE)
+    }
 }
 
 .db_registry <- function() {
-    
     
     sm_reg_metric(
         metric_id = "OS2",
@@ -431,8 +429,7 @@ sm_desc_metric <- function(metric_id) {
         entry = sm_new_metric(
             fn           = IoU,
             fn_subset    = sm_yprime,
-            name         = paste0("Intersection over Union (also known as",
-                                  "Jaccard Index)"),
+            name         = "Intersection over Union",
             optimal      = 1,
             summarizable = TRUE,
             description  = "Values from 0 to 1 (optimal)",

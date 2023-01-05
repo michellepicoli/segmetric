@@ -193,6 +193,8 @@ print.segmetric <- function(x, ...) {
 #' @param background A `character` with valid color used in graph's background.
 #' @param choropleth_palette A `character` with a valid palette to be used
 #' in choropleth plots.
+#' @param choropleth_palette_reverse A `logical` indicating if palette should 
+#' be generated in reversely.
 #' @param choropleth_size A `numeric` with border size used to plot polygons.
 #'
 #' @exportS3Method 
@@ -220,6 +222,7 @@ plot.segmetric <- function(x, type = "base", ...,
                            metric_id = NULL,
                            break_style = "jenks",
                            choropleth_palette = "YlGnBu",
+                           choropleth_palette_reverse = FALSE,
                            choropleth_size = 0.1,
                            plot_extent = NULL,
                            plot_legend = TRUE,
@@ -594,8 +597,9 @@ plot.segmetric <- function(x, type = "base", ...,
                     style = break_style)$brks
             )
             
+            title_metric <- title
             if (is.null(title))
-                title <- .db_get(m_name)[["name"]]
+                title_metric <- .db_get(m_name)[["name"]]
             
             # adjust plot spatial extent
             if (is.null(plot_extent))
@@ -603,24 +607,27 @@ plot.segmetric <- function(x, type = "base", ...,
             else
                 plot_extent <- sf::st_bbox(plot_extent)
             
+            # generate palette colors
+            colors <- hcl.colors(
+                n = length(breaks) - 1,
+                palette = choropleth_palette,
+                rev = .db_get(m_name)[["optimal"]] == 0)
+            
+            # reverse colors
+            if (choropleth_palette_reverse)
+                colors <- rev(colors)
+            
             plot(
                 s_lst[[m_name]][, m_name],
-                main = title,
+                main = title_metric,
                 bgc = background,
                 breaks = breaks,
                 lwd = choropleth_size,
-                pal = hcl.colors(
-                    n = length(breaks) - 1,
-                    palette = choropleth_palette,
-                    rev = .db_get(m_name)[["optimal"]] == 0),
+                pal = colors,
                 extent = plot_extent,
                 axes = plot_axes
             )
-            
-            # reset title to get next metric name
-            title <- NULL
         }
-
     }
 }
 

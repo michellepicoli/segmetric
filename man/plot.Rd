@@ -32,6 +32,7 @@
   metric_id = NULL,
   break_style = "jenks",
   choropleth_palette = "YlGnBu",
+  choropleth_palette_reverse = FALSE,
   choropleth_size = 0.1,
   plot_extent = NULL,
   plot_legend = TRUE,
@@ -91,6 +92,9 @@ the intervals for choropleth maps. Can be one of \code{"sd"}, \code{"equal"},
 
 \item{choropleth_palette}{A \code{character} with a valid palette to be used
 in choropleth plots.}
+
+\item{choropleth_palette_reverse}{A \code{logical} indicating if palette should
+be generated in reversely.}
 
 \item{choropleth_size}{A \code{numeric} with border size used to plot polygons.}
 
