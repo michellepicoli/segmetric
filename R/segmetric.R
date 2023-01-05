@@ -597,8 +597,9 @@ plot.segmetric <- function(x, type = "base", ...,
                     style = break_style)$brks
             )
             
+            title_metric <- title
             if (is.null(title))
-                title <- .db_get(m_name)[["name"]]
+                title_metric <- .db_get(m_name)[["name"]]
             
             # adjust plot spatial extent
             if (is.null(plot_extent))
