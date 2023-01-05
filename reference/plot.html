@@ -33,6 +33,9 @@ metric values.
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -91,6 +94,7 @@ metric values.</p></li>
 <span>  metric_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  break_style <span class="op">=</span> <span class="st">"jenks"</span>,</span>
 <span>  choropleth_palette <span class="op">=</span> <span class="st">"YlGnBu"</span>,</span>
+<span>  choropleth_palette_reverse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  choropleth_size <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  plot_extent <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  plot_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -119,6 +123,10 @@ metric values.</p></li>
 <dt>layers</dt>
 <dd><p>A <code>character</code>. One or both of <code>"ref_sf"</code> and <code>"seg_sf"</code>
 (works only for <code>type = "base"</code> and <code>type = "subset"</code>).</p></dd>
+
+
+<dt>background</dt>
+<dd><p>A <code>character</code> with valid color used in graph's background.</p></dd>
 
 
 <dt>ref_color, seg_color, ref_fill, seg_fill</dt>
@@ -178,6 +186,20 @@ the intervals for choropleth maps. Can be one of <code>"sd"</code>, <code>"equal
 <code>"pretty"</code>, <code>"quantile"</code>, <code>"kmeans"</code>, <code>"hclust"</code>, <code>"bclust"</code>, <code>"fisher"</code>,
 <code>"jenks"</code>, <code>"dpih"</code>, and <code>"headtails"</code> (see <code>style</code> parameter in
 <a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classIntervals</a>).</p></dd>
+
+
+<dt>choropleth_palette</dt>
+<dd><p>A <code>character</code> with a valid palette to be used
+in choropleth plots.</p></dd>
+
+
+<dt>choropleth_palette_reverse</dt>
+<dd><p>A <code>logical</code> indicating if palette should
+be generated in reversely.</p></dd>
+
+
+<dt>choropleth_size</dt>
+<dd><p>A <code>numeric</code> with border size used to plot polygons.</p></dd>
 
 
 <dt>plot_extent</dt>

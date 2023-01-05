@@ -39,6 +39,9 @@ sm_desc_metric(): Describe a metric registered from the database.
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -153,7 +156,7 @@ reference (<code>reference</code>).</p></li>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">sm_reg_metric</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    metric_id <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
 <span class="r-in"><span>    entry <span class="op">=</span> <span class="fu">sm_new_metric</span><span class="op">(</span></span></span>
-<span class="r-in"><span>        fn <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>        fn <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">m</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>            <span class="fu"><a href="general_functions.html">sm_area</a></span><span class="op">(</span><span class="fu"><a href="set_functions.html">sm_ytilde</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> </span></span>
 <span class="r-in"><span>                <span class="fu"><a href="general_functions.html">sm_area</a></span><span class="op">(</span><span class="fu"><a href="subset_handling_functions.html">sm_ref</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span>, order <span class="op">=</span> <span class="fu"><a href="set_functions.html">sm_ytilde</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>        <span class="op">}</span>,</span></span>
@@ -166,8 +169,6 @@ reference (<code>reference</code>).</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">sm_desc_metric</span><span class="op">(</span><span class="st">"Example"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Example (Metric name example)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   function (m)    { </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       sm_area(sm_ytilde(m))/sm_area(sm_ref(m), order = sm_ytilde(m))   }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Values range from A to B. Optimal value is C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   reference: Author (Year)</span>
 <span class="r-in"><span><span class="fu">sm_list_metrics</span><span class="op">(</span><span class="op">)</span></span></span>
