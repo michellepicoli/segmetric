@@ -5,6 +5,8 @@ magrittr::`%>%`
 #' @importFrom graphics legend
 #' @importFrom grDevices hcl.colors
 #' @importFrom stats quantile
+#' @importFrom sf st_area st_centroid st_distance st_intersection st_union
+#' read_sf st_is_valid st_crs st_geometry st_bbox st_drop_geometry st_as_sf
 NULL
 
 # package environment

@@ -190,7 +190,6 @@ QR <- function(m, s, ...) {
 }
 
 D_index <- function(m, s, ...) {
-    # m <- sm_compute(m, metric_id = c("OS1", "US1"))
     sqrt((OS1(m, s)^2 + US1(m, s)^2) / 2)
 }
 
