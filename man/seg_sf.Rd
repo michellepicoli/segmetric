@@ -92,7 +92,7 @@ data("sample_seg_sf", package = "segmetric")
 \itemize{
 \item Planet Team, 2017. Planet Application Program
 Interface: In Space for Life on Earth. San Francisco,
-CA. \url{https://api.planet.com}
+CA. \url{https://www.planet.com}
 \item Baatz, M., Schape, A., 2000. Multiresolution
 segmentation - an optimization approach for high
 quality multi-scale image segmentation. In: Strobl, J.,

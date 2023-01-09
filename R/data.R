@@ -64,7 +64,7 @@ NULL
 #' @references 
 #' - Planet Team, 2017. Planet Application Program 
 #'   Interface: In Space for Life on Earth. San Francisco, 
-#'   CA. <https://api.planet.com>
+#'   CA. <https://www.planet.com>
 #'   
 #' - Baatz, M., Schape, A., 2000. Multiresolution 
 #'   segmentation - an optimization approach for high 
