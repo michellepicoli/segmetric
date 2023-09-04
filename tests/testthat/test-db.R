@@ -703,7 +703,7 @@ test_that("test metric falls in range", {
                              dplyr::as_tibble(test_y_d(area_df))) %>%
         dplyr::distinct(seg_id, ref_id, .keep_all = TRUE)
     test_PI(y_tilde)
-    
+
     # TODO: Check m$PI[m$PI > 1]
     expect_true(all(m$PI <= 1 + tlr))
 
@@ -749,6 +749,61 @@ test_that("test metric falls in range", {
     expect_true(all(m$OMerging >= 0   - tlr))
     # NOTE: Costa says this can't be greater than 0.5 but he's wrong.
     # expect_true(all(m$OMerging <= 0.5 + tlr))
+
+})
+
+
+
+test_that("test subsets", {
+
+    # Test that the pairs ref_id and seg_id are identical when produced by
+    # segmetric and the test code.
+
+    load(system.file("data", "sample_ref_sf.rda", package = "segmetric"))
+    load(system.file("data", "sample_seg_sf.rda", package = "segmetric"))
+
+    # Get pairs ref_id-seg_id from both data: Produced by segmetric and by
+    # the test code.
+    test_helper <- function(set_sm, set_test) {
+        set_sm <- sf::st_drop_geometry(set_sm)
+        set_test <- set_test[, c("ref_id", "seg_id")]
+        set_sm["rs_id"] <- paste(set_sm$ref_id, set_sm$seg_id, sep = "-")
+        set_test["rs_id"] <- paste(set_test$ref_id, set_test$seg_id, sep = "-")
+        return(all(c(set_sm$rs_id %in% set_test$rs_id,
+                     set_test$rs_id %in% set_sm$rs_id)))
+    }
+
+    # Test using sample data.
+    m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_seg_sf)
+    area_df <- get_areas(sm_ref(m), sm_seg(m))
+    expect_true(test_helper(sm_ytilde(m), test_y_tilde(area_df)))
+    expect_true(test_helper(sm_yprime(m), test_y_prime(area_df)))
+    expect_true(test_helper(sm_ya(m), test_y_a(area_df)))
+    expect_true(test_helper(sm_yb(m), test_y_b(area_df)))
+    expect_true(test_helper(sm_yc(m), test_y_c(area_df)))
+    expect_true(test_helper(sm_yd(m), test_y_d(area_df)))
+    expect_true(test_helper(sm_ystar(m), test_y_star(area_df)))
+    expect_true(test_helper(sm_ye(m), test_y_e(area_df)))
+    expect_true(test_helper(sm_yf(m), test_y_f(area_df)))
+    expect_true(test_helper(sm_yg(m), test_y_g(area_df)))
+    expect_true(test_helper(sm_xtilde(m), test_x_tilde(area_df)))
+    expect_true(test_helper(sm_xprime(m), test_x_prime(area_df)))
+
+    # Test using identical data.
+    m <- sm_read(ref_sf = sample_ref_sf, seg_sf = sample_ref_sf)
+    area_df <- get_areas(sm_ref(m), sm_seg(m))
+    expect_true(test_helper(sm_ytilde(m), test_y_tilde(area_df)))
+    expect_true(test_helper(sm_yprime(m), test_y_prime(area_df)))
+    expect_true(test_helper(sm_ya(m), test_y_a(area_df)))
+    expect_true(test_helper(sm_yb(m), test_y_b(area_df)))
+    expect_true(test_helper(sm_yc(m), test_y_c(area_df)))
+    expect_true(test_helper(sm_yd(m), test_y_d(area_df)))
+    expect_true(test_helper(sm_ystar(m), test_y_star(area_df)))
+    expect_true(test_helper(sm_ye(m), test_y_e(area_df)))
+    expect_true(test_helper(sm_yf(m), test_y_f(area_df)))
+    expect_true(test_helper(sm_yg(m), test_y_g(area_df)))
+    expect_true(test_helper(sm_xtilde(m), test_x_tilde(area_df)))
+    expect_true(test_helper(sm_xprime(m), test_x_prime(area_df)))
 
 })
 

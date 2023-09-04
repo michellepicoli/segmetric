@@ -115,6 +115,12 @@ test_x_prime <- function(area_df) {
         return()
 }
 
+test_x_tilde <- function(area_df) {
+    area_df %>%
+        dplyr::filter(inter_area > 0) %>%
+        return()
+}
+
 test_y_prime <- function(area_df) {
     area_df %>%
         dplyr::group_by(ref_id) %>%
@@ -145,6 +151,27 @@ test_y_d <- function(area_df) {
     area_df %>%
         dplyr::mutate(yd = inter_area / ref_area) %>%
         dplyr::filter(yd > 0.5) %>%
+        return()
+}
+
+test_y_e <- function(area_df, tol = 2e-8) {
+    area_df %>%
+        dplyr::mutate(ye = inter_area/seg_area) %>%
+        dplyr::filter(ye >= (1 - tol)) %>%
+        return()
+}
+
+test_y_f <- function(area_df, tol = 2e-8) {
+    area_df %>%
+        dplyr::mutate(yf = inter_area/seg_area) %>%
+        dplyr::filter(yf >= (0.55 - tol)) %>%
+        return()
+}
+
+test_y_g <- function(area_df, tol = 2e-8) {
+    area_df %>%
+        dplyr::mutate(yf = inter_area/seg_area) %>%
+        dplyr::filter(yf >= (0.75 - tol)) %>%
         return()
 }
 
